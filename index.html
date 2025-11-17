@@ -31,6 +31,20 @@
             align-items: center;
             justify-content: center;
         }
+        /* Blur background */
+        .bg-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: inherit;
+            background-size: cover;
+            background-position: center;
+            filter: blur(5px);
+            z-index: 1;
+        }
+        /* Overlay gelap di atas blur */
         .hero::before {
             content: '';
             position: absolute;
@@ -38,15 +52,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Overlay gelap biar teks keliatan */
-            z-index: 1;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2;
         }
         .content {
             position: relative;
-            z-index: 2;
+            z-index: 3;
             max-width: 600px;
             padding: 20px;
             animation: fadeInUp 1.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         @keyframes fadeInUp {
             from {
@@ -57,6 +74,14 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+        .portrait-img {
+            width: 250px;
+            height: auto;
+            border-radius: 20px; /* Curve di pinggir */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Frame shadow */
+            margin-bottom: 20px;
+            animation: fadeInUp 1.5s ease-out 0.3s both; /* Delay sedikit biar muncul setelah content */
         }
         .names {
             font-family: 'Playfair Display', serif;
@@ -90,6 +115,9 @@
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
         }
         @media (max-width: 768px) {
+            .portrait-img {
+                width: 200px;
+            }
             .names {
                 font-size: 2em;
             }
@@ -101,7 +129,9 @@
 </head>
 <body>
     <div class="hero">
+        <div class="bg-blur"></div>
         <div class="content">
+            <img src="gambar1.png" alt="Portrait Pasangan" class="portrait-img">
             <h1 class="names">Nama Pengantin Pria & Nama Pengantin Wanita</h1>
             <p class="subtitle">Kami Menikah</p>
             <a href="undangan.html" class="btn">Buka Undangan</a>
