@@ -12,14 +12,14 @@
             background: #000;
             font-family: 'Lora', serif;
             color: white;
-            min-height: 100vh; /* Fleksibel, minimal full viewport */
+            min-height: 100vh;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            overflow-x: hidden; /* Horizontal no scroll */
-            overflow-y: auto; /* Vertikal boleh scroll kalo konten kepanjangan */
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         .hero {
             position: relative;
@@ -31,20 +31,20 @@
             align-items: center;
             justify-content: center;
         }
-        /* Blur background – fix sinkron dengan portrait */
+        /* Blur background */
         .bg-blur {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('zea.jpeg'); /* Sama dengan portrait */
+            background-image: url('zea.jpeg');
             background-size: cover;
             background-position: center;
-            filter: blur(5px); /* Blur halus */
+            filter: blur(5px);
             z-index: 1;
         }
-        /* Overlay gelap di atas blur */
+        /* Overlay gelap */
         .hero::before {
             content: '';
             position: absolute;
@@ -60,14 +60,14 @@
             z-index: 3;
             max-width: 600px;
             padding: 20px;
-            padding-bottom: 60px; /* Lebih banyak ruang bawah biar tombol aman */
+            padding-bottom: 60px;
             animation: fadeInUp 1.5s ease-out;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             flex-grow: 1;
-            margin: 0 auto; /* Auto margin vertikal buat center lebih aman */
+            margin: 0 auto;
         }
         @keyframes fadeInUp {
             from {
@@ -80,26 +80,50 @@
             }
         }
         .portrait-img {
-            width: 220px; /* Kurangi default biar aman di layar kecil */
+            width: 220px;
             height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            margin-bottom: 15px; /* Kurangi margin */
+            margin-bottom: 15px;
             animation: fadeInUp 1.5s ease-out 0.3s both;
         }
-        .names {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em; /* Kurangi dari 3em default */
-            color: #d4af37;
+        /* Nama vertikal: Pria atas, & tengah, cewek bawah */
+        .names-container {
             margin-bottom: 10px;
+            animation: fadeInUp 1.5s ease-out 0.6s both;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .name-pria, .name-cewek {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             letter-spacing: 1px;
-            line-height: 1.2; /* Biar font ga terlalu tinggi */
+            line-height: 1.2;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .name-pria {
+            margin-bottom: 15px; /* Spacing atas & */
+        }
+        .and-symbol {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 1.8em; /* Lebih kecil buat & */
+            font-style: italic;
+            margin: 10px 0; /* Enter atas & bawah */
+            letter-spacing: 2px;
+        }
+        .name-cewek {
+            margin-top: 0; /* Langsung setelah & */
         }
         .subtitle {
             font-size: 1.2em;
             color: #f0f0f0;
-            margin-bottom: 25px; /* Adjust lebih kecil */
+            margin-bottom: 25px;
+            margin-top: 10px;
             font-style: italic;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
@@ -122,10 +146,17 @@
         }
         @media (max-width: 768px) {
             .portrait-img {
-                width: 180px; /* Lebih kecil lagi di HP */
+                width: 180px;
             }
-            .names {
-                font-size: 1.8em; /* Shrink lebih */
+            .name-pria, .name-cewek {
+                font-size: 1.8em;
+            }
+            .and-symbol {
+                font-size: 1.4em;
+                margin: 8px 0;
+            }
+            .name-pria {
+                margin-bottom: 12px;
             }
             .subtitle {
                 font-size: 1em;
@@ -140,13 +171,20 @@
                 font-size: 0.95em;
             }
         }
-        @media (max-height: 600px) { /* Layar pendek */
+        @media (max-height: 600px) {
             .portrait-img {
                 width: 160px;
                 margin-bottom: 10px;
             }
-            .names {
-                font-size: 1.8em;
+            .name-pria, .name-cewek {
+                font-size: 1.6em;
+            }
+            .and-symbol {
+                font-size: 1.2em;
+                margin: 6px 0;
+            }
+            .name-pria {
+                margin-bottom: 8px;
             }
             .subtitle {
                 margin-bottom: 10px;
@@ -154,19 +192,26 @@
             }
             .content {
                 padding-bottom: 30px;
-                justify-content: flex-start; /* Naikkan konten dari tengah kalo kepotong */
+                justify-content: flex-start;
                 padding-top: 20px;
             }
         }
-        @media (max-height: 500px) { /* Ekstra buat layar mini/extreme */
-            .names {
-                font-size: 1.5em;
+        @media (max-height: 500px) {
+            .name-pria, .name-cewek {
+                font-size: 1.4em;
+            }
+            .and-symbol {
+                font-size: 1.1em;
+                margin: 4px 0;
+            }
+            .name-pria {
+                margin-bottom: 6px;
             }
             .portrait-img {
                 width: 140px;
             }
             .subtitle {
-                display: none; /* Sembunyiin subtitle kalo darurat, biar tombol prioritas */
+                display: none;
             }
             .content {
                 padding: 5px;
@@ -180,7 +225,11 @@
         <div class="bg-blur"></div>
         <div class="content">
             <img src="zea.jpeg" alt="Portrait Pasangan" class="portrait-img">
-            <h1 class="names">Nama Pengantin Pria & Nama Pengantin Wanita</h1>
+            <div class="names-container">
+                <h2 class="name-pria">Nama Pengantin Pria</h2>
+                <p class="and-symbol">&</p>
+                <h2 class="name-cewek">Nama Pengantin Wanita</h2>
+            </div>
             <p class="subtitle">Kami Menikah</p>
             <a href="undangan.html" class="btn">Buka Undangan</a>
         </div>
