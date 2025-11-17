@@ -9,185 +9,103 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #f8f5f1;
+            background: #000;
             font-family: 'Lora', serif;
-            color: #4a4a4a;
-            line-height: 1.6;
+            color: white;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            overflow: hidden;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .header {
+        .hero {
             position: relative;
-            margin-bottom: 40px;
-        }
-        .header img {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
+            height: 100vh;
+            background-image: url('gambar1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
-        .title {
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Overlay gelap biar teks keliatan */
+            z-index: 1;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding: 20px;
+            animation: fadeInUp 1.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .names {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
+            font-size: 3em;
             color: #d4af37;
-            margin: 20px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
         }
         .subtitle {
             font-size: 1.2em;
-            color: #8b7355;
+            color: #f0f0f0;
             margin-bottom: 40px;
             font-style: italic;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
-        .couple {
-            display: flex;
-            justify-content: space-around;
-            margin: 50px 0;
-            flex-wrap: wrap;
-        }
-        .partner {
-            flex: 1;
-            min-width: 200px;
-            padding: 20px;
-        }
-        .partner h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
-            color: #4a4a4a;
-            margin-bottom: 10px;
-        }
-        .partner p {
-            font-size: 1em;
-            color: #6b6b6b;
-            margin: 0;
-        }
-        .details {
-            background: #f8f5f1;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 30px 0;
-        }
-        .details h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5em;
-            color: #d4af37;
-            margin-bottom: 15px;
-        }
-        .details p {
-            margin: 10px 0;
+        .btn {
+            background: #d4af37;
+            color: #000;
+            padding: 15px 30px;
             font-size: 1.1em;
-        }
-        .rsvp {
-            margin: 40px 0;
-            padding: 20px;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .rsvp h3 {
             font-family: 'Playfair Display', serif;
-            color: #8b7355;
-            margin-bottom: 10px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
-        .rsvp p {
-            font-size: 0.9em;
-            color: #6b6b6b;
+        .btn:hover {
+            background: #b8942f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
         }
-        .footer {
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #9b9b9b;
-        }
-        /* Animasi Scroll Reveal */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease-out;
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Stagger delay untuk couple */
-        .partner:nth-child(1) { transition-delay: 0.2s; }
-        .partner:nth-child(2) { transition-delay: 0.4s; }
-        @media (max-width: 600px) {
-            .couple {
-                flex-direction: column;
-                align-items: center;
-            }
-            .title {
+        @media (max-width: 768px) {
+            .names {
                 font-size: 2em;
+            }
+            .subtitle {
+                font-size: 1em;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <img src="gambar1.png" alt="Foto Pasangan">
-        </div>
-        
-        <h1 class="title animate-on-scroll">Kami Menikah</h1>
-        <p class="subtitle animate-on-scroll">Dengan Rahmat Tuhan Yang Maha Esa</p>
-        
-        <div class="couple animate-on-scroll">
-            <div class="partner animate-on-scroll">
-                <h2><strong>Nama Pengantin Pria</strong></h2>
-                <p>Putra [Nama Ayah] & [Nama Ibu]</p>
-            </div>
-            <div class="partner animate-on-scroll">
-                <h2><strong>Nama Pengantin Wanita</strong></h2>
-                <p>Putri [Nama Ayah] & [Nama Ibu]</p>
-            </div>
-        </div>
-        
-        <div class="details animate-on-scroll">
-            <h3>Acara Pernikahan</h3>
-            <p><strong>Tanggal:</strong> <strong>Sabtu, 15 Desember 2025</strong></p>
-            <p><strong>Waktu:</strong> <strong>Pukul 10.00 WIB - Selesai</strong></p>
-            <p><strong>Lokasi:</strong> <strong>Hotel Mewah XYZ, Jl. Contoh No. 123, Jakarta</strong></p>
-            <p><em>Hadirilah kebahagiaan kami dengan doa restu yang terbaik.</em></p>
-        </div>
-        
-        <div class="rsvp animate-on-scroll">
-            <h3>Konfirmasi Kehadiran</h3>
-            <p>Hubungi kami via WhatsApp: <strong>0812-3456-7890</strong> atau email: <strong>contoh@email.com</strong></p>
-            <p>Batas konfirmasi: 1 Desember 2025</p>
-        </div>
-        
-        <div class="footer animate-on-scroll">
-            <p>Terima kasih atas doa dan harapan terbaik Anda.</p>
-            <p>Dengan Cinta,</p>
-            <p><strong>Nama Pengantin Pria & Nama Pengantin Wanita</strong></p>
+    <div class="hero">
+        <div class="content">
+            <h1 class="names">Nama Pengantin Pria & Nama Pengantin Wanita</h1>
+            <p class="subtitle">Kami Menikah</p>
+            <a href="undangan.html" class="btn">Buka Undangan</a>
         </div>
     </div>
-
-    <script>
-        // JavaScript untuk Scroll Reveal
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Hanya animasi sekali
-                }
-            });
-        }, observerOptions);
-
-        // Observe semua elemen dengan class animate-on-scroll
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
-    </script>
 </body>
 </html>
