@@ -103,6 +103,19 @@
             font-size: 0.9em;
             color: #9b9b9b;
         }
+        /* Animasi Scroll Reveal */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Stagger delay untuk couple */
+        .partner:nth-child(1) { transition-delay: 0.2s; }
+        .partner:nth-child(2) { transition-delay: 0.4s; }
         @media (max-width: 600px) {
             .couple {
                 flex-direction: column;
@@ -120,21 +133,21 @@
             <img src="gambar1.png" alt="Foto Pasangan">
         </div>
         
-        <h1 class="title">Kami Menikah</h1>
-        <p class="subtitle">Dengan Rahmat Tuhan Yang Maha Esa</p>
+        <h1 class="title animate-on-scroll">Kami Menikah</h1>
+        <p class="subtitle animate-on-scroll">Dengan Rahmat Tuhan Yang Maha Esa</p>
         
-        <div class="couple">
-            <div class="partner">
+        <div class="couple animate-on-scroll">
+            <div class="partner animate-on-scroll">
                 <h2><strong>Nama Pengantin Pria</strong></h2>
                 <p>Putra [Nama Ayah] & [Nama Ibu]</p>
             </div>
-            <div class="partner">
+            <div class="partner animate-on-scroll">
                 <h2><strong>Nama Pengantin Wanita</strong></h2>
                 <p>Putri [Nama Ayah] & [Nama Ibu]</p>
             </div>
         </div>
         
-        <div class="details">
+        <div class="details animate-on-scroll">
             <h3>Acara Pernikahan</h3>
             <p><strong>Tanggal:</strong> <strong>Sabtu, 15 Desember 2025</strong></p>
             <p><strong>Waktu:</strong> <strong>Pukul 10.00 WIB - Selesai</strong></p>
@@ -142,17 +155,39 @@
             <p><em>Hadirilah kebahagiaan kami dengan doa restu yang terbaik.</em></p>
         </div>
         
-        <div class="rsvp">
+        <div class="rsvp animate-on-scroll">
             <h3>Konfirmasi Kehadiran</h3>
             <p>Hubungi kami via WhatsApp: <strong>0812-3456-7890</strong> atau email: <strong>contoh@email.com</strong></p>
             <p>Batas konfirmasi: 1 Desember 2025</p>
         </div>
         
-        <div class="footer">
+        <div class="footer animate-on-scroll">
             <p>Terima kasih atas doa dan harapan terbaik Anda.</p>
             <p>Dengan Cinta,</p>
             <p><strong>Nama Pengantin Pria & Nama Pengantin Wanita</strong></p>
         </div>
     </div>
+
+    <script>
+        // JavaScript untuk Scroll Reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Hanya animasi sekali
+                }
+            });
+        }, observerOptions);
+
+        // Observe semua elemen dengan class animate-on-scroll
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
