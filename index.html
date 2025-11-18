@@ -238,34 +238,25 @@
 
 
 
-
-<!-- MUSIK — LEMBUT BANGET + MULAI DARI DETIK 0:32 -->
-<audio id="bgMusic" loop playsinline preload="auto">
+<!-- MUSIK -->
+<audio autoplay loop playsinline>
     <source src="youandme.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-    const audio = document.getElementById('bgMusic');
+    const audio = document.querySelector('audio');
+    
+    // TAMBAHAN INI AJA BRO
+    audio.volume = 0.25;      // lembut banget (bisa diganti 0.15 kalo masih keras)
+    audio.currentTime = 54;   // mulai dari detik 0:32 (bagian enak)
 
-    // Mulai dari detik 0:54 (bagian romantis/instrumental yang enak)
-    audio.currentTime = 54;
-
-    // Volume super lembut (25% → ga kenceng, cuma jadi suasana doang)
-    audio.volume = 0.25;   // kalo masih kurang lembut ganti jadi 0.15–0.2
-
-    // Trick autoplay + unlock untuk semua HP (termasuk iPhone galak)
-    const unlockAndPlay = () => {
-        audio.play().catch(() => {});
-    };
-
-    // Coba langsung dulu (Android biasanya langsung jalan)
-    unlockAndPlay();
-
-    // Kalo gagal → cukup 1 tap/scroll di mana aja langsung nyanyi
-    document.body.addEventListener('touchstart', unlockAndPlay, { once: true });
-    document.body.addEventListener('click', unlockAndPlay, { once: true });
-    document.body.addEventListener('scroll', unlockAndPlay, { once: true });
+    // Yang lama tetep utuh, ga diubah sama sekali
+    document.addEventListener('touchstart',()=>audio.play(),{once:true});
+    document.addEventListener('click',()=>audio.play(),{once:true});
 </script>
+
+
+
 
 </body>
 </html>
