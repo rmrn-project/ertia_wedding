@@ -257,6 +257,55 @@
 
 
 
+<!-- EFEK MAWAR & LOVE TRANSPARAN BERTEBARAN (TAMBAHAN INI AJA) -->
+<div id="particles"></div>
+
+<style>
+    #particles {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 4;
+    }
+    .petal {
+        position: absolute;
+        font-size: 20px;
+        opacity: 0.4;
+        animation: fall linear infinite;
+        user-select: none;
+    }
+    @keyframes fall {
+        0%   { transform: translateY(-100vh) rotate(0deg);   opacity: 0; }
+        10%  { opacity: 0.4; }
+        90%  { opacity: 0.4; }
+        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+</style>
+
+<script>
+    const particles = document.getElementById('particles');
+    const symbols = ['mawar', 'love', 'love', 'mawar', 'love']; // lebih banyak love biar romantis
+
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = Math.random() * 12 + 8 + 's'; // 8–20 detik
+        petal.style.fontSize = Math.random() * 15 + 15 + 'px';
+        particles.appendChild(petal);
+
+        setTimeout(() => petal.remove(), 22000);
+    }
+
+    // Mulai bikin 15–25 petal sekaligus
+    setInterval(createPetal, 600); // setiap 0.6 detik muncul 1
+    for(let i=0; i<20; i++) setTimeout(createPetal, i*500);
+</script>
+
+
 
 </body>
 </html>
