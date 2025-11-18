@@ -239,34 +239,31 @@
 
 
 
-<!-- MUSIK AUTOPLAY SUPER LEMBUT (NO TOMBOL, NO DRAMA) -->
-<audio id="bgMusic" loop playsinline>
+<!-- MUSIK — PASTI NYANYI DI SEMUA IPHONE -->
+<audio id="bgMusic" loop playsinline preload="auto">
     <source src="youandme.mp3" type="audio/mpeg">
 </audio>
 
+<!-- Tombol tak keliatan buat unlock autoplay -->
+<div id="unlock" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:9999; background:transparent; cursor:pointer;"></div>
+
 <script>
     const audio = document.getElementById('bgMusic');
+    const unlock = document.getElementById('unlock');
 
-    // Mulai dari detik 0:32 (bagian enak)
     audio.currentTime = 32;
+    audio.volume = 0.25;  // lembut banget
 
-    // Volume lembut banget, cuma 25% (bisa digedein ke 0.4 kalo kurang)
-    audio.volume = 0.25;
+    unlock.addEventListener('click', () => {
+        audio.play();
+        unlock.remove();  // langsung ilang setelah diklik sekali
+    }, { once: true });
 
-    // Trick biar autoplay jalan di hampir semua HP (termasuk iPhone 2025)
-    const tryPlay = () => {
-        audio.play().catch(() => {});
-    };
-
-    // Coba langsung
-    tryPlay();
-
-    // Kalo gagal, coba lagi pas user tap/scroll/klik dimanapun
-    document.body.addEventListener('touchstart', tryPlay, { once: true });
-    document.body.addEventListener('click', tryPlay, { once: true });
-    document.body.addEventListener('scroll', tryPlay, { once: true });
+    // Coba dulu autoplay biasa (Android langsung jalan)
+    audio.play().catch(() => {
+        // Kalo gagal → tunggu user tap layar kosong itu
+    });
 </script>
-
 
 </body>
 </html>
