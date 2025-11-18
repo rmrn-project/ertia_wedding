@@ -257,62 +257,79 @@
 
 
 
-<!-- EFEK LOVE DOANG BERTEBARAN (CANTIK & BERSIH) -->
-<div id="fallingHearts"></div>
+<!-- LOVE BERTEBARAN + BISA DISENTUH & DIGERET (LUCU BANGET) -->
+<div id="lovely"></div>
 
 <style>
-    #fallingHearts {
+    #lovely {
         position: fixed;
-        top: 0; left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none;
         z-index: 4;
         overflow: hidden;
     }
-    .heart {
+    .love {
         position: absolute;
-        width: 26px;
-        height: 26px;
-        opacity: 0.4;
-        animation: fall linear infinite;
+        width: 32px;
+        height: 32px;
+        opacity: 0.45;
+        pointer-events: auto;
         user-select: none;
+        cursor: grab;
+        animation: fall linear infinite;
+        transition: transform 0.12s ease;
     }
+    .love:active { cursor: grabbing; }
     @keyframes fall {
-        0%   { transform: translateY(-120vh) rotate(0deg); opacity: 0; }
-        15%  { opacity: 0.4; }
-        85%  { opacity: 0.4; }
+        0%   { transform: translateY(-150vh) rotate(0deg); opacity: 0; }
+        12%  { opacity: 0.45; }
+        88%  { opacity: 0.45; }
         100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
     }
 </style>
 
 <script>
-    const container = document.getElementById('fallingHearts');
+    const box = document.getElementById('lovely');
+    const svg = `<svg viewBox="0 0 24 24" fill="#ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
 
-    // CUMA LOVE DOANG, 2 variasi warna biar ga monoton
-    const hearts = [
-        `<svg viewBox="0 0 24 24" fill="#ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
-        `<svg viewBox="0 0 24 24" fill="#ff1493"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`
-    ];
-
-    function createHeart() {
+    function spawn() {
         const h = document.createElement('div');
-        h.className = 'heart';
-        h.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+        h.className = 'love';
+        h.innerHTML = svg;
 
         h.style.left = Math.random() * 100 + 'vw';
-        h.style.animationDuration = Math.random() * 10 + 12 + 's'; // 12–22 detik
-        h.style.animationDelay = Math.random() * 4 + 's';
+        h.style.animationDuration = Math.random() * 12 + 14 + 's';
 
-        container.appendChild(h);
-        setTimeout(() => h.remove(), 26000);
+        // BISA DISENTUH & DIGERET (HP/PC)
+        let x = 0, y = 0;
+        const move = (e) => {
+            e.preventDefault();
+            const touch = e.touches ? e.touches[0] : e;
+            h.style.position = 'fixed';
+            h.style.left = touch.clientX - 16 + 'px';
+            h.style.top = touch.clientY - 16 + 'px';
+            h.style.transform = 'rotate(30deg) scale(1.5)';
+            h.style.opacity = '0.8';
+            h.style.animation = 'none';
+        };
+        const up = () => {
+            document.removeEventListener('mousemove', move);
+            document.removeEventListener('touchmove', move);
+            setTimeout(() => h.remove(), 1500);
+        };
+
+        h.addEventListener('mousedown', (e) => { document.addEventListener('mousemove', move); e.preventDefault(); });
+        h.addEventListener('touchstart', (e) => { document.addEventListener('touchmove', move); e.preventDefault(); });
+        h.addEventListener('mouseup', up);
+        h.addEventListener('touchend', up);
+
+        box.appendChild(h);
+        setTimeout(() => h.remove(), 30000);
     }
 
-    // Mulai langsung banyak
-    for(let i = 0; i < 16; i++) {
-        setTimeout(createHeart, i * 600);
-    }
-    setInterval(createHeart, 900); // tiap ~1 detik muncul 1 love
+    // Mulai langsung banyak + terus muncul
+    for(let i = 0; i < 18; i++) setTimeout(spawn, i * 500);
+    setInterval(spawn, 1000);
 </script>
 
 
