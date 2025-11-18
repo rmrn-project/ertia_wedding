@@ -233,7 +233,7 @@
 
 </div>
 
-<!-- MUSIK - HARUS KLIK DULU, NO AUTOPLAY -->
+<!-- MUSIK - PASTI GANTI DARI PLAY KE PAUSE -->
 <audio id="bgm" loop playsinline preload="none">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
@@ -248,35 +248,35 @@
 </div>
 
 <script>
-// Scroll fade in (tetap jalan)
+// Scroll fade in (aman)
 const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('show')), {threshold: 0.1});
 document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
-// Musik - HARUS KLIK DULU (no autoplay)
+// MUSIK — SUDAH DIPERBAIKI TOTAL
 const audio = document.getElementById('bgm');
 audio.volume = 0.3;
 
 document.getElementById('musicBtn').onclick = () => {
     if (audio.paused) {
-        audio.play();
+        audio.play().catch(e => console.log("Play ditolak browser")); // buat iOS/Safari
         document.getElementById('playIcon').style.display = 'none';
         document.getElementById('pauseIcon').style.display = 'block';
     } else {
         audio.pause();
         document.getElementById('playIcon').style.display = 'block';
-        document.getElementById.('pauseIcon').style.display = 'none';
+        document.getElementById('pauseIcon').style.display = 'none';
     }
 };
 
-// Copy rekening (tetap sama)
+// Copy rekening
 function copyRek() {
     navigator.clipboard.writeText(document.getElementById("norek").innerText);
     const n = document.getElementById("notif");
-    n.style.display = "block";
-    setTimeout(() => n.style.display = "none", 1500);
+    n.style.display = "display:block";
+    setTimeout(() => n.style = "display:none", 1500);
 }
 
-// Kirim ucapan (tetap sama)
+// Kirim ucapan
 function kirimUcapan() {
     const nama = document.getElementById("nama").value.trim();
     const doa = document.getElementById("doa").value.trim();
@@ -289,14 +289,11 @@ function kirimUcapan() {
     document.getElementById("doa").value = "";
 }
 
-// Slider bisa digeser manual (tetap sama)
+// Slider manual
 let startX = 0;
 const slides = document.querySelector('.slides');
 slides.addEventListener('touchstart', e => startX = e.touches[0].clientX);
 slides.addEventListener('touchmove', e => e.preventDefault());
 </script>
-
-
-
 </body>
 </html>
