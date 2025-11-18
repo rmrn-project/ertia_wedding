@@ -119,37 +119,76 @@
             margin-bottom: 20px;
         }
 
-        /* SLIDER FOTO 1:1 - TANPA TOMBOL PANAH */
-        .gallery {
-            width: 90%;
-            max-width: 400px;
-            margin: 70px auto;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-        }
-        .slides {
-            display: flex;
-            width: 500%; /* 5 foto */
-            animation: slide 20s infinite;
-        }
-        .slides img {
-            width: 20%; /* 100% / 5 foto */
-            height: auto;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-        @keyframes slide {
-            0%, 16%   { transform: translateX(0%); }
-            20%, 36%  { transform: translateX(-20%); }
-            40%, 56%  { transform: translateX(-40%); }
-            60%, 76%  { transform: translateX(-60%); }
-            80%, 96%  { transform: translateX(-80%); }
-            100%      { transform: translateX(0%); }
-        }
-        /* Bisa digeser manual juga */
-        .slides { transition: transform 0.5s ease; }
+        /* SLIDER FOTO 1:1 - GOLD SHADOW PREMIUM */
+.gallery {
+    width: 90%;
+    max-width: 400px;
+    margin: 70px auto;
+    overflow: hidden;
+    border-radius: 20px;
+
+    /* Shadow hitam + gold glow */
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.6),
+        0 0 20px rgba(212,175,55,0.6),
+        0 0 40px rgba(212,175,55,0.4),
+        0 0 70px rgba(212,175,55,0.2);
+
+    /* Motion glow gold lembut */
+    animation: goldPulse 6s infinite ease-in-out;
+}
+
+/* Efek glowing bernafas */
+@keyframes goldPulse {
+    0% {
+        box-shadow:
+            0 15px 40px rgba(0,0,0,0.6),
+            0 0 18px rgba(212,175,55,0.5),
+            0 0 35px rgba(212,175,55,0.3),
+            0 0 60px rgba(212,175,55,0.15);
+    }
+    50% {
+        box-shadow:
+            0 15px 40px rgba(0,0,0,0.6),
+            0 0 25px rgba(212,175,55,0.7),
+            0 0 55px rgba(212,175,55,0.45),
+            0 0 90px rgba(212,175,55,0.25);
+    }
+    100% {
+        box-shadow:
+            0 15px 40px rgba(0,0,0,0.6),
+            0 0 18px rgba(212,175,55,0.5),
+            0 0 35px rgba(212,175,55,0.3),
+            0 0 60px rgba(212,175,55,0.15);
+    }
+}
+
+/* SLIDER FOTO 1:1 - TANPA TOMBOL PANAH */
+.slides {
+    display: flex;
+    width: 500%; /* 5 foto */
+    animation: slide 20s infinite;
+    transition: transform 0.5s ease;
+}
+.slides img {
+    width: 20%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+/* ANIMASI SLIDER */
+@keyframes slide {
+    0%, 16%   { transform: translateX(0%); }
+    20%, 36%  { transform: translateX(-20%); }
+    40%, 56%  { transform: translateX(-40%); }
+    60%, 76%  { transform: translateX(-60%); }
+    80%, 96%  { transform: translateX(-80%); }
+    100%      { transform: translateX(0%); }
+}
+
+
 
         /* TOMBOL SALIN KECIL */
         .norek { font-size: 1.8em; font-weight: bold; letter-spacing: 2px; margin: 15px 0; }
