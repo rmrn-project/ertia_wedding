@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,148 +7,177 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body {
-    height: 100%;
-    min-height: 100vh;
-    background-color: #504b47;
-    margin: 0;
-    overflow-x: hidden;
-}
-
-
-/*
-.bg {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    min-height: 100vh;    
-    object-fit: cover;
-    z-index: 0;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-}
-*/
-
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.52);
-            z-index: 1;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
+            height: 100%;
             min-height: 100vh;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #fff;
-            font-family: 'Lora', serif;
-        }
+            background-color: #504b47;
+            margin: 0;
+            overflow-x: hidden;
+        }.overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.52);
+        z-index: 1;
+    }
 
-        /* Sisanya sama, cuma lebih rapi */
-        .couple-photo {
-            width: 260px; height: 260px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 10px solid rgba(255,255,255,0.9);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
-        }
+    .container {
+        position: relative;
+        z-index: 2;
+        min-height: 100vh;
+        padding: 40px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+        font-family: 'Lora', serif;
+    }
 
-        .title { font-family: 'Playfair Display', serif; font-size: 2.8em; color: #d4af37; margin: 20px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
-        .subtitle { font-size: 1.3em; color: #f0e6d2; font-style: italic; margin-bottom: 50px; }
+    .couple-photo {
+        width: 260px; height: 260px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 10px solid rgba(255,255,255,0.9);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+        margin-bottom: 30px;
+    }
 
-        .couple-names h2 { font-family: 'Playfair Display', serif; font-size: 2.1em; margin: 15px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
-        .couple-names p { font-size: 1.1em; color: #ddd; margin: 8px 0; }
+    .title { font-family: 'Playfair Display', serif; font-size: 2.8em; color: #d4af37; margin: 20px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
+    .subtitle { font-size: 1.3em; color: #f0e6d2; font-style: italic; margin-bottom: 50px; }
 
-        .details {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(12px);
-            padding: 35px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            margin: 40px auto;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .details h3 { font-family: 'Playfair Display', serif; color: #d4af37; font-size: 1.8em; margin-bottom: 20px; }
-        .details p { font-size: 1.2em; margin: 12px 0; }
+    .couple-names h2 { font-family: 'Playfair Display', serif; font-size: 2.1em; margin: 15px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
+    .couple-names p { font-size: 1.1em; color: #ddd; margin: 8px 0; }
 
-        .fade-in { opacity: 0; transform: translateY(30px); animation: fadeInUp 1s forwards; }
-        .fade-in:nth-child(1) { animation-delay: 0.3s; }
-        .fade-in:nth-child(2) { animation-delay: 0.6s; }
-        .fade-in:nth-child(3) { animation-delay: 0.9s; }
-        .fade-in:nth-child(4) { animation-delay: 1.2s; }
-        .fade-in:nth-child(5) { animation-delay: 1.5s; }
+    .details {
+        background: rgba(255,255,255,0.15);
+        backdrop-filter: blur(12px);
+        padding: 35px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 500px;
+        margin: 40px auto;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .details h3 { font-family: 'Playfair Display', serif; color: #d4af37; font-size: 1.8em; margin-bottom: 20px; }
+    .details p { font-size: 1.2em; margin: 12px 0; }
 
-        @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+    .fade-in { opacity: 0; transform: translateY(30px); animation: fadeInUp 1s forwards; }
+    .fade-in:nth-child(1) { animation-delay: 0.3s; }
+    .fade-in:nth-child(2) { animation-delay: 0.6s; }
+    .fade-in:nth-child(3) { animation-delay: 0.9s; }
+    .fade-in:nth-child(4) { animation-delay: 1.2s; }
+    .fade-in:nth-child(5) { animation-delay: 1.5s; }
 
-        @media (max-width:480px) {
-            .couple-photo { width:220px; height:220px; }
-            .title { font-size:2.3em; }
-        }
-    </style>
+    @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+
+    @media (max-width:480px) {
+        .couple-photo { width:220px; height:220px; }
+        .title { font-size:2.3em; }
+    }
+</style>
+
 </head>
-<body>
+<body><div class="overlay"></div>
 
-    <!-- BACKGROUND FULL DENGAN IMG — NO MORE BLACK SPACE
-    <img src="background.png" alt="" class="bg">
-    -->
+<div class="container">
+    <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade-in">
 
+    <h1 class="title fade-in">Dengan izin Allah</h1>
+    <p class="subtitle fade-in">Kami menikah — satu cerita, dua hati, satu tujuan</p>
 
-    <div class="overlay"></div>
-
-    <div class="container">
-        <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade-in">
-
-        <h1 class="title fade-in">Dengan izin Allah </h1>
-<p class="subtitle fade-in">Kami menikah, Satu cerita, dua hati, satu tujuan</p>
-
-        <div class="couple-names">
-            <div class="fade-in">
-                <h2>Sandi Maulana S.Pd</h2>
-                <p>Putra bungsu dari Bapak Udis Subandi & Ibu Dede Jualiah</p>
-            </div>
-            <div class="fade-in">
-                <h2>Ertia Agustina S.Kom</h2>
-                <p>Putri Tunggal dari Bapak Gustana & Alm. Ibu Ernawati </p>
-            </div>
-        </div>
-
-        <div class="details fade-in">
-            <h3>Acara Pernikahan</h3>
-            <p><strong>Sabtu, 15 Desember 2025</strong></p>
-            <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
-            <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
-
-        </div>
-
+    <div class="couple-names">
         <div class="fade-in">
-            <h3>Konfirmasi Kehadiran</h3>
-            <p>WhatsApp: <strong>0812-3456-7890</strong></p>
-            <p>Batas konfirmasi: 1 Desember 2025</p>
+            <h2>Sandi Maulana S.Pd</h2>
+            <p>Putra bungsu dari Bapak Udis Subandi & Ibu Dede Jualiah</p>
         </div>
-
         <div class="fade-in">
-            <p>Terima kasih atas doa restu dan kehadirannya</p>
-            <p>Dengan cinta,</p>
-            <p><strong>Sandi & Ertia</strong></p>
+            <h2>Ertia Agustina S.Kom</h2>
+            <p>Putri Tunggal dari Bapak Gustana & Alm. Ibu Ernawati</p>
         </div>
     </div>
 
+    <div class="details fade-in">
+        <h3>Acara Pernikahan</h3>
+        <p><strong>Sabtu, 15 Desember 2025</strong></p>
+        <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
+        <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
+    </div>
 
+    <!-- COUNTDOWN TIMER -->
+    <div class="details fade-in" id="countdownBox">
+        <h3>Hitung Mundur</h3>
+        <div id="countdown" style="font-size:1.6em; font-weight:bold; margin-top:10px;"></div>
+    </div>
 
-    <!-- MUSIK + TOMBOL PLAY/PAUSE (HARUS KLIK TOMBOL DOANG) -->
+    <!-- GOOGLE MAPS -->
+    <div class="details fade-in">
+        <h3>Lokasi Acara</h3>
+
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.8459489514154!2d106.8267468!3d-6.1590317"
+            width="100%" height="250" style="border:0; border-radius:12px;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+
+        <a href="https://goo.gl/maps/xxxxx" target="_blank"
+            style="display:block; margin-top:15px; padding:12px; background:#d4af37; color:#000;
+            text-decoration:none; border-radius:10px; font-weight:bold;">
+            Buka di Google Maps
+        </a>
+    </div>
+
+    <!-- AMBLOP DIGITAL -->
+    <div class="details fade-in">
+        <h3>Amplop Digital</h3>
+
+        <p style="font-size:1.2em;">
+            Bank BCA<br>
+            <strong id="norek">1234567890</strong><br>
+            a.n <strong>Sandi Maulana</strong>
+        </p>
+
+        <button onclick="copyRek()"
+            style="margin-top:15px; padding:10px 20px; background:#d4af37; color:#000;
+            border:none; border-radius:10px; font-size:1.1em; cursor:pointer; font-weight:bold;">
+            Salin Nomor Rekening
+        </button>
+
+        <p id="notif" style="margin-top:10px; color:lightgreen; display:none;">
+            Nomor rekening disalin!
+        </p>
+    </div>
+
+    <!-- KOLOM DOA & UCAPAN -->
+    <div class="details fade-in">
+        <h3>Doa & Ucapan</h3>
+
+        <input id="nama" placeholder="Nama"
+            style="width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:10px;">
+
+        <textarea id="doa" placeholder="Tulis doa terbaik..."
+            style="width:100%; padding:12px; height:100px; border-radius:8px; border:none;"></textarea>
+
+        <button onclick="kirimUcapan()"
+            style="margin-top:10px; padding:12px; background:#d4af37; color:#000; font-weight:bold;
+            border:none; border-radius:10px; cursor:pointer;">
+            Kirim
+        </button>
+
+        <div id="listUcapan" style="margin-top:20px; text-align:left;"></div>
+    </div>
+
+    <div class="fade-in">
+        <p>Terima kasih atas doa restu dan kehadirannya</p>
+        <p>Dengan cinta,</p>
+        <p><strong>Sandi & Ertia</strong></p>
+    </div>
+</div>
+
+<!-- MUSIK -->
 <audio id="bgm" loop playsinline preload="auto">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Tombol selalu keliatan di pojok kanan bawah -->
 <div id="musicBtn" style="
     position:fixed;
     bottom:20px; right:20px;
@@ -181,9 +209,6 @@
     audio.volume = 0.25;
     audio.currentTime = 32;
 
-    
-
-    // KLIK TOMBOL = TOGGLE PLAY/PAUSE
     btn.addEventListener('click', () => {
         if (audio.paused) {
             audio.play();
@@ -195,8 +220,107 @@
             pause.style.display = 'none';
         }
     });
+
+    // Countdown
+    const weddingDate = new Date("December 15, 2025 10:00:00").getTime();
+
+    setInterval(function () {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        const days = Math.floor(distance / (1000*60*60*24));
+        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+        const seconds = Math.floor((distance % (1000*60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            `${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik`;
+
+    }, 1000);
+
+    // Amplop Digital Copy
+    function copyRek() {
+        const text = document.getElementById("norek").innerText;
+        navigator.clipboard.writeText(text);
+        document.getElementById("notif").style.display = "block";
+
+        setTimeout(() => {
+            document.getElementById("notif").style.display = "none";
+        }, 2000);
+    }
+
+    // Ucapan
+    function kirimUcapan() {
+        const nama = document.getElementById("nama").value;
+        const doa = document.getElementById("doa").value;
+
+        if (nama === "" || doa === "") return;
+
+        const box = document.getElementById("listUcapan");
+        const item = document.createElement("div");
+
+        item.style.marginBottom = "15px";
+        item.style.padding = "12px";
+        item.style.background = "rgba(255,255,255,0.2)";
+        item.style.borderRadius = "10px";
+
+        item.innerHTML = `<strong>${nama}</strong><br>${doa}`;
+
+        box.prepend(item);
+
+        document.getElementById("nama").value = "";
+        document.getElementById("doa").value = "";
+    }
 </script>
 
+</body><script>
+// Countdown Timer
+const targetDate = new Date('2025-12-15T10:00:00').getTime();
+const timer = setInterval(() => {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
 
-</body>
-</html>
+    if (diff < 0) {
+        document.getElementById('countdown').innerHTML = "Acara sedang berlangsung";
+        clearInterval(timer);
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('countdown').innerHTML = `
+        ${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik
+    `;
+}, 1000);
+
+// Copy Rekening
+document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        navigator.clipboard.writeText(text);
+        btn.innerText = "Disalin!";
+        setTimeout(() => btn.innerText = "Salin", 1200);
+    });
+});
+
+// Doa Restu
+const form = document.getElementById('doaForm');
+const list = document.getElementById('doaList');
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nama = document.getElementById('nama').value;
+    const doa = document.getElementById('doa').value;
+
+    const item = document.createElement('div');
+    item.className = 'doa-item';
+    item.innerHTML = `<strong>${nama}</strong><p>${doa}</p>`;
+
+    list.prepend(item);
+
+    form.reset();
+});
+</script></html>
