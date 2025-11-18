@@ -257,52 +257,64 @@
 
 
 
-<!-- EFEK MAWAR & LOVE TRANSPARAN BERTEBARAN (TAMBAHAN INI AJA) -->
-<div id="particles"></div>
+<!-- EFEK LOVE + KELOPAK MAWAR SVG BERTEBARAN (PREMIUM BANGET) -->
+<div id="fallingPetals"></div>
 
 <style>
-    #particles {
+    #fallingPetals {
         position: fixed;
         top: 0; left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
         z-index: 4;
+        overflow: hidden;
     }
     .petal {
         position: absolute;
-        font-size: 20px;
-        opacity: 0.4;
+        width: 28px;
+        height: 28px;
+        opacity: 0.35;
         animation: fall linear infinite;
         user-select: none;
     }
     @keyframes fall {
-        0%   { transform: translateY(-100vh) rotate(0deg);   opacity: 0; }
-        10%  { opacity: 0.4; }
-        90%  { opacity: 0.4; }
-        100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        0%   { transform: translateY(-120vh) rotate(0deg); opacity: 0; }
+        15%  { opacity: 0.35; }
+        85%  { opacity: 0.35; }
+        100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
     }
 </style>
 
 <script>
-    const particles = document.getElementById('particles');
-    const symbols = ['mawar', 'love', 'love', 'mawar', 'love']; // lebih banyak love biar romantis
+    const container = document.getElementById('fallingPetals');
+
+    // 2 ikon SVG: love + kelopak mawar (bisa ditambah lagi kalo mau)
+    const petals = [
+        `<svg viewBox="0 0 24 24" fill="#ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+        `<svg viewBox="0 0 100 100" fill="#ff1493"><path d="M50 10 C30 30, 20 50, 50 90 C80 50, 70 30, 50 10 Z M30 40 C20 50, 15 65, 30 75 M70 40 C80 50, 85 65, 70 75 M40 25 C35 35, 30 45, 40 50 M60 25 C65 35, 70 45, 60 50"/></svg>`
+    ];
 
     function createPetal() {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        petal.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = Math.random() * 12 + 8 + 's'; // 8–20 detik
-        petal.style.fontSize = Math.random() * 15 + 15 + 'px';
-        particles.appendChild(petal);
+        const p = document.createElement('div');
+        p.className = 'petal';
+        p.innerHTML = petals[Math.floor(Math.random() * petals.length)];
 
-        setTimeout(() => petal.remove(), 22000);
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = Math.random() * 12 + 10 + 's'; // 10–22 detik
+        p.style.animationDelay = Math.random() * 5 + 's';
+
+        container.appendChild(p);
+
+        // Hapus setelah selesai biar ga numpuk
+        setTimeout(() => p.remove(), 27000);
     }
 
-    // Mulai bikin 15–25 petal sekaligus
-    setInterval(createPetal, 600); // setiap 0.6 detik muncul 1
-    for(let i=0; i<20; i++) setTimeout(createPetal, i*500);
+    // Mulai bikin banyak petal sekaligus
+    for(let i = 0; i < 18; i++) {
+        setTimeout(createPetal, i * 600);
+    }
+    setInterval(createPetal, 800); // tiap 0.8 detik muncul 1
 </script>
 
 
