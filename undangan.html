@@ -163,7 +163,7 @@
     box-shadow:0 6px 22px rgba(0,0,0,0.45);
     border:1px solid rgba(255,255,255,0.3);
     transition:all 0.35s ease;">
-    
+
     <svg id="playIcon" viewBox="0 0 24 24" width="24" height="24" fill="#d4af37">
         <path d="M8 5v14l11-7z"/>
     </svg>
@@ -181,12 +181,7 @@
     audio.volume = 0.25;
     audio.currentTime = 32;
 
-    // Coba autoplay dulu (kalo bisa langsung jalan)
-    audio.play().catch(() => {
-        // Kalo gagal → tunggu user klik tombol
-        play.style.display = 'block';
-        pause.style.display = 'none';
-    });
+    
 
     // KLIK TOMBOL = TOGGLE PLAY/PAUSE
     btn.addEventListener('click', () => {
