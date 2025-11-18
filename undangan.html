@@ -128,14 +128,22 @@
     </div>
 
     <!-- MUSIK -->
-    <audio autoplay loop playsinline>
-        <source src="youandme.mp3" type="audio/mpeg">
-    </audio>
+<audio autoplay loop playsinline>
+    <source src="youandme.mp3" type="audio/mpeg">
+</audio>
 
-    <script>
-        const audio = document.querySelector('audio');
-        document.addEventListener('touchstart',()=>audio.play(),{once:true});
-        document.addEventListener('click',()=>audio.play(),{once:true});
-    </script>
+<script>
+    const audio = document.querySelector('audio');
+    
+    // TAMBAHAN INI AJA BRO
+    audio.volume = 0.25;      // lembut banget (bisa diganti 0.15 kalo masih keras)
+    audio.currentTime = 32;   // mulai dari detik 0:32 (bagian enak)
+
+    // Yang lama tetep utuh, ga diubah sama sekali
+    document.addEventListener('touchstart',()=>audio.play(),{once:true});
+    document.addEventListener('click',()=>audio.play(),{once:true});
+</script>
+
+
 </body>
 </html>
