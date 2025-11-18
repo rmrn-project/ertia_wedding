@@ -238,30 +238,30 @@
 
 
 
-<!-- MUSIK + TAP DIMANA AJA = PLAY, KLIK TOMBOL = PAUSE -->
+<!-- MUSIK + TOMBOL PLAY/PAUSE (HARUS KLIK TOMBOL DOANG) -->
 <audio id="bgm" loop playsinline preload="auto">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Tombol pojok kanan bawah -->
+<!-- Tombol selalu keliatan di pojok kanan bawah -->
 <div id="musicBtn" style="
     position:fixed;
     bottom:20px; right:20px;
     width:50px; height:50px;
-    background:rgba(255,255,255,0.16);
-    backdrop-filter:blur(14px);
+    background:rgba(255,255,255,0.18);
+    backdrop-filter:blur(15px);
     border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     z-index:9999;
     cursor:pointer;
-    box-shadow:0 6px 20px rgba(0,0,0,0.4);
-    border:1px solid rgba(255,255,255,0.25);
-    transition:all 0.3s ease;">
+    box-shadow:0 6px 22px rgba(0,0,0,0.45);
+    border:1px solid rgba(255,255,255,0.3);
+    transition:all 0.35s ease;">
     
-    <svg id="playIcon" viewBox="0 0 24 24" width="23" height="23" fill="#d4af37">
+    <svg id="playIcon" viewBox="0 0 24 24" width="24" height="24" fill="#d4af37">
         <path d="M8 5v14l11-7z"/>
     </svg>
-    <svg id="pauseIcon" viewBox="0 0 24 24" width="19" height="19" fill="#d4af37" style="display:none;">
+    <svg id="pauseIcon" viewBox="0 0 24 24" width="20" height="20" fill="#d4af37" style="display:none;">
         <path d="M6 4h4v16H6zM14 4h4v16h-4z"/>
     </svg>
 </div>
@@ -275,23 +275,15 @@
     audio.volume = 0.25;
     audio.currentTime = 32;
 
-    let isPlayed = false;
+    // Coba autoplay dulu (kalo bisa langsung jalan)
+    audio.play().catch(() => {
+        // Kalo gagal → tunggu user klik tombol
+        play.style.display = 'block';
+        pause.style.display = 'none';
+    });
 
-    // 1. TAP DI MANA AJA DI LAYAR = LANGSUNG PLAY + GANTI IKON JADI PAUSE
-    const unlockAndPlay = () => {
-        if (isPlayed) return;
-        audio.play();
-        isPlayed = true;
-        play.style.display = 'none';
-        pause.style.display = 'block';
-    };
-
-    document.body.addEventListener('click', unlockAndPlay, {once: true});
-    document.body.addEventListener('touchstart', unlockAndPlay, {once: true});
-
-    // 2. KLIK TOMBOL = PAUSE / PLAY (toggle biasa)
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation(); // penting! biar ga kena event tap di body
+    // KLIK TOMBOL = TOGGLE PLAY/PAUSE
+    btn.addEventListener('click', () => {
         if (audio.paused) {
             audio.play();
             play.style.display = 'none';
