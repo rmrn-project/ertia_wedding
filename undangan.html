@@ -6,139 +6,135 @@
     <title>Undangan Pernikahan - Sandi & Ertia</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        /* BACKGROUND FULL 9:16 */
+        * { margin:0; padding:0; box-sizing:border-box; }
+
         body {
-            margin: 0;
-            padding: 0;
             min-height: 100vh;
             font-family: 'Lora', serif;
-            color: #4a4a4a;
+            color: #fff;
+            text-align: center; /* SEMUA TULISAN RATA TENGAH */
             background: #000 url('background.png') center/cover no-repeat fixed;
             position: relative;
-            opacity: 0;
-            transition: opacity 0.9s ease-in-out;
         }
-        body.loaded { opacity: 1; }
 
-        /* Overlay biar teks tetap jelas */
+        /* Overlay gelap biar teks putih tetap jelas */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.48);
+            background: rgba(0, 0, 0, 0.52);
             z-index: 1;
         }
 
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            box-shadow: 0 15px 45px rgba(0,0,0,0.35);
-            border-radius: 16px;
             position: relative;
             z-index: 2;
+            padding: 40px 20px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
 
-        /* FOTO PASANGAN 1:1 TENGAH (LINGKARAN) */
-        .header {
-            margin-bottom: 40px;
-            display: flex;
-            justify-content: center;
-        }
+        /* Foto pasangan */
         .couple-photo {
-            width: 280px;
-            height: 280px;
+            width: 260px;
+            height: 260px;
             object-fit: cover;
             border-radius: 50%;
-            border: 9px solid #fff;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-            transition: transform 0.4s ease;
-        }
-        .couple-photo:hover { transform: scale(1.05); }
-
-        .title { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2.7em; 
-            color: #d4af37; 
-            margin: 20px 0; 
-            letter-spacing: 2px; 
-        }
-        .subtitle { 
-            font-size: 1.25em; 
-            color: #f0e6d2; 
-            font-style: italic; 
-            margin-bottom: 45px; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            border: 10px solid rgba(255,255,255,0.9);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            margin-bottom: 30px;
         }
 
-        .couple { 
-            display: flex; 
-            justify-content: space-around; 
-            flex-wrap: wrap; 
-            margin: 50px 0; 
-            gap: 20px;
-        }
-        .partner { 
-            flex: 1; 
-            min-width: 220px; 
-        }
-        .partner h2 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 1.9em; 
-            color: #333; 
-            margin-bottom: 8px;
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #d4af37;
+            margin: 20px 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
         }
 
-        .details { 
-            background: #fdfbf7; 
-            padding: 35px; 
-            border-radius: 14px; 
-            margin: 35px 0; 
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .details h3 { 
-            font-family: 'Playfair Display', serif; 
-            color: #d4af37; 
-            font-size: 1.7em; 
-            margin-bottom: 18px;
+        .subtitle {
+            font-size: 1.3em;
+            color: #f0e6d2;
+            font-style: italic;
+            margin-bottom: 50px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.5);
         }
 
-        .rsvp { 
-            padding: 30px 0; 
-            border-top: 2px solid #eee; 
-            border-bottom: 2px solid #eee; 
+        .couple-names {
+            margin: 50px 0;
+            line-height: 1.8;
         }
-
-        .footer { 
-            margin-top: 60px; 
-            color: #777; 
+        .couple-names h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.1em;
+            color: #fff;
+            margin: 15px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+        }
+        .couple-names p {
             font-size: 1.1em;
+            color: #ddd;
+            margin: 8px 0;
         }
 
-        /* Animasi muncul pas scroll */
-        .animate-on-scroll {
+        .details {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 35px;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            margin: 40px auto;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .details h3 {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        .details p {
+            font-size: 1.2em;
+            margin: 12px 0;
+            color: #fff;
+        }
+
+        .rsvp, .footer {
+            margin: 40px 0;
+            padding: 20px;
+            color: #eee;
+        }
+        .rsvp h3, .footer p {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        /* Animasi masuk halus */
+        .fade-in {
             opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
         }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .partner:nth-child(1) .animate-on-scroll { transition-delay: 0.2s; }
-        .partner:nth-child(2) .animate-on-scroll { transition-delay: 0.4s; }
+        .fade-in:nth-child(1) { animation-delay: 0.3s; }
+        .fade-in:nth-child(2) { animation-delay: 0.6s; }
+        .fade-in:nth-child(3) { animation-delay: 0.9s; }
+        .fade-in:nth-child(4) { animation-delay: 1.2s; }
+        .fade-in:nth-child(5) { animation-delay: 1.5s; }
 
-        @media (max-width: 600px) {
-            .couple-photo { width: 240px; height: 240px; }
-            .title { font-size: 2.2em; }
-            .couple { flex-direction: column; align-items: center; }
-            .container { padding: 30px 15px; }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .couple-photo { width: 220px; height: 220px; }
+            .title { font-size: 2.3em; }
+            .couple-names h2 { font-size: 1.8em; }
+            .details { padding: 25px; }
         }
     </style>
 </head>
@@ -146,77 +142,52 @@
 
     <div class="container">
 
-        <!-- FOTO PASANGAN 1:1 -->
-        <div class="header animate-on-scroll">
-            <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo">
-        </div>
+        <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade-in">
 
-        <h1 class="title animate-on-scroll">Kami Menikah</h1>
-        <p class="subtitle animate-on-scroll">Dengan Rahmat Tuhan Yang Maha Esa</p>
+        <h1 class="title fade-in">Kami Menikah</h1>
+        <p class="subtitle fade-in">Dengan Rahmat Tuhan Yang Maha Esa</p>
 
-        <div class="couple">
-            <div class="partner">
-                <div class="animate-on-scroll">
-                    <h2>Sandi Maulana S.Pd</h2>
-                    <p>Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
-                </div>
+        <div class="couple-names">
+            <div class="fade-in">
+                <h2>Sandi Maulana S.Pd</h2>
+                <p>Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
             </div>
-            <div class="partner">
-                <div class="animate-on-scroll">
-                    <h2>Ertia Agustina S.Kom</h2>
-                    <p>Putri dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
-                </div>
+            <div class="fade-in">
+                <h2>Ertia Agustina S.Kom</h2>
+                <p>Putri dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
             </div>
         </div>
 
-        <div class="details animate-on-scroll">
+        <div class="details fade-in">
             <h3>Acara Pernikahan</h3>
             <p><strong>Sabtu, 15 Desember 2025</strong></p>
             <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
             <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
         </div>
 
-        <div class="rsvp animate-on-scroll">
+        <div class="rsvp fade-in">
             <h3>Konfirmasi Kehadiran</h3>
             <p>WhatsApp: <strong>0812-3456-7890</strong></p>
             <p>Batas konfirmasi: 1 Desember 2025</p>
         </div>
 
-        <div class="footer animate-on-scroll">
+        <div class="footer fade-in">
             <p>Terima kasih atas doa restu dan kehadirannya</p>
             <p>Dengan cinta,</p>
             <p><strong>Sandi & Ertia</strong></p>
         </div>
     </div>
 
-    <!-- MUSIK AUTOPLAY + LOOP -->
+    <!-- MUSIK AUTOPLAY -->
     <audio autoplay loop playsinline>
         <source src="musik.mp3" type="audio/mpeg">
-        Browser tidak mendukung audio.
     </audio>
 
     <script>
-        // Fade-in saat load
-        window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-        });
-
-        // Autoplay trick buat HP (Chrome & Safari)
+        // Trick autoplay di HP
         const audio = document.querySelector('audio');
-        const tryPlay = () => audio.play().catch(() => {});
-        document.addEventListener('touchstart', tryPlay, { once: true });
-        document.addEventListener('click', tryPlay, { once: true });
-
-        // Scroll reveal animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15 });
-
-        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        document.addEventListener('touchstart', () => audio.play(), { once: true });
+        document.addEventListener('click', () => audio.play(), { once: true });
     </script>
 </body>
 </html>
