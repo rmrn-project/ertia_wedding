@@ -239,53 +239,85 @@
 
 
 
-<!-- MUSIK DENGAN TOMBOL ELEGAN + MULAI DARI DETIK 0:32 -->
+<!-- MUSIK + SPECTRUM MINI ELEGAN DI TENGAH BAWAH -->
 <audio id="bgMusic" loop preload="auto">
     <source src="youandme.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Tombol musik kecil, bulat, gold, cakep di pojok kanan bawah -->
-<div style="position:fixed; bottom:25px; right:25px; z-index:9999;">
-    <button id="musicBtn" style="
-        width:56px; height:56px; border-radius:50%; 
-        background:rgba(212,175,55,0.25); backdrop-filter:blur(12px);
-        border:2.5px solid #d4af37; color:#d4af37; 
-        font-size:26px; cursor:pointer; box-shadow:0 8px 25px rgba(0,0,0,0.4);
-        transition:all 0.3s ease;">
-        ▶
+<!-- Player mini cantik dengan spectrum -->
+<div id="miniPlayer" style="
+    position:fixed; bottom:30px; left:50%; transform:translateX(-50%); z-index:9999;
+    background:rgba(0,0,0,0.4); backdrop-filter:blur(15px); border:2px solid rgba(212,175,55,0.6);
+    border-radius:50px; padding:10px 20px; display:flex; align-items:center; gap:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5); transition:all 0.4s ease;">
+    
+    <!-- Tombol play/pause -->
+    <button id="playBtn" style="
+        background:none; border:none; color:#d4af37; font-size:22px; cursor:pointer; padding:5px;">
+        Play
     </button>
+    
+    <!-- Spectrum gerak (5 bar halus) -->
+    <div id="spectrum" style="display:flex; gap:4px; align-items:center; height:24px;">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        <span class="bar"></span><span class="bar"></span>
+    </div>
 </div>
+
+<style>
+    .bar {
+        width:4px; background:#d4af37; border-radius:2px; opacity:0.4;
+        animation:wave 1.5s ease-in-out infinite;
+    }
+    .bar:nth-child(1) { height:6px; animation-delay:0s; }
+    .bar:nth-child(2) { height:12px; animation-delay:0.2s; }
+    .bar:nth-child(3) { height:16px; animation-delay:0.4s; }
+    .bar:nth-child(4) { height:10px; animation-delay:0.6s; }
+    .bar:nth-child(5) { height:8px; animation-delay:0.8s; }
+
+    @keyframes wave {
+        0%,100% { transform:scaleY(0.4); opacity:0.4; }
+        50% { transform:scaleY(1); opacity:1; }
+    }
+
+    /* Spectrum mati pas pause */
+    .paused .bar { animation:none !important; opacity:0.3; height:8px !important; }
+</style>
 
 <script>
     const audio = document.getElementById('bgMusic');
-    const btn   = document.getElementById('musicBtn');
+    const btn   = document.getElementById('playBtn');
+    const player = document.getElementById('miniPlayer');
+    const spectrum = document.getElementById('spectrum');
     let isPlaying = false;
 
-    // Mulai dari detik 0:32 (bagian yang enak)
+    // Mulai dari detik 0:32 (bagian enak)
     audio.currentTime = 32;
 
     btn.addEventListener('click', () => {
         if (isPlaying) {
             audio.pause();
-            btn.innerHTML = '▶';
+            btn.innerHTML = 'Play';
+            player.classList.add('paused');
             isPlaying = false;
         } else {
             audio.play();
-            btn.innerHTML = '❍';   // ikon pause yang elegan
+            btn.innerHTML = 'Pause';
+            player.classList.remove('paused');
             isPlaying = true;
         }
     });
 
-    // Coba autoplay dulu (Android biasanya langsung jalan)
+    // Coba autoplay (Android biasanya jalan)
     audio.play().then(() => {
-        btn.innerHTML = '❍';
+        btn.innerHTML = 'Pause';
+        player.classList.remove('paused');
         isPlaying = true;
     }).catch(() => {
-        // Kalo gagal → tunggu user klik tombol (iPhone pasti ke sini)
-        btn.innerHTML = '▶';
+        btn.innerHTML = 'Play';
+        player.classList.add('paused');
     });
 </script>
-
 
 
 </body>
