@@ -331,48 +331,21 @@
 
 
 
-<style>
-  .rmrn-footer {
-    position: fixed;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(212,175,55,0.4);
-    border-radius: 999px;
-    padding: 8px 16px;
-    box-shadow: 0 0 18px rgba(212,175,55,0.35);
-    font-family: system-ui, sans-serif;
-    font-size: 14px;
-    color: #D4AF37;
-    font-weight: 600;
-    z-index: 9999;
-  }
-  .rmrn-footer a {
-    text-decoration: none; 
-    color: #D4AF37;
-    display: inline-flex; 
-    gap: 8px; 
-    align-items: center;
-  }
-  .rmrn-whatsapp-icon {
-    width: 20px; 
-    height: 20px;
-    fill: #D4AF37;
-    stroke: #D4AF37;
-  }
-</style>
+<!-- Elegant Font -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
-<div class="rmrn-footer">
-  <a href="https://wa.me/6289652201298" target="_blank" rel="noopener noreferrer">
-    <svg class="rmrn-whatsapp-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21.8 12.05a9.85 9.85 0 1 0-17.6 6.97L3 21.5l2.6-.68A9.85 9.85 0 0 0 21.8 12.05z" fill="#D4AF37"/>
-      <path d="M17.4 14.92c-.29-.14-1.7-.84-1.96-.94-.26-.1-.45-.14-.64.14s-.74.94-.91 1.13c-.17.19-.34.21-.63.07-.29-.14-1.23-.45-2.35-1.45-.87-.77-1.45-1.72-1.62-2.01-.17-.29-.02-.45.12-.59.12-.12.29-.32.43-.48.14-.16.19-.28.29-.47.1-.19 0-.36-.01-.51-.01-.16-.64-1.54-.88-2.12-.23-.56-.47-.48-.64-.49-.17 0-.36-.01-.55-.01s-.51.07-.78.36c-.27.29-1.03 1.01-1.03 2.46s1.05 2.86 1.2 3.06c.16.19 2.08 3.18 5.04 4.47 2.95 1.29 3.43 1.06 4.05.99.62-.06 1.97-.8 2.25-1.58.28-.78.28-1.45.2-1.58-.08-.13-.3-.2-.6-.34z" fill="#fff"/>
-    </svg>
-    <span>Made by rmrn-project</span>
+<footer id="rmrnFooter" 
+style="padding:14px 0; text-align:center; font-family:'Playfair Display', serif; font-size:14px; color:#D4AF37; border-top:1px solid rgba(212,175,55,0.4); margin-top:40px;">
+  © <span id="year"></span> All Rights Reserved — 
+  <a href="https://wa.me/6289652201298" target="_blank" rel="noopener noreferrer"
+     style="text-decoration:none; color:#D4AF37; font-weight:600;">
+    rmrn-project
   </a>
-</div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 
 
 
