@@ -257,33 +257,34 @@
 
 
 
-<!-- LOVE BERTEBARAN + BISA DISENTUH & DIGERET (LUCU BANGET) -->
+<!-- LOVE BERTEBARAN + BISA DIGERET & LANGSUNG RAME PAS BUKA -->
 <div id="lovely"></div>
 
 <style>
     #lovely {
         position: fixed;
-        top: 0; left: 0; width: 100%; height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         pointer-events: none;
         z-index: 4;
         overflow: hidden;
     }
     .love {
         position: absolute;
-        width: 32px;
-        height: 32px;
-        opacity: 0.45;
+        width: 34px;
+        height: 34px;
+        opacity: 0.48;
         pointer-events: auto;
         user-select: none;
         cursor: grab;
         animation: fall linear infinite;
-        transition: transform 0.12s ease;
+        transition: all 0.15s ease;
     }
-    .love:active { cursor: grabbing; }
+    .love:active { cursor: grabbing; transform: scale(1.6) !important; }
     @keyframes fall {
-        0%   { transform: translateY(-150vh) rotate(0deg); opacity: 0; }
-        12%  { opacity: 0.45; }
-        88%  { opacity: 0.45; }
+        0%   { transform: translateY(-160vh) rotate(0deg); opacity: 0; }
+        10%  { opacity: 0.48; }
+        90%  { opacity: 0.48; }
         100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
     }
 </style>
@@ -298,38 +299,48 @@
         h.innerHTML = svg;
 
         h.style.left = Math.random() * 100 + 'vw';
-        h.style.animationDuration = Math.random() * 12 + 14 + 's';
+        h.style.animationDuration = Math.random() * 10 + 12 + 's'; // 12–22 detik
 
-        // BISA DISENTUH & DIGERET (HP/PC)
-        let x = 0, y = 0;
+        // BISA DIGERET PAKE JARI (SUPER SMOOTH)
+        let isDragging = false;
         const move = (e) => {
+            if (!isDragging) return;
             e.preventDefault();
             const touch = e.touches ? e.touches[0] : e;
             h.style.position = 'fixed';
-            h.style.left = touch.clientX - 16 + 'px';
-            h.style.top = touch.clientY - 16 + 'px';
-            h.style.transform = 'rotate(30deg) scale(1.5)';
-            h.style.opacity = '0.8';
+            h.style.left = touch.clientX - 17 + 'px';
+            h.style.top = touch.clientY - 17 + 'px';
+            h.style.transform = 'rotate(45deg) scale(1.8)';
+            h.style.opacity = '0.9';
             h.style.animation = 'none';
         };
-        const up = () => {
+        const start = (e) => {
+            isDragging = true;
+            document.addEventListener('mousemove', move);
+            document.addEventListener('touchmove', move);
+        };
+        const end = () => {
+            if (!isDragging) return;
+            isDragging = false;
             document.removeEventListener('mousemove', move);
             document.removeEventListener('touchmove', move);
-            setTimeout(() => h.remove(), 1500);
+            setTimeout(() => h.remove(), 1200);
         };
 
-        h.addEventListener('mousedown', (e) => { document.addEventListener('mousemove', move); e.preventDefault(); });
-        h.addEventListener('touchstart', (e) => { document.addEventListener('touchmove', move); e.preventDefault(); });
-        h.addEventListener('mouseup', up);
-        h.addEventListener('touchend', up);
+        h.addEventListener('mousedown', start);
+        h.addEventListener('touchstart', start);
+        h.addEventListener('mouseup', end);
+        h.addEventListener('touchend', end);
 
         box.appendChild(h);
         setTimeout(() => h.remove(), 30000);
     }
 
-    // Mulai langsung banyak + terus muncul
-    for(let i = 0; i < 18; i++) setTimeout(spawn, i * 500);
-    setInterval(spawn, 1000);
+    // LANGSUNG RAME BANGET PAS BUKA (2 DETIK JADI FULL)
+    for(let i = 0; i < 40; i++) {
+        setTimeout(spawn, i * 80);  // 80ms = 40 love dalam ~3.2 detik
+    }
+    setInterval(spawn, 650);  // terus muncul tiap 0.65 detik
 </script>
 
 
