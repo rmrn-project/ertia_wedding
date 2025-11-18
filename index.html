@@ -336,11 +336,12 @@
         setTimeout(() => h.remove(), 30000);
     }
 
-    // LANGSUNG RAME BANGET PAS BUKA (2 DETIK JADI FULL)
-    for(let i = 0; i < 40; i++) {
-        setTimeout(spawn, i * 80);  // 80ms = 40 love dalam ~3.2 detik
-    }
-    setInterval(spawn, 650);  // terus muncul tiap 0.65 detik
+    
+    // VERSI PALING CEPET & PALING RAME PAS BUKA (REKOMENDASI)
+for(let i = 0; i < 50; i++) {
+    setTimeout(spawn, i * 40);   // 40ms = 50 love dalam ~2 detik → langsung hujan deras!
+}
+setInterval(spawn, 500);         // terus muncul tiap 0.5 detik
 </script>
 
 
