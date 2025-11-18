@@ -3,201 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan</title>
+    <title>Undangan Pernikahan - Sandi & Ertia</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@300;400&display=swap" rel="stylesheet">
     <style>
+        /* BACKGROUND FULL DENGAN GAMBAR 9:16 */
         body {
             margin: 0;
             padding: 0;
-            background-color: #f8f5f1;
+            min-height: 100vh;
             font-family: 'Lora', serif;
             color: #4a4a4a;
-            line-height: 1.6;
-            text-align: center;
-            opacity: 0; /* Fade-in awal pas load */
-            transition: opacity 0.5s ease-in;
+            background: #000 url('background.png') center/cover no-repeat fixed;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.8s ease-in;
         }
-        body.loaded {
-            opacity: 1;
+        body.loaded { opacity: 1; }
+
+        /* Overlay gelap biar teks tetap jelas terbaca */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.45); /* sesuaikan angka terakhir kalau mau lebih terang/gelap */
+            z-index: 1;
         }
+
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .header {
+            padding: 30px 20px;
+            background: 20px;
+            background: rgba(255, 255, 255, 0.95); /* putih agak transparan biar mewah */
+            backdrop-filter: blur(10px); /* efek kaca buram, cantik banget di HP */
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border-radius: 15px;
             position: relative;
-            margin-bottom: 40px;
-        }
-        .header img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5em;
-            color: #d4af37;
-            margin: 20px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .subtitle {
-            font-size: 1.2em;
-            color: #8b7355;
-            margin-bottom: 40px;
-            font-style: italic;
-        }
-        .couple {
+            z-index: 2;
+            min-height: 100vh;
             display: flex;
-            justify-content: space-around;
-            margin: 50px 0;
-            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
         }
-        .partner {
-            flex: 1;
-            min-width: 200px;
-            padding: 20px;
-        }
-        .partner h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8em;
-            color: #4a4a4a;
-            margin-bottom: 10px;
-        }
-        .partner p {
-            font-size: 1em;
-            color: #6b6b6b;
-            margin: 0;
-        }
-        .details {
-            background: #f8f5f1;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 30px 0;
-        }
-        .details h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5em;
-            color: #d4af37;
-            margin-bottom: 15px;
-        }
-        .details p {
-            margin: 10px 0;
-            font-size: 1.1em;
-        }
-        .rsvp {
-            margin: 40px 0;
-            padding: 20px;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .rsvp h3 {
-            font-family: 'Playfair Display', serif;
-            color: #8b7355;
-            margin-bottom: 10px;
-        }
-        .rsvp p {
-            font-size: 0.9em;
-            color: #6b6b6b;
-        }
-        .footer {
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #9b9b9b;
-        }
-        /* Animasi Scroll Reveal */
+
+        /* Sisanya sama seperti sebelumnya, cuma aku rapikan sedikit */
+        .header img { width: 100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .title { font-family: 'Playfair Display', serif; font-size: 2.6em; color: #d4af37; margin: 25px 0; letter-spacing: 2px; }
+        .subtitle { font-size: 1.2em; color: #8b7355; font-style: italic; margin-bottom: 40px; }
+        .couple { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 50px 0; }
+        .partner { flex: 1; min-width: 220px; padding: 15px; }
+        .partner h2 { font-family: 'Playfair Display', serif; font-size: 1.9em; color: #333; }
+        .details { background: #f8f5f1; padding: 30px; border-radius: 12px; margin: 30px 0; }
+        .details h3 { font-family: 'Playfair Display', serif; color: #d4af37; font-size: 1.6em; }
+        .rsvp { padding: 25px 0; border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+        .footer { margin-top: 50px; color: #777; }
+
         .animate-on-scroll {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease-out;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
         }
         .animate-on-scroll.visible {
             opacity: 1;
             transform: translateY(0);
         }
-        /* Stagger delay untuk couple */
         .partner:nth-child(1) { transition-delay: 0.2s; }
         .partner:nth-child(2) { transition-delay: 0.4s; }
+
         @media (max-width: 600px) {
-            .couple {
-                flex-direction: column;
-                align-items: center;
-            }
-            .title {
-                font-size: 2em;
-            }
+            .title { font-size: 2.1em; }
+            .couple { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
+
+    <!-- BACKGROUND SUDAH DIATAS, KONTEN DI TENGAH -->
     <div class="container">
-        <div class="header">
+        <div class="header animate-on-scroll">
             <img src="gambar_2.jpg" alt="Foto Pasangan">
         </div>
-        
+
         <h1 class="title animate-on-scroll">Kami Menikah</h1>
         <p class="subtitle animate-on-scroll">Dengan Rahmat Tuhan Yang Maha Esa</p>
-        
-        <div class="couple animate-on-scroll">
+
+        <div class="couple">
             <div class="partner animate-on-scroll">
-                <h2><strong>Sandi maulana S.Pd</strong></h2>
-                <p>Putra [Nama Ayah] & [Nama Ibu]</p>
+                <h2>Sandi Maulana S.Pd</h2>
+                <p>Putra dari Bapak [Nama] & Ibu [Nama]</p>
             </div>
             <div class="partner animate-on-scroll">
-                <h2><strong>Ertia agustina S.Kom</strong></h2>
-                <p>Putri [Nama Ayah] & [Nama Ibu]</p>
+                <h2>Ertia Agustina S.Kom</h2>
+                <p>Putri dari Bapak [Nama] & Ibu [Nama]</p>
             </div>
         </div>
-        
+
         <div class="details animate-on-scroll">
             <h3>Acara Pernikahan</h3>
-            <p><strong>Tanggal:</strong> <strong>Sabtu, 15 Desember 2025</strong></p>
-            <p><strong>Waktu:</strong> <strong>Pukul 10.00 WIB - Selesai</strong></p>
-            <p><strong>Lokasi:</strong> <strong>Hotel Mewah XYZ, Jl. Contoh No. 123, Jakarta</strong></p>
-            <p><em>Hadirilah kebahagiaan kami dengan doa restu yang terbaik.</em></p>
+            <p><strong>Sabtu, 15 Desember 2025</strong></p>
+            <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
+            <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
         </div>
-        
+
         <div class="rsvp animate-on-scroll">
             <h3>Konfirmasi Kehadiran</h3>
-            <p>Hubungi kami via WhatsApp: <strong>0812-3456-7890</strong> atau email: <strong>contoh@email.com</strong></p>
+            <p>WhatsApp: <strong>0812-3456-7890</strong></p>
             <p>Batas konfirmasi: 1 Desember 2025</p>
         </div>
-        
+
         <div class="footer animate-on-scroll">
-            <p>Terima kasih atas doa dan harapan terbaik Anda.</p>
-            <p>Dengan Cinta,</p>
-            <p><strong>Nama Pengantin Pria & Nama Pengantin Wanita</strong></p>
+            <p>Terima kasih atas doa restu dan kehadirannya</p>
+            <p>Dengan cinta,</p>
+            <p><strong>Sandi & Ertia</strong></p>
         </div>
     </div>
 
+    <!-- MUSIK AUTOPLAY + LOOP (tanpa tombol) -->
+    <audio autoplay loop playsinline>
+        <source src="musik.mp3" type="audio/mpeg"> <!-- Ganti "musik.mp3" jadi nama file lagu lo -->
+        Browser tidak mendukung audio.
+    </audio>
+
     <script>
-        // Fade-in awal pas load
+        // Fade in saat load
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
         });
 
-        // JavaScript untuk Scroll Reveal
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        // Autoplay trick buat HP
+        const audio = document.querySelector('audio');
+        document.addEventListener('touchstart', () => audio.play(), { once: true });
+        document.addEventListener('click', () => audio.play(), { once: true });
 
+        // Scroll reveal
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Hanya animasi sekali
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        // Observe semua elemen dengan class animate-on-scroll
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
