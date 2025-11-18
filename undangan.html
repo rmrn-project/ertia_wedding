@@ -44,64 +44,34 @@
         .couple-photo {
     width: 280px;
     height: 280px;
-    border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 40px;
     position: relative;
     z-index: 2;
-    
-    /* Border love gold + glow */
-    padding: 12px; /* spasi buat border love */
+    padding: 14px;
+
+    /* Bentuk LOVE */
+    -webkit-clip-path: path("M 140 30
+        C 110 -10 40 -10 40 60
+        C 40 120 140 200 140 200
+        C 140 200 240 120 240 60
+        C 240 -10 170 -10 140 30 Z");
+    clip-path: path("M 140 30
+        C 110 -10 40 -10 40 60
+        C 40 120 140 200 140 200
+        C 140 200 240 120 240 60
+        C 240 -10 170 -10 140 30 Z");
+
+    /* Border love emas */
     background: linear-gradient(45deg, #d4af37, #f4e4bc, #d4af37, #b8973a);
     background-size: 400% 400%;
     animation: gradient 8s ease infinite;
-    box-shadow: 
+
+    /* Glow */
+    box-shadow:
         0 0 30px rgba(212, 175, 55, 0.6),
         0 0 60px rgba(212, 175, 55, 0.3),
         0 20px 50px rgba(0,0,0,0.7);
 }
-
-/* Efek hati-hati kecil di sekitar foto */
-.couple-photo::before {
-    content: "♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥";
-    position: absolute;
-    top: -20px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #d4af37;
-    opacity: 0.4;
-    letter-spacing: 12px;
-    animation: float 6s ease-in-out infinite;
-}
-.couple-photo::after {
-    content: "♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥";
-    position: absolute;
-    bottom: -20px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #d4af37;
-    opacity: 0.4;
-    letter-spacing: 12px;
-    animation: float 6s ease-in-out infinite reverse;
-}
-
-/* Animasi glow bergerak + hati ngambang */
-@keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-@keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
-}
-
-/* Mobile */
-@media (max-width:480px) {
-    .couple-photo { width: 240px; height: 240px; }
-    .couple-photo::before,
-    .couple-photo::after { font-size: 16px; letter-spacing: 8px; }
-}
-
 
 
 
