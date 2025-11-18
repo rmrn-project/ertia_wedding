@@ -235,40 +235,30 @@
         </div>
     </div>
 
-<!-- Musik latar otomatis play + loop + kontrol kecil (bisa di-mute) -->
-<audio autoplay loop id="bgMusic">
-    <source src="https://dl.dropbox.com/s/xyz123/lagu-pernikahan.mp3" type="audio/mpeg">
-    <!-- Ganti link di atas sama lagu lo sendiri -->
-    Your browser does not support the audio element.
+
+
+
+
+<!-- MUSIK -->
+<audio autoplay loop playsinline>
+    <source src="lagu.mp3" type="audio/mpeg">
+    <!-- Ganti lagu.mp3 jadi nama file lo, misal: perfect.mp3 atau musik-pernikahan.mp3 -->
+    Browser kamu ga support audio :(
 </audio>
 
-<!-- Tombol mute/unmute biar ga kena blokir autoplay di hp -->
-<div style="position:fixed; bottom:20px; right:20px; z-index:999;">
-    <button onclick="toggleSound()" style="background:rgba(0,0,0,0.5); color:#d4af37; border:2px solid #d4af37; padding:10px 15px; border-radius:50%; font-size:20px; cursor:pointer;">
-        🔊 <!-- nanti diganti jadi 🔇 kalo lagi mute -->
-    </button>
-</div>
-
+<!-- Trick biar autoplay lebih patuh di HP (khususnya Chrome & Safari) -->
 <script>
-    const music = document.getElementById('bgMusic');
-    const btn = document.querySelector('button');
-
-    // Biar autoplay jalan di hp (harus ada user interaction dulu, makanya ada tombol)
-    document.addEventListener('touchstart', function() {}, true);
-
-    function toggleSound() {
-        if (music.paused) {
-            music.play();
-            btn.innerHTML = '🔊';
-        } else {
-            music.pause();
-            btn.innerHTML = '🔇';
-        }
-    }
-
-    // Cek awal mute atau enggak
-    music.volume = 0.4; // 40% volume biar ga kenceng banget
-    btn.innerHTML = '🔊';
+    // Coba play otomatis pas page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const audio = document.querySelector('audio');
+        audio.play().catch(() => {
+            // Kalo gagal (biasanya karena belum ada interaksi user), coba lagi pas user klik/tap dimanapun
+            document.body.addEventListener('touchstart', function autoPlay() {
+                audio.play();
+                document.body.removeEventListener('touchstart', autoPlay);
+            }, { once: true });
+        });
+    });
 </script>
 
 
