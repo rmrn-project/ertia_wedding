@@ -30,6 +30,7 @@
             text-align: center;
         }
 
+        /* SCROLL FADE IN */
         .fade {
             opacity: 0;
             transform: translateY(40px);
@@ -44,19 +45,6 @@
             border: 10px solid rgba(255,255,255,0.9);
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
             margin-bottom: 30px;
-        }
-
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.8em;
-            color: #d4af37;
-            margin: 20px 0;
-        }
-        .subtitle {
-            font-size: 1.25em;
-            color: #f0e6d2;
-            font-style: italic;
-            margin-bottom: 50px;
         }
 
         .details {
@@ -76,86 +64,74 @@
             margin-bottom: 20px;
         }
 
-        /* ===== TOMBOL SALIN KECIL & ELEGAN ===== */
-        .norek {
-            font-size: 1.8em;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin: 15px 0;
-            color: #fff;
+        /* SLIDER FOTO 1:1 - TANPA TOMBOL PANAH */
+        .gallery {
+            width: 90%;
+            max-width: 400px;
+            margin: 70px auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
-        .btn-salin {
-            margin-top: 12px;
-            padding: 8px 16px;
-            background: transparent;
-            color: #d4af37;
-            border: 1.5px solid #d4af37;
-            border-radius: 30px;
-            font-size: 0.9em;
-            cursor: pointer;
-            transition: all 0.3s;
+        .slides {
+            display: flex;
+            width: 500%; /* 5 foto */
+            animation: slide 20s infinite;
         }
-        .btn-salin:hover {
-            background: #d4af37;
-            color: #000;
+        .slides img {
+            width: 20%; /* 100% / 5 foto */
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            flex-shrink: 0;
         }
-        .notif {
-            margin-top: 10px;
-            color: #90ee90;
-            font-size: 0.95em;
-            display: none;
+        @keyframes slide {
+            0%, 16%   { transform: translateX(0%); }
+            20%, 36%  { transform: translateX(-20%); }
+            40%, 56%  { transform: translateX(-40%); }
+            60%, 76%  { transform: translateX(-60%); }
+            80%, 96%  { transform: translateX(-80%); }
+            100%      { transform: translateX(0%); }
         }
-        /* ====================================== */
+        /* Bisa digeser manual juga */
+        .slides { transition: transform 0.5s ease; }
 
+        /* TOMBOL SALIN KECIL */
+        .norek { font-size: 1.8em; font-weight: bold; letter-spacing: 2px; margin: 15px 0; }
+        .btn-salin {
+            padding: 8px 18px; background: transparent; color: #d4af37;
+            border: 1.5px solid #d4af37; border-radius: 30px; font-size: 0.9em;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-salin:hover { background: #d4af37; color: #000; }
+        .notif { margin-top: 10px; color: #90ee90; font-size: 0.95em; display: none; }
+
+        /* FORM UCAPAN */
         input, textarea {
-            width: 100%;
-            padding: 16px;
-            margin: 12px 0;
-            border-radius: 12px;
-            border: none;
-            background: rgba(255,255,255,0.95);
-            color: #333;
-            font-size: 1.05em;
+            width: 100%; padding: 16px; margin: 12px 0; border-radius: 12px;
+            border: none; background: rgba(255,255,255,0.95); color: #333; font-size: 1.05em;
         }
         textarea { height: 110px; resize: none; }
         .btn-kirim {
-            margin-top: 8px;
-            padding: 14px 32px;
-            background: #d4af37;
-            color: #000;
-            border: none;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
+            padding: 14px 36px; background: #d4af37; color: #000;
+            border: none; border-radius: 50px; font-weight: bold; cursor: pointer;
         }
-
         .ucapan-item {
-            background: rgba(255,255,255,0.15);
-            padding: 18px;
-            border-radius: 15px;
-            margin-top: 18px;
-            text-align: left;
+            background: rgba(255,255,255,0.15); padding: 18px; border-radius: 15px;
+            margin-top: 18px; text-align: left;
         }
 
         #musicBtn {
-            position: fixed;
-            bottom: 30px;
-            right: 25px;
-            width: 60px; height: 60px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(15px);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            cursor: pointer;
+            position: fixed; bottom: 30px; right: 25px;
+            width: 60px; height: 60px; background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 9999; cursor: pointer;
         }
 
         @media (max-width:480px) {
             .couple-photo { width: 220px; height: 220px; }
-            .title { font-size: 2.4em; }
-            .norek { font-size: 1.6em; }
+            .gallery { max-width: 340px; }
         }
     </style>
 </head>
@@ -165,94 +141,55 @@
 
     <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade">
 
-
-
-
-    <!-- HEADER YANG LEBIH MEWAH & BERBEDA DARI MEMPELAI -->
-<div class="header-section fade" style="margin:60px 0 80px;">
-    <!-- Ornament atas -->
-    <div style="font-size:1.4em; color:#d4af37; opacity:0.7; letter-spacing:8px; margin-bottom:20px;">
-        ⋆ ˖⁺‧₊ ☽ ◯ ☾ ₊‧⁺˖ ⋆
-    </div>
-
-    <!-- Dengan izin Allah -->
-    <h1 style="
-        font-family:'Playfair Display',serif;
-        font-size:3.2em;
-        color:#d4af37;
-        margin:0 0 20px;
-        letter-spacing:2px;
-        text-shadow:0 3px 15px rgba(0,0,0,0.6);
-        line-height:1.2;
-    ">
-        Dengan Izin Allah
-    </h1>
-
-    <!-- Tagline -->
-    <p style="
-        font-size:1.35em;
-        color:#f0e6d2;
-        font-style:italic;
-        max-width:90%;
-        margin:0 auto;
-        line-height:1.7;
-        opacity:0.95;
-    ">
-        Kami menikah —<br>
-        satu cerita, dua hati, satu tujuan
-    </p>
-
-    <!-- Ornament bawah -->
-    <div style="margin-top:30px; color:#d4af37; opacity:0.5; font-size:1.1em;">
-        ✻ ┈┈┈┈ ✻ ┈┈┈┈ ✻
-    </div>
-</div>
-<!-- AKHIR HEADER -->
-
-
-
-
-
-    <!-- BAGIAN MEMPELAI YANG SUPER MEWAH -->
-<div class="couple-names fade" style="margin: 70px 0; width: 100%; max-width: 560px;">
-    <!-- Sandi -->
-    <div style="margin-bottom: 30px;">
-        <h2 style="font-family:'Playfair Display',serif; font-size:2.4em; color:#d4af37; margin:0; line-height:1.2;">
-            Sandi Maulana S.Pd
-        </h2>
-        <p style="font-size:1.1em; color:#e8e0d0; margin:12px 0 0; line-height:1.6;">
-            Putra bungsu dari<br>
-            Bapak Udis Subandi & Ibu Dede Jualiah
+    <!-- HEADER MEWAH -->
+    <div class="header-section fade" style="margin:60px 0 80px;">
+        <div style="font-size:1.4em; color:#d4af37; opacity:0.7; letter-spacing:8px; margin-bottom:20px;">
+            ⋆ ˖⁺‧₊ ☽ ◯ ☾ ₊‧⁺˖ ⋆
+        </div>
+        <h1 style="font-family:'Playfair Display',serif; font-size:3.2em; color:#d4af37; margin:0 0 20px; letter-spacing:2px;">
+            Dengan Izin Allah
+        </h1>
+        <p style="font-size:1.35em; color:#f0e6d2; font-style:italic; max-width:90%; margin:0 auto; line-height:1.7;">
+            Kami menikah —<br>satu cerita, dua hati, satu tujuan
         </p>
+        <div style="margin-top:30px; color:#d4af37; opacity:0.5; font-size:1.1em;">
+            ✻ ┈┈┈┈ ✻ ┈┈┈┈ ✻
+        </div>
     </div>
 
-    <!-- Ornament & -->
-    <div style="position:relative; margin:40px 0; font-size:4.5em; color:#d4af37; font-family:'Playfair Display',serif; font-weight:400; line-height:1;">
-        &
-        <!-- Ornament bunga kecil (opsional, biar makin manis) -->
-        <span style="position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:0.35em; color:#d4af37; opacity:0.6;">
-            ✻ ✻ ✻
-        </span>
-        <span style="position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:0.35em; color:#d4af37; opacity:0.6;">
-            ✻ ✻ ✻
-        </span>
+    <!-- MEMPELAI DENGAN & BESAR -->
+    <div class="couple-names fade" style="margin: 70px 0; width: 100%; max-width: 560px;">
+        <div style="margin-bottom: 30px;">
+            <h2 style="font-family:'Playfair Display',serif; font-size:2.4em; color:#d4af37; margin:0;">Sandi Maulana S.Pd</h2>
+            <p style="font-size:1.1em; color:#e8e0d0; margin:12px 0 0; line-height:1.6;">
+                Putra bungsu dari<br>Bapak Udis Subandi & Ibu Dede Jualiah
+            </p>
+        </div>
+        <div style="position:relative; margin:40px 0; font-size:4.5em; color:#d4af37; font-family:'Playfair Display',serif;">
+            &
+            <span style="position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:0.35em; color:#d4af37; opacity:0.6;">✻ ✻ ✻</span>
+            <span style="position:absolute; bottom:-25px; left:50%; transform:translateX(-50%); font-size:0.35em; color:#d4af37; opacity:0.6;">✻ ✻ ✻</span>
+        </div>
+        <div style="margin-top: 30px;">
+            <h2 style="font-family:'Playfair Display',serif; font-size:2.4em; color:#d4af37; margin:0;">Ertia Agustina S.Kom</h2>
+            <p style="font-size:1.1em; color:#e8e0d0; margin:12px 0 0; line-height:1.6;">
+                Putri Tunggal dari<br>Bapak Gustana & Alm. Ibu Ernawati
+            </p>
+        </div>
     </div>
 
-    <!-- Ertia -->
-    <div style="margin-top: 30px;">
-        <h2 style="font-family:'Playfair Display',serif; font-size:2.4em; color:#d4af37; margin:0; line-height:1.2;">
-            Ertia Agustina S.Kom
-        </h2>
-        <p style="font-size:1.1em; color:#e8e0d0; margin:12px 0 0; line-height:1.6;">
-            Putri Tunggal dari<br>
-            Bapak Gustana & Alm. Ibu Ernawati
-        </p>
+    <!-- SLIDER FOTO 1:1 -->
+    <div class="gallery fade">
+        <div class="slides">
+            <img src="foto1.jpg" alt="Foto 1">
+            <img src="foto2.jpg" alt="Foto 2">
+            <img src="foto3.jpg" alt="Foto 3">
+            <img src="foto4.jpg" alt="Foto 4">
+            <img src="foto5.jpg" alt="Foto 5">
+        </div>
     </div>
-</div>
-<!-- AKHIR BAGIAN MEMPELAI -->
 
-
-
+    <!-- ACARA -->
     <div class="details fade">
         <h3>Acara Pernikahan</h3>
         <p><strong>Sabtu, 15 Desember 2025</strong></p>
@@ -260,19 +197,14 @@
         <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
     </div>
 
-    <div class="details fade">
-        <h3>Hitung Mundur</h3>
-        <div id="countdown" style="font-size:1.7em;font-weight:bold;margin-top:15px;color:#d4af37;"></div>
-    </div>
-
+    <!-- LOKASI -->
     <div class="details fade">
         <h3>Lokasi Acara</h3>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.8459489514154!2d106.8267468!3d-6.1590317"
-            width="100%" height="260" style="border:0;border-radius:15px;margin:15px 0;" allowfullscreen="" loading="lazy"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="260" style="border:0;border-radius:15px;margin:15px 0;" allowfullscreen="" loading="lazy"></iframe>
         <a href="https://maps.app.goo.gl/XXXXX" target="_blank" style="display:inline-block;padding:14px 30px;background:#d4af37;color:#000;border-radius:50px;text-decoration:none;font-weight:bold;">Buka di Google Maps</a>
     </div>
 
-    <!-- AMPLOP DIGITAL - TOMBOL KECIL -->
+    <!-- AMPLOP DIGITAL -->
     <div class="details fade">
         <h3>Amplop Digital</h3>
         <p style="line-height:1.8;">
@@ -301,6 +233,7 @@
 
 </div>
 
+<!-- MUSIK -->
 <audio id="bgm" loop playsinline preload="auto">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
@@ -310,22 +243,25 @@
 </div>
 
 <script>
-// Scroll fade
+// Scroll fade in
 const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('show')), {threshold: 0.1});
 document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
-// Musik, countdown, copy, ucapan (sama kayak sebelumnya, cuma dirapihin)
+// Musik
 const audio = document.getElementById('bgm'); audio.volume = 0.3;
-document.getElementById('musicBtn').onclick = () => audio.paused ? (audio.play(), document.getElementById('playIcon').style.display='none', document.getElementById('pauseIcon').style.display='block') : (audio.pause(), document.getElementById('playIcon').style.display='block', document.getElementById('pauseIcon').style.display='none');
+document.getElementById('musicBtn').onclick = () => {
+    if (audio.paused) {
+        audio.play();
+        document.getCollateral('playIcon').style.display = 'none';
+        document.getElementById('pauseIcon').style.display = 'block';
+    } else {
+        audio.pause();
+        document.getElementById('playIcon').style.display = 'block';
+        document.getElementById('pauseIcon').style.display = 'none';
+    }
+};
 
-const wedding = new Date("2025-12-15T10:00:00").getTime();
-setInterval(() => {
-    const diff = wedding - new Date().getTime();
-    if (diff < 0) { document.getElementById("countdown").innerHTML = "Acara sedang berlangsung ❤️"; return; }
-    const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-    document.getElementById("countdown").innerHTML = `${d} Hari : ${h.toString().padStart(2,0)} : ${m.toString().padStart(2,0)} : ${s.toString().padStart(2,0)}`;
-}, 1000);
-
+// Copy rekening
 function copyRek() {
     navigator.clipboard.writeText(document.getElementById("norek").innerText);
     const n = document.getElementById("notif");
@@ -333,6 +269,7 @@ function copyRek() {
     setTimeout(() => n.style.display = "none", 1500);
 }
 
+// Kirim ucapan
 function kirimUcapan() {
     const nama = document.getElementById("nama").value.trim();
     const doa = document.getElementById("doa").value.trim();
@@ -344,6 +281,12 @@ function kirimUcapan() {
     document.getElementById("nama").value = "";
     document.getElementById("doa").value = "";
 }
+
+// Slider bisa digeser manual
+let startX = 0;
+const slides = document.querySelector('.slides');
+slides.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+slides.addEventListener('touchmove', e => e.preventDefault());
 </script>
 </body>
 </html>
