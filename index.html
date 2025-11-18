@@ -239,25 +239,50 @@
 
 
 
-<!-- MUSIK -->
-<audio autoplay loop playsinline>
+<!-- MUSIK DENGAN TOMBOL ELEGAN + MULAI DARI DETIK 0:32 -->
+<audio id="bgMusic" loop preload="auto">
     <source src="youandme.mp3" type="audio/mpeg">
-    <!-- Ganti lagu.mp3 jadi nama file lo, misal: perfect.mp3 atau musik-pernikahan.mp3 -->
-    Browser kamu ga support audio :(
 </audio>
 
-<!-- Trick biar autoplay lebih patuh di HP (khususnya Chrome & Safari) -->
+<!-- Tombol musik kecil, bulat, gold, cakep di pojok kanan bawah -->
+<div style="position:fixed; bottom:25px; right:25px; z-index:9999;">
+    <button id="musicBtn" style="
+        width:56px; height:56px; border-radius:50%; 
+        background:rgba(212,175,55,0.25); backdrop-filter:blur(12px);
+        border:2.5px solid #d4af37; color:#d4af37; 
+        font-size:26px; cursor:pointer; box-shadow:0 8px 25px rgba(0,0,0,0.4);
+        transition:all 0.3s ease;">
+        ▶
+    </button>
+</div>
+
 <script>
-    // Coba play otomatis pas page load
-    document.addEventListener('DOMContentLoaded', function() {
-        const audio = document.querySelector('audio');
-        audio.play().catch(() => {
-            // Kalo gagal (biasanya karena belum ada interaksi user), coba lagi pas user klik/tap dimanapun
-            document.body.addEventListener('touchstart', function autoPlay() {
-                audio.play();
-                document.body.removeEventListener('touchstart', autoPlay);
-            }, { once: true });
-        });
+    const audio = document.getElementById('bgMusic');
+    const btn   = document.getElementById('musicBtn');
+    let isPlaying = false;
+
+    // Mulai dari detik 0:32 (bagian yang enak)
+    audio.currentTime = 32;
+
+    btn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            btn.innerHTML = '▶';
+            isPlaying = false;
+        } else {
+            audio.play();
+            btn.innerHTML = '❍';   // ikon pause yang elegan
+            isPlaying = true;
+        }
+    });
+
+    // Coba autoplay dulu (Android biasanya langsung jalan)
+    audio.play().then(() => {
+        btn.innerHTML = '❍';
+        isPlaying = true;
+    }).catch(() => {
+        // Kalo gagal → tunggu user klik tombol (iPhone pasti ke sini)
+        btn.innerHTML = '▶';
     });
 </script>
 
