@@ -220,7 +220,8 @@
             width: 60px; height: 60px; background: rgba(255,255,255,0.2);
             backdrop-filter: blur(15px); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            z-index: 9999; cursor: pointer;
+            z-index: 9999; cursor: grab;
+user-select: none; touch-action: none;
         }
 
         @media (max-width:480px) {
@@ -387,6 +388,55 @@ document.getElementById('musicBtn').onclick = () => {
         document.getElementById('pauseIcon').style.display = 'none';
     }
 };
+
+// DRAG & MOVE MUSIC BUTTON — Interaktif
+const btn = document.getElementById("musicBtn");
+
+let isDragging = false;
+let offsetX = 0;
+let offsetY = 0;
+
+btn.addEventListener("mousedown", startDrag);
+btn.addEventListener("touchstart", startDrag);
+
+function startDrag(e) {
+    isDragging = true;
+    btn.style.cursor = "grabbing";
+
+    const rect = btn.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+
+    document.addEventListener("mousemove", onDrag);
+    document.addEventListener("touchmove", onDrag);
+    document.addEventListener("mouseup", stopDrag);
+    document.addEventListener("touchend", stopDrag);
+}
+
+function onDrag(e) {
+    if (!isDragging) return;
+
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    btn.style.left = (clientX - offsetX) + "px";
+    btn.style.top = (clientY - offsetY) + "px";
+}
+
+function stopDrag() {
+    isDragging = false;
+    btn.style.cursor = "grab";
+
+    document.removeEventListener("mousemove", onDrag);
+    document.removeEventListener("touchmove", onDrag);
+    document.removeEventListener("mouseup", stopDrag);
+    document.removeEventListener("touchend", stopDrag);
+}
+
+
 
 // Copy rekening
 function copyRek() {
