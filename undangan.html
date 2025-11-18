@@ -61,47 +61,44 @@
         0 20px 50px rgba(0,0,0,0.7);
 }
 
-/* Efek hati-hati kecil di sekitar foto */
-.couple-photo::before {
-    content: "♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥";
+.photo-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.photo-wrapper::before,
+.photo-wrapper::after {
+    content: "❤";
     position: absolute;
-    top: -20px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #d4af37;
-    opacity: 0.4;
-    letter-spacing: 12px;
-    animation: float 6s ease-in-out infinite;
-}
-.couple-photo::after {
-    content: "♥ ♥ ♥ ♥ ♥ ♥ ♥ ♥";
-    position: absolute;
-    bottom: -20px; left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-    color: #d4af37;
-    opacity: 0.4;
-    letter-spacing: 12px;
-    animation: float 6s ease-in-out infinite reverse;
+    font-size: 22px;
+    opacity: 0.7;
+    color: #ff6b81;
+    animation: floatLove 2.5s infinite ease-in-out;
 }
 
-/* Animasi glow bergerak + hati ngambang */
-@keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-@keyframes float {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
+/* Love kiri */
+.photo-wrapper::before {
+    left: -20px;
+    top: 30%;
 }
 
-/* Mobile */
-@media (max-width:480px) {
-    .couple-photo { width: 240px; height: 240px; }
-    .couple-photo::before,
-    .couple-photo::after { font-size: 16px; letter-spacing: 8px; }
+/* Love kanan */
+.photo-wrapper::after {
+    right: -20px;
+    top: 60%;
 }
 
+@keyframes floatLove {
+    0% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(-10px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 0.6; }
+}
+
+/* Foto */
+.couple-photo {
+    width: 250px;
+    border-radius: 18px;
+}
 
 
 
