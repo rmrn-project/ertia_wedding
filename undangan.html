@@ -7,92 +7,155 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@300;400&display=swap" rel="stylesheet">
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        html, body {
-            height: 100%;
+        body {
             min-height: 100vh;
-            background-color: #504b47;
-            margin: 0;
-            overflow-x: hidden;
+            background: #3c2f2f;
             font-family: 'Lora', serif;
             color: #fff;
+            overflow-x: hidden;
         }
         .overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.52);
+            inset: 0;
+            background: rgba(0,0,0,0.55);
             z-index: 1;
         }
         .container {
             position: relative;
             z-index: 2;
-            min-height: 100vh;
-            padding: 60px 20px 100px;
+            padding: 60px 20px 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
 
-        /* EFEK SCROLL FADE-IN */
-        .scroll-fade {
+        .fade {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(40px);
             transition: all 1s ease-out;
         }
-        .scroll-fade.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* akhir efek */
+        .fade.show { opacity: 1; transform: translateY(0); }
 
         .couple-photo {
             width: 260px; height: 260px;
-            object-fit: cover;
             border-radius: 50%;
+            object-fit: cover;
             border: 10px solid rgba(255,255,255,0.9);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            margin-bottom: 40px;
-        }
-        .title { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2.8em; 
-            color: #d4af37; 
-            margin: 20px 0; 
-            text-shadow: 0 2px 10px rgba(0,0,0,0.7); 
-        }
-        .subtitle { 
-            font-size: 1.3em; 
-            color: #f0e6d2; 
-            font-style: italic; 
-            margin-bottom: 60px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            margin-bottom: 30px;
         }
 
-        .couple-names h2 { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2.1em; 
-            margin: 15px 0; 
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #d4af37;
+            margin: 20px 0;
         }
+        .subtitle {
+            font-size: 1.25em;
+            color: #f0e6d2;
+            font-style: italic;
+            margin-bottom: 50px;
+        }
+
         .details {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(12px);
-            padding: 35px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            padding: 38px 30px;
+            border-radius: 20px;
+            width: 92%;
+            max-width: 520px;
             margin: 50px auto;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.18);
         }
-        .details h3 { 
-            font-family: 'Playfair Display', serif; 
-            color: #d4af37; 
-            font-size: 1.8em; 
-            margin-bottom: 20px; 
+        .details h3 {
+            font-family: 'Playfair Display', serif;
+            color: #d4af37;
+            font-size: 1.9em;
+            margin-bottom: 20px;
+        }
+
+        /* ===== TOMBOL SALIN KECIL & ELEGAN ===== */
+        .norek {
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 15px 0;
+            color: #fff;
+        }
+        .btn-salin {
+            margin-top: 12px;
+            padding: 8px 16px;
+            background: transparent;
+            color: #d4af37;
+            border: 1.5px solid #d4af37;
+            border-radius: 30px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-salin:hover {
+            background: #d4af37;
+            color: #000;
+        }
+        .notif {
+            margin-top: 10px;
+            color: #90ee90;
+            font-size: 0.95em;
+            display: none;
+        }
+        /* ====================================== */
+
+        input, textarea {
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            font-size: 1.05em;
+        }
+        textarea { height: 110px; resize: none; }
+        .btn-kirim {
+            margin-top: 8px;
+            padding: 14px 32px;
+            background: #d4af37;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .ucapan-item {
+            background: rgba(255,255,255,0.15);
+            padding: 18px;
+            border-radius: 15px;
+            margin-top: 18px;
+            text-align: left;
+        }
+
+        #musicBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 25px;
+            width: 60px; height: 60px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            cursor: pointer;
         }
 
         @media (max-width:480px) {
-            .couple-photo { width:220px; height:220px; }
-            .title { font-size:2.3em; }
-            .container { padding: 40px 15px 80px; }
+            .couple-photo { width: 220px; height: 220px; }
+            .title { font-size: 2.4em; }
+            .norek { font-size: 1.6em; }
         }
     </style>
 </head>
@@ -100,158 +163,103 @@
 <div class="overlay"></div>
 <div class="container">
 
-    <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo scroll-fade">
-
-    <h1 class="title scroll-fade">Dengan izin Allah</h1>
-    <p class="subtitle scroll-fade">Kami menikah — satu cerita, dua hati, satu tujuan</p>
+    <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade">
+    <h1 class="title fade">Dengan izin Allah</h1>
+    <p class="subtitle fade">Kami menikah — satu cerita, dua hati, satu tujuan</p>
 
     <div class="couple-names">
-        <div class="scroll-fade">
-            <h2>Sandi Maulana S.Pd</h2>
-            <p>Putra bungsu dari Bapak Udis Subandi & Ibu Dede Jualiah</p>
-        </div>
-        <div class="scroll-fade" style="margin-top:40px;">
-            <h2>Ertia Agustina S.Kom</h2>
-            <p>Putri Tunggal dari Bapak Gustana & Alm. Ibu Ernawati</p>
-        </div>
+        <div class="fade"><h2 style="font-family:'Playfair Display',serif;font-size:2.1em;color:#d4af37;">Sandi Maulana S.Pd</h2><p>Putra bungsu dari Bapak Udis Subandi & Ibu Dede Jualiah</p></div>
+        <div class="fade" style="margin-top:40px;"><h2 style="font-family:'Playfair Display',serif;font-size:2.1em;color:#d4af37;">Ertia Agustina S.Kom</h2><p>Putri Tunggal dari Bapak Gustana & Alm. Ibu Ernawati</p></div>
     </div>
 
-    <div class="details scroll-fade">
+    <div class="details fade">
         <h3>Acara Pernikahan</h3>
         <p><strong>Sabtu, 15 Desember 2025</strong></p>
         <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
         <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
     </div>
 
-    <div class="details scroll-fade" id="countdownBox">
+    <div class="details fade">
         <h3>Hitung Mundur</h3>
-        <div id="countdown" style="font-size:1.6em; font-weight:bold; margin-top:15px;"></div>
+        <div id="countdown" style="font-size:1.7em;font-weight:bold;margin-top:15px;color:#d4af37;"></div>
     </div>
 
-    <div class="details scroll-fade">
+    <div class="details fade">
         <h3>Lokasi Acara</h3>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.8459489514154!2d106.8267468!3d-6.1590317"
-            width="100%" height="250" style="border:0; border-radius:12px; margin-top:15px;" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://maps.google.com/maps?q=Hotel+Mewah+XYZ+Jakarta" target="_blank"
-            style="display:block; margin-top:20px; padding:14px; background:#d4af37; color:#000; text-decoration:none; border-radius:12px; font-weight:bold;">
-            Buka di Google Maps
-        </a>
+            width="100%" height="260" style="border:0;border-radius:15px;margin:15px 0;" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.app.goo.gl/XXXXX" target="_blank" style="display:inline-block;padding:14px 30px;background:#d4af37;color:#000;border-radius:50px;text-decoration:none;font-weight:bold;">Buka di Google Maps</a>
     </div>
 
-    <div class="details scroll-fade">
+    <!-- AMPLOP DIGITAL - TOMBOL KECIL -->
+    <div class="details fade">
         <h3>Amplop Digital</h3>
-        <p style="font-size:1.2em;line-height:1.8;">
+        <p style="line-height:1.8;">
             Bank BCA<br>
-            <strong id="norek>1234567890</strong><br>
-            a.n <strong>Sandi Maulana</strong>
+            <div class="norek" id="norek">1234567890</div>
+            a.n Sandi Maulana
         </p>
-        <button onclick="copyRek()" style="margin-top:15px; padding:12px 30px; background:#d4af37; color:#000; border:none; border-radius:12px; font-size:1.1em; cursor:pointer; font-weight:bold;">
-            Salin Nomor Rekening
-        </button>
-        <p id="notif" style="margin-top:10px; color:#90ee90; display:none; font-weight:bold;">Nomor rekening disalin!</p>
+        <button class="btn-salin" onclick="copyRek()">Salin Nomor</button>
+        <p class="notif" id="notif">Disalin!</p>
     </div>
 
-    <div class="details scroll-fade">
+    <!-- DOA & UCAPAN -->
+    <div class="details fade">
         <h3>Doa & Ucapan</h3>
-        <input id="nama" placeholder="Nama kamu" style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:none;">
-        <textarea id="doa" placeholder="Tulis doa & ucapan terbaikmu..." style="width:100%; padding:12px; height:100px; margin:10px 0 15px; border-radius:8px; border:none; resize:none;"></textarea>
-        <button onclick="kirimUcapan()" style="padding:12px 30px; background:#d4af37; color:#000; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">
-            Kirim Ucapan
-        </button>
-        <div id="listUcapan" style="margin-top:25px; text-align:left;"></div>
+        <input type="text" id="nama" placeholder="Nama kamu">
+        <textarea id="doa" placeholder="Tulis doa & ucapan terbaik..."></textarea>
+        <button class="btn-kirim" onclick="kirimUcapan()">Kirim Ucapan</button>
+        <div id="listUcapan"></div>
     </div>
 
-    <div class="scroll-fade" style="margin-top:50px;">
+    <div class="fade" style="margin-top:60px;">
         <p>Terima kasih atas doa restu dan kehadirannya</p>
-        <p style="margin:15px 0;">Dengan cinta,</p>
-        <p style="font-size:1.4em;"><strong>Sandi & Ertia</strong></p>
+        <p style="margin:20px 0;">Dengan cinta,</p>
+        <p style="font-size:1.5em;"><strong>Sandi & Ertia</strong></p>
     </div>
 
 </div>
 
-<!-- Musik -->
 <audio id="bgm" loop playsinline preload="auto">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
-<div id="musicBtn" style="position:fixed; bottom:25px; right:25px; width:56px; height:56px; background:rgba(255,255,255,0.2); backdrop-filter:blur(15px); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:9999; cursor:pointer; box-shadow:0 8px 25px rgba(0,0,0,0.5);">
-    <svg id="playIcon" viewBox="0 0 24 24" width="28" height="28" fill="#d4af37"><path d="M8 5v14l11-7z"/></svg>
-    <svg id="pauseIcon" viewBox="0 0 24 24" width="24" height="24" fill="#d4af37" style="display:none;"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+<div id="musicBtn">
+    <svg id="playIcon" viewBox="0 0 24 24" width="30" height="30" fill="#d4af37"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" width="26" height="26" fill="#d4af37" style="display:none;"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
 </div>
 
 <script>
-// SCROLL FADE IN (yang kamu mau)
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-        }
-    });
-}, { threshold: 0.15 });
+// Scroll fade
+const observer = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('show')), {threshold: 0.1});
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
-document.querySelectorAll('.scroll-fade').forEach(el => {
-    observer.observe(el);
-});
+// Musik, countdown, copy, ucapan (sama kayak sebelumnya, cuma dirapihin)
+const audio = document.getElementById('bgm'); audio.volume = 0.3;
+document.getElementById('musicBtn').onclick = () => audio.paused ? (audio.play(), document.getElementById('playIcon').style.display='none', document.getElementById('pauseIcon').style.display='block') : (audio.pause(), document.getElementById('playIcon').style.display='block', document.getElementById('pauseIcon').style.display='none');
 
-// Musik
-const audio = document.getElementById('bgm');
-const btn   = document.getElementById('musicBtn');
-const play  = document.getElementById('playIcon');
-const pause = document.getElementById('pauseIcon');
-audio.volume = 0.3;
-
-btn.onclick = () => {
-    if (audio.paused) {
-        audio.play();
-        play.style.display = 'none';
-        pause.style.display = 'block';
-    } else {
-        audio.pause();
-        play.style.display = 'block';
-        pause.style.display = 'none';
-    }
-};
-
-// Countdown
-const weddingDate = new Date("2025-12-15T10:00:00").getTime();
+const wedding = new Date("2025-12-15T10:00:00").getTime();
 setInterval(() => {
-    const now = new Date().getTime();
-    const distance = weddingDate - now;
-
-    if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "Acara sedang berlangsung ❤️";
-        return;
-    }
-
-    const days = Math.floor(distance / (1000*60*60*24));
-    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-    const seconds = Math.floor((distance % (1000*60)) / 1000);
-
-    document.getElementById("countdown").innerHTML = 
-        `${days} Hari : ${hours.toString().padStart(2,'0')} : ${minutes.toString().padStart(2,'0')} : ${seconds.toString().padStart(2,'0')}`;
+    const diff = wedding - new Date().getTime();
+    if (diff < 0) { document.getElementById("countdown").innerHTML = "Acara sedang berlangsung ❤️"; return; }
+    const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    document.getElementById("countdown").innerHTML = `${d} Hari : ${h.toString().padStart(2,0)} : ${m.toString().padStart(2,0)} : ${s.toString().padStart(2,0)}`;
 }, 1000);
 
-// Copy rekening
 function copyRek() {
-    const text = document.getElementById("norek").innerText;
-    navigator.clipboard.writeText(text);
-    const notif = document.getElementById("notif");
-    notif.style.display = "block";
-    setTimeout(() => notif.style.display = "none", 2000);
+    navigator.clipboard.writeText(document.getElementById("norek").innerText);
+    const n = document.getElementById("notif");
+    n.style.display = "block";
+    setTimeout(() => n.style.display = "none", 1500);
 }
 
-// Kirim ucapan
 function kirimUcapan() {
     const nama = document.getElementById("nama").value.trim();
-    const doa  = document.getElementById("doa").value.trim();
+    const doa = document.getElementById("doa").value.trim();
     if (!nama || !doa) return;
-
-    const list = document.getElementById("listUcapan");
     const div = document.createElement("div");
-    div.style = "margin-top:15px; padding:15px; background:rgba(255,255,255,0.2); border-radius:12px;";
+    div.className = "ucapan-item";
     div.innerHTML = `<strong>${nama}</strong><br><small>${new Date().toLocaleString('id-ID')}</small><br>${doa}`;
-    list.prepend(div);
-
+    document.getElementById("listUcapan").prepend(div);
     document.getElementById("nama").value = "";
     document.getElementById("doa").value = "";
 }
