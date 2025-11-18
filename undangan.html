@@ -26,37 +26,24 @@
             position: relative;
             z-index: 2;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 60px 20px 100px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
         }
 
-        /* ==== FADE IN YANG BARU & LEBIH SMOOTH ==== */
-        .fade-in {
+        /* EFEK SCROLL FADE-IN */
+        .scroll-fade {
             opacity: 0;
-            transform: translateY(40px);
-            animation: fadeInUp 1.2s ease-out forwards;
+            transform: translateY(50px);
+            transition: all 1s ease-out;
         }
-        .fade-in:nth-child(1)  { animation-delay: 0.4s; }
-        .fade-in:nth-child(2)  { animation-delay: 0.7s; }
-        .fade-in:nth-child(3)  { animation-delay: 1.0s; }
-        .fade-in:nth-child(4)  { animation-delay: 1.3s; }
-        .fade-in:nth-child(5)  { animation-delay: 1.6s; }
-        .fade-in:nth-child(6)  { animation-delay: 1.9s; }
-        .fade-in:nth-child(7)  { animation-delay: 2.2s; }
-        .fade-in:nth-child(8)  { animation-delay: 2.5s; }
-        .fade-in:nth-child(9)  { animation-delay: 2.8s; }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .scroll-fade.show {
+            opacity: 1;
+            transform: translateY(0);
         }
-        /* ========================================= */
+        /* akhir efek */
 
         .couple-photo {
             width: 260px; height: 260px;
@@ -64,14 +51,27 @@
             border-radius: 50%;
             border: 10px solid rgba(255,255,255,0.9);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-        .title { font-family: 'Playftair Display', serif; font-size: 2.8em; color: #d4af37; margin: 20px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.7); }
-        .subtitle { font-size: 1.3em; color: #f0e6d2; font-style: italic; margin-bottom: 50px; }
+        .title { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.8em; 
+            color: #d4af37; 
+            margin: 20px 0; 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7); 
+        }
+        .subtitle { 
+            font-size: 1.3em; 
+            color: #f0e6d2; 
+            font-style: italic; 
+            margin-bottom: 60px; 
+        }
 
-        .couple-names h2 { font-family: 'Playfair Display', serif; font-size: 2.1em; margin: 15px 0; text-shadow: 0 2px 8px rgba(0,0,0,0.7); }
-        .couple-names p { font-size: 1.1em; color: #ddd; margin: 8px 0; }
-
+        .couple-names h2 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.1em; 
+            margin: 15px 0; 
+        }
         .details {
             background: rgba(255,255,255,0.15);
             backdrop-filter: blur(12px);
@@ -79,15 +79,20 @@
             border-radius: 16px;
             width: 90%;
             max-width: 500px;
-            margin: 40px auto;
+            margin: 50px auto;
             border: 1px solid rgba(255,255,255,0.2);
         }
-        .details h3 { font-family: 'Playlier Display', serif; color: #d4af37; font-size: 1.8em; margin-bottom: 20px; }
-        .details p { font-size: 1.2em; margin: 12px 0; }
+        .details h3 { 
+            font-family: 'Playfair Display', serif; 
+            color: #d4af37; 
+            font-size: 1.8em; 
+            margin-bottom: 20px; 
+        }
 
         @media (max-width:480px) {
             .couple-photo { width:220px; height:220px; }
             .title { font-size:2.3em; }
+            .container { padding: 40px 15px 80px; }
         }
     </style>
 </head>
@@ -95,73 +100,71 @@
 <div class="overlay"></div>
 <div class="container">
 
-    <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo fade-in">
+    <img src="gambar_2.jpg" alt="Sandi & Ertia" class="couple-photo scroll-fade">
 
-    <h1 class="title fade-in">Dengan izin Allah</h1>
-    <p class="subtitle fade-in">Kami menikah — satu cerita, dua hati, satu tujuan</p>
+    <h1 class="title scroll-fade">Dengan izin Allah</h1>
+    <p class="subtitle scroll-fade">Kami menikah — satu cerita, dua hati, satu tujuan</p>
 
     <div class="couple-names">
-        <div class="fade-in">
+        <div class="scroll-fade">
             <h2>Sandi Maulana S.Pd</h2>
             <p>Putra bungsu dari Bapak Udis Subandi & Ibu Dede Jualiah</p>
         </div>
-        <div class="fade-in">
+        <div class="scroll-fade" style="margin-top:40px;">
             <h2>Ertia Agustina S.Kom</h2>
             <p>Putri Tunggal dari Bapak Gustana & Alm. Ibu Ernawati</p>
         </div>
     </div>
 
-    <div class="details fade-in">
+    <div class="details scroll-fade">
         <h3>Acara Pernikahan</h3>
         <p><strong>Sabtu, 15 Desember 2025</strong></p>
         <p><strong>Pukul 10.00 WIB – Selesai</strong></p>
         <p><strong>Hotel Mewah XYZ<br>Jl. Contoh No. 123, Jakarta</strong></p>
     </div>
 
-    <div class="details fade-in" id="countdownBox">
+    <div class="details scroll-fade" id="countdownBox">
         <h3>Hitung Mundur</h3>
-        <div id="countdown" style="font-size:1.6em; font-weight:bold; margin-top:10px;"></div>
+        <div id="countdown" style="font-size:1.6em; font-weight:bold; margin-top:15px;"></div>
     </div>
 
-    <div class="details fade-in">
+    <div class="details scroll-fade">
         <h3>Lokasi Acara</h3>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.8459489514154!2d106.8267468!3d-6.1590317"
-            width="100%" height="250" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
-        <a href="https://goo.gl/maps/xxxxx" target="_blank"
-            style="display:block; margin-top:15px; padding:12px; background:#d4af37; color:#000; text-decoration:none; border-radius:10px; font-weight:bold;">
+            width="100%" height="250" style="border:0; border-radius:12px; margin-top:15px;" allowfullscreen="" loading="lazy"></iframe>
+        <a href="https://maps.google.com/maps?q=Hotel+Mewah+XYZ+Jakarta" target="_blank"
+            style="display:block; margin-top:20px; padding:14px; background:#d4af37; color:#000; text-decoration:none; border-radius:12px; font-weight:bold;">
             Buka di Google Maps
         </a>
     </div>
 
-    <div class="details fade-in">
+    <div class="details scroll-fade">
         <h3>Amplop Digital</h3>
-        <p style="font-size:1.2em;">
+        <p style="font-size:1.2em;line-height:1.8;">
             Bank BCA<br>
-            <strong id="norek">1234567890</strong><br>
+            <strong id="norek>1234567890</strong><br>
             a.n <strong>Sandi Maulana</strong>
         </p>
-        <button onclick="copyRek()"
-            style="margin-top:15px; padding:10px 20px; background:#d4af37; color:#000; border:none; border-radius:10px; font-size:1.1em; cursor:pointer; font-weight:bold;">
+        <button onclick="copyRek()" style="margin-top:15px; padding:12px 30px; background:#d4af37; color:#000; border:none; border-radius:12px; font-size:1.1em; cursor:pointer; font-weight:bold;">
             Salin Nomor Rekening
         </button>
-        <p id="notif" style="margin-top:10px; color:lightgreen; display:none;">Nomor rekening disalin!</p>
+        <p id="notif" style="margin-top:10px; color:#90ee90; display:none; font-weight:bold;">Nomor rekening disalin!</p>
     </div>
 
-    <div class="details fade-in">
+    <div class="details scroll-fade">
         <h3>Doa & Ucapan</h3>
-        <input id="nama" placeholder="Nama" style="width:100%; padding:12px; border-radius:8px; border:none; margin-bottom:10px;">
-        <textarea id="doa" placeholder="Tulis doa terbaik..." style="width:100%; padding:12px; height:100px; border-radius:8px; border:none;"></textarea>
-        <button onclick="kirimUcapan()"
-            style="margin-top:10px; padding:12px; background:#d4af37; color:#000; font-weight:bold; border:none; border-radius:10px; cursor:pointer;">
-            Kirim
+        <input id="nama" placeholder="Nama kamu" style="width:100%; padding:12px; margin:10px 0; border-radius:8px; border:none;">
+        <textarea id="doa" placeholder="Tulis doa & ucapan terbaikmu..." style="width:100%; padding:12px; height:100px; margin:10px 0 15px; border-radius:8px; border:none; resize:none;"></textarea>
+        <button onclick="kirimUcapan()" style="padding:12px 30px; background:#d4af37; color:#000; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">
+            Kirim Ucapan
         </button>
-        <div id="listUcapan" style="margin-top:20px; text-align:left;"></div>
+        <div id="listUcapan" style="margin-top:25px; text-align:left;"></div>
     </div>
 
-    <div class="fade-in">
+    <div class="scroll-fade" style="margin-top:50px;">
         <p>Terima kasih atas doa restu dan kehadirannya</p>
-        <p>Dengan cinta,</p>
-        <p><strong>Sandi & Ertia</strong></p>
+        <p style="margin:15px 0;">Dengan cinta,</p>
+        <p style="font-size:1.4em;"><strong>Sandi & Ertia</strong></p>
     </div>
 
 </div>
@@ -170,64 +173,88 @@
 <audio id="bgm" loop playsinline preload="auto">
     <source src="thousandyears.mp3" type="audio/mpeg">
 </audio>
-<div id="musicBtn" style="position:fixed; bottom:20px; right:20px; width:50px; height:50px; background:rgba(255,255,255,0.18); backdrop-filter:blur(15px); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:9999; cursor:pointer; box-shadow:0 6px 22px rgba(0,0,0,0.45); border:1px solid rgba(255,255,255,0.3);">
-    <svg id="playIcon" viewBox="0 0 24 24" width="24" height="24" fill="#d4af37"><path d="M8 5v14l11-7z"/></svg>
-    <svg id="pauseIcon" viewBox="0 0 24 24" width="20" height="20" fill="#d4af37" style="display:none;"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+<div id="musicBtn" style="position:fixed; bottom:25px; right:25px; width:56px; height:56px; background:rgba(255,255,255,0.2); backdrop-filter:blur(15px); border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:9999; cursor:pointer; box-shadow:0 8px 25px rgba(0,0,0,0.5);">
+    <svg id="playIcon" viewBox="0 0 24 24" width="28" height="28" fill="#d4af37"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="pauseIcon" viewBox="0 0 24 24" width="24" height="24" fill="#d4af37" style="display:none;"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
 </div>
 
 <script>
-    // Musik
-    const audio = document.getElementById('bgm');
-    const btn   = document.getElementById('musicBtn');
-    const play  = document.getElementById('playIcon');
-    const pause = document.getElementById('pauseIcon');
-    audio.volume = 0.25;
-    audio.currentTime = 32;
-    btn.addEventListener('click', () => {
-        if (audio.paused) { audio.play(); play.style.display='none'; pause.style.display='block'; }
-        else { audio.pause(); play.style.display='block'; pause.style.display='none'; }
-    });
-
-    // Countdown
-    const weddingDate = new Date("December 15, 2025 10:00:00").getTime();
-    setInterval(() => {
-        const now = new Date().getTime();
-        const distance = weddingDate - now;
-        if (distance < 0) {
-            document.getElementById("countdown").innerHTML = "Acara sedang berlangsung";
-            return;
+// SCROLL FADE IN (yang kamu mau)
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('show');
         }
-        const days = Math.floor(distance / (1000*60*60*24));
-        const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
-        const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
-        const seconds = Math.floor((distance % (1000*60)) / 1000);
-        document.getElementById("countdown").innerHTML = `${days} Hari : ${hours} Jam : ${minutes} Menit : ${seconds} Detik`;
-    }, 1000);
+    });
+}, { threshold: 0.15 });
 
-    // Copy Rekening
-    function copyRek() {
-        const text = document.getElementById("norek").innerText;
-        navigator.clipboard.writeText(text);
-        const notif = document.getElementById("notif");
-        notif.style.display = "block";
-        setTimeout(() => notif.style.display = "none", 2000);
+document.querySelectorAll('.scroll-fade').forEach(el => {
+    observer.observe(el);
+});
+
+// Musik
+const audio = document.getElementById('bgm');
+const btn   = document.getElementById('musicBtn');
+const play  = document.getElementById('playIcon');
+const pause = document.getElementById('pauseIcon');
+audio.volume = 0.3;
+
+btn.onclick = () => {
+    if (audio.paused) {
+        audio.play();
+        play.style.display = 'none';
+        pause.style.display = 'block';
+    } else {
+        audio.pause();
+        play.style.display = 'block';
+        pause.style.display = 'none';
+    }
+};
+
+// Countdown
+const weddingDate = new Date("2025-12-15T10:00:00").getTime();
+setInterval(() => {
+    const now = new Date().getTime();
+    const distance = weddingDate - now;
+
+    if (distance < 0) {
+        document.getElementById("countdown").innerHTML = "Acara sedang berlangsung ❤️";
+        return;
     }
 
-    // Kirim Ucapan
-    function kirimUcapan() {
-        const nama = document.getElementById("nama").value.trim();
-        const doa  = document.getElementById("doa").value.trim();
-        if (!nama || !doa) return;
+    const days = Math.floor(distance / (1000*60*60*24));
+    const hours = Math.floor((distance % (1000*60*60*24)) / (1000*60*60));
+    const minutes = Math.floor((distance % (1000*60*60)) / (1000*60));
+    const seconds = Math.floor((distance % (1000*60)) / 1000);
 
-        const box = document.getElementById("listUcapan");
-        const item = document.createElement("div");
-        item.style = "margin-bottom:15px; padding:12px; background:rgba(255,255,255,0.2); border-radius:10px;";
-        item.innerHTML = `<strong>${nama}</strong><br>${doa}`;
-        box.prepend(item);
+    document.getElementById("countdown").innerHTML = 
+        `${days} Hari : ${hours.toString().padStart(2,'0')} : ${minutes.toString().padStart(2,'0')} : ${seconds.toString().padStart(2,'0')}`;
+}, 1000);
 
-        document.getElementById("nama").value = "";
-        document.getElementById("doa").value = "";
-    }
+// Copy rekening
+function copyRek() {
+    const text = document.getElementById("norek").innerText;
+    navigator.clipboard.writeText(text);
+    const notif = document.getElementById("notif");
+    notif.style.display = "block";
+    setTimeout(() => notif.style.display = "none", 2000);
+}
+
+// Kirim ucapan
+function kirimUcapan() {
+    const nama = document.getElementById("nama").value.trim();
+    const doa  = document.getElementById("doa").value.trim();
+    if (!nama || !doa) return;
+
+    const list = document.getElementById("listUcapan");
+    const div = document.createElement("div");
+    div.style = "margin-top:15px; padding:15px; background:rgba(255,255,255,0.2); border-radius:12px;";
+    div.innerHTML = `<strong>${nama}</strong><br><small>${new Date().toLocaleString('id-ID')}</small><br>${doa}`;
+    list.prepend(div);
+
+    document.getElementById("nama").value = "";
+    document.getElementById("doa").value = "";
+}
 </script>
 </body>
 </html>
