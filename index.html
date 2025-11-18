@@ -257,7 +257,7 @@
 
 
 
-<!-- LOVE BERTEBARAN + BISA DIGERET & LANGSUNG RAME PAS BUKA -->
+<!-- LOVE LANGSUNG ADA PAS BUKA + JARANG & ELEGAN -->
 <div id="lovely"></div>
 
 <style>
@@ -271,21 +271,21 @@
     }
     .love {
         position: absolute;
-        width: 34px;
-        height: 34px;
-        opacity: 0.48;
+        width: 28px;
+        height: 28px;
+        opacity: 0.32;
         pointer-events: auto;
         user-select: none;
         cursor: grab;
-        animation: fall linear infinite;
-        transition: all 0.15s ease;
+        animation: fall linear forwards;
+        transition: all 0.2s ease;
     }
-    .love:active { cursor: grabbing; transform: scale(1.6) !important; }
+    .love:active { cursor: grabbing; transform: scale(1.7) !important; }
     @keyframes fall {
-        0%   { transform: translateY(-160vh) rotate(0deg); opacity: 0; }
-        10%  { opacity: 0.48; }
-        90%  { opacity: 0.48; }
-        100% { transform: translateY(120vh) rotate(720deg); opacity: 0; }
+        0%   { transform: translateY(-160vh) rotate(0deg);   opacity: 0; }
+        18%  { opacity: 0.32; }
+        82%  { opacity: 0.32; }
+        100% { transform: translateY(120vh) rotate(540deg); opacity: 0; }
     }
 </style>
 
@@ -293,54 +293,51 @@
     const box = document.getElementById('lovely');
     const svg = `<svg viewBox="0 0 24 24" fill="#ff69b4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
 
-    function spawn() {
+    function spawn(delay = 0, startPos = null) {
         const h = document.createElement('div');
         h.className = 'love';
         h.innerHTML = svg;
-
         h.style.left = Math.random() * 100 + 'vw';
-        h.style.animationDuration = Math.random() * 10 + 12 + 's'; // 12–22 detik
+        h.style.animationDuration = Math.random() * 18 + 25 + 's';
 
-        // BISA DIGERET PAKE JARI (SUPER SMOOTH)
-        let isDragging = false;
-        const move = (e) => {
-            if (!isDragging) return;
+        // Kalo startPos null = mulai dari atas, kalo ada = langsung muncul di posisi itu
+        if (startPos !== null) {
+            h.style.top = startPos + 'vh';
+            h.style.animation = 'none';
+            const progress = startPos / 280; // 280vh total perjalanan
+            h.style.opacity = progress < 0.18 ? 0 : progress > 0.82 ? (1 - (progress - 0.82)/0.18)*0.32 : 0.32;
+        }
+
+        // Drag tetap ada
+        let dragging = false;
+        const move = e => {
+            if (!dragging) return;
             e.preventDefault();
-            const touch = e.touches ? e.touches[0] : e;
+            const t = e.touches ? e.touches[0] : e;
             h.style.position = 'fixed';
-            h.style.left = touch.clientX - 17 + 'px';
-            h.style.top = touch.clientY - 17 + 'px';
-            h.style.transform = 'rotate(45deg) scale(1.8)';
-            h.style.opacity = '0.9';
+            h.style.left = t.clientX - 14 + 'px';
+            h.style.top  = t.clientY - 14 + 'px';
+            h.style.transform = 'rotate(60deg) scale(1.8)';
+            h.style.opacity = '0.7';
             h.style.animation = 'none';
         };
-        const start = (e) => {
-            isDragging = true;
-            document.addEventListener('mousemove', move);
-            document.addEventListener('touchmove', move);
-        };
-        const end = () => {
-            if (!isDragging) return;
-            isDragging = false;
-            document.removeEventListener('mousemove', move);
-            document.removeEventListener('touchmove', move);
-            setTimeout(() => h.remove(), 1200);
-        };
-
-        h.addEventListener('mousedown', start);
-        h.addEventListener('touchstart', start);
-        h.addEventListener('mouseup', end);
-        h.addEventListener('touchend', end);
+        h.addEventListener('mousedown', () => { dragging = true; document.addEventListener('mousemove', move); });
+        h.addEventListener('touchstart', () => { dragging = true; document.addEventListener('touchmove', move); });
+        h.addEventListener('mouseup', () => { dragging = false; document.removeEventListener('mousemove', move); setTimeout(() => h.remove(), 1800); });
+        h.addEventListener('touchend', () => { dragging = false; document.removeEventListener('touchmove', move); setTimeout(() => h.remove(), 1800); });
 
         box.appendChild(h);
-        setTimeout(() => h.remove(), 30000);
+        setTimeout(() => h.remove(), 50000);
     }
 
-    
-    for(let i = 0; i < 15; i++) {
-    setTimeout(spawn, i * 600);
-}
-setInterval(spawn, 2400);
+    // LANGSUNG ADA 8 LOVE PAS HALAMAN DIBUKA (tanpa jeda)
+    const positions = [10, 25, 40, 55, 70, 85, 100, 115]; // posisi vertikal acak
+    positions.forEach(pos => {
+        setTimeout(() => spawn(0, pos), Math.random() * 300); // muncul dalam 0.3 detik
+    });
+
+    // Setelah itu baru muncul jarang-jarang
+    setInterval(() => spawn(), 5200); // tiap ±5.2 detik
 </script>
 
 
