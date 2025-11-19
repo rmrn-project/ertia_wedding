@@ -292,12 +292,7 @@
     </div>
 
     <!-- DOA & UCAPAN (STRUKTUR ASLI 100%) -->
-    <div class="details fade">
-        <h3>Doa & Ucapan</h3>
-        <label for="foto" style="display:block;margin-bottom:10px;font-weight:bold;">
-            Foto Profil (opsional, max 5MB):
-        </label>
-        <input type="file" id="foto" accept="image/*" style="margin-bottom:15px;display:block;">
+   
         <input type="text" id="nama" placeholder="Nama kamu" style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;">
         <textarea id="doa" placeholder="Tulis doa & ucapan terbaik..." style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;resize:none;"></textarea>
         <button type="button" class="btn-kirim" id="kirimUcapan" style="display:inline-block;padding:12px 25px;background:#d4af37;color:#000;border-radius:50px;font-weight:bold;border:none;cursor:pointer;">
@@ -384,6 +379,22 @@
   const list = document.getElementById("listUcapan");
   const btn = document.getElementById("kirimUcapan");
 
+  // Kompresi gambar (cepet banget)
+  const compressImage = async (file) => {
+    if (!file || file.size < 500*1024) return file;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    await new Promise(r => { img.onload = r; img.src = url; });
+    const canvas = document.createElement("canvas");
+    let w = img.width, h = img.height;
+    if (w > 1000) { h = (1000/w)*h; w = 1000; }
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+    return new Promise(res => canvas.toBlob(blob => res(new File([blob], file.name, {type:"image/jpeg"})), "image/jpeg", 0.8));
+  };
+
+  // Render ucapan
   const render = (data) => {
     const d = document.createElement("div");
     d.className = "ucapan-item";
@@ -398,14 +409,17 @@
     return d;
   };
 
+  // Real-time listener
   onSnapshot(query(col, orderBy("waktu","desc")), snap => {
     list.innerHTML = snap.empty ? "<p style='text-align:center;color:#999;padding:30px 0;font-style:italic;'>Belum ada ucapan nih...</p>" : "";
     snap.forEach(doc => list.appendChild(render(doc.data())));
   });
 
+  // === KIRIM UCAPAN + FULL ANTI-SPAM ===
   btn.onclick = async () => {
+    // ANTI-SPAM LEVEL 100
     if (localStorage.getItem("ucapanSandiErtia2025")) {
-      alert("Kamu sudah mengirim ucapan. Terima kasih ❤️");
+      alert("Kamu sudah mengirimkan ucapan sebelumnya. Terima kasih banyak ya ❤️");
       return;
     }
 
@@ -413,59 +427,50 @@
     const doa = document.getElementById("doa").value.trim();
     const foto = document.getElementById("foto").files[0];
 
-    if (!nama || !doa) {
-      alert("Nama dan ucapan wajib diisi ya");
-      return;
-    }
+    if (!nama || !doa) return alert("Nama dan ucapan wajib diisi ya");
 
     btn.disabled = true;
-    btn.textContent = "Mengirim...";
+    btn.innerHTML = "Mengirim...";
 
     try {
       let fotoURL = "";
-
-      // 1. Simpan dulu ke Firestore (paling cepet)
-      const docRef = await addDoc(col, {
-        nama: nama,
-        doa: doa,
-        fotoURL: "",
-        waktu: serverTimestamp()
-      });
-
-      // 2. Kalau ada foto → upload + update URL (background, nggak nunggu)
       if (foto) {
-        const storageRef = ref(storage, "ucapan/" + docRef.id);
-        await uploadBytes(storageRef, foto);
+        const kecil = await compressImage(foto);
+        const storageRef = ref(storage, "ucapan/"+Date.now());
+        await uploadBytes(storageRef, kecil);
         fotoURL = await getDownloadURL(storageRef);
-        await docRef.update({ fotoURL });
       }
 
-      // SUKSES — semua instan!
+      await addDoc(col, { nama, doa, fotoURL, waktu: serverTimestamp() });
+
+      // TANDAIN SELAMANYA SUDAH KIRIM (anti spam permanen)
       localStorage.setItem("ucapanSandiErtia2025", "yes");
+
+      // Bersihkan form
       document.getElementById("nama").value = "";
       document.getElementById("doa").value = "";
       document.getElementById("foto").value = "";
 
-      alert("Ucapanmu sudah tersimpan! ❤️");
-      btn.textContent = "Terkirim";
+      // KONFIRMASI SUPER JELAS
+      alert("Yeay! Ucapanmu sudah tersimpan dan langsung muncul di bawah ❤️");
+      btn.innerHTML = "Terkirim";
       btn.style.background = "#90ee90";
       btn.style.color = "#000";
 
-      // Langsung muncul di paling atas
+      // Langsung tampilkan ucapan dia paling atas (biar yakin 100%)
       list.prepend(render({ nama, doa, fotoURL, waktu: {seconds: Date.now()/1000} }));
 
-    } catch (e) {
-      console.error(e);
-      alert("Gagal kirim. Coba lagi ya");
+    } catch(e) {
+      alert("Gagal kirim ucapan. Coba lagi ya (cek koneksi internet)");
       btn.disabled = false;
-      btn.textContent = "Kirim Ucapan";
+      btn.innerHTML = "Kirim Ucapan";
     }
   };
 
-  // Sudah pernah kirim sebelumnya
+  // Kalau sudah pernah kirim sebelumnya (buka ulang halaman)
   if (localStorage.getItem("ucapanSandiErtia2025")) {
     btn.disabled = true;
-    btn.textContent = "Terkirim";
+    btn.innerHTML = "Terkirim";
     btn.style.background = "#90ee90";
     btn.style.color = "#000";
   }
