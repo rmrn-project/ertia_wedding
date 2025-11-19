@@ -42,55 +42,53 @@
 
 
 
-        .photo-wrapper {
-    position: relative;
-    display: inline-block;
-    border-radius: 20px;
-    background: linear-gradient(45deg, #d4af37, #f4e4bc, #d4af37, #b8973a);
-    background-size: 400% 400%;
-    animation: gradient 8s ease infinite;
-    box-shadow: 
-        0 0 30px rgba(212, 175, 55, 0.6),
-        0 0 60px rgba(212, 175, 55, 0.3),
-        0 20px 50px rgba(0,0,0,0.7);
 
-    /* height portrait & biar foto ngikutin */
-    height: 560px; 
-    padding: 0; 
-    overflow: hidden;
+.couple-photo {  
+width: 280px;  
+height: auto; /* portrait */  
+border-radius: 20px; /* jangan pakai % atau 50% */  
+object-fit: cover;  
+margin-bottom: 40px;  
+display: block;  
+position: relative;  
+z-index: 2;
+
 }
 
-.couple-photo {
-    width: 100%;
-    height: 100%; /* auto ngikut wrapper */
-    object-fit: cover;
-    border-radius: 20px; 
-    display: block;
-    margin-bottom: 40px;
-    position: relative;
-    z-index: 2;
+.photo-wrapper {
+position: relative;
+display: inline-block;
+padding: 12px; /* spasi buat border love */
+border-radius: 20px;
+background: linear-gradient(45deg, #d4af37, #f4e4bc, #d4af37, #b8973a);
+background-size: 400% 400%;
+animation: gradient 8s ease infinite;
+box-shadow:
+0 0 30px rgba(212, 175, 55, 0.6),
+0 0 60px rgba(212, 175, 55, 0.3),
+0 20px 50px rgba(0,0,0,0.7);
 }
 
 /* Love floating */
 .photo-wrapper::before,
 .photo-wrapper::after {
-    content: "❤";
-    position: absolute;
-    font-size: 22px;
-    opacity: 0.7;
-    color: #ff6b81;
-    animation: floatLove 2.5s infinite ease-in-out;
+content: "❤";
+position: absolute;
+font-size: 22px;
+opacity: 0.7;
+color: #ff6b81;
+animation: floatLove 2.5s infinite ease-in-out;
 }
 
-/* Love kiri */
+/* Love kiri /
 .photo-wrapper::before { left: -20px; top: 30%; }
-/* Love kanan */
+/ Love kanan */
 .photo-wrapper::after { right: -20px; top: 60%; }
 
 @keyframes floatLove {
-    0% { transform: translateY(0); opacity: 0.6; }
-    50% { transform: translateY(-10px); opacity: 1; }
-    100% { transform: translateY(0); opacity: 0.6; }
+0% { transform: translateY(0); opacity: 0.6; }
+50% { transform: translateY(-10px); opacity: 1; }
+100% { transform: translateY(0); opacity: 0.6; }
 }
 
 
