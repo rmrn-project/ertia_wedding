@@ -428,8 +428,6 @@ user-select: none; touch-action: none;
 </div>
 
 
-<script type="module" src="doaucapan.js"></script>
-
 
 
 
@@ -563,14 +561,16 @@ function copyRek(norekId) {
 
 
 
-
-
-
 // Slider manual
 let startX = 0;
 const slides = document.querySelector('.slides');
 slides.addEventListener('touchstart', e => startX = e.touches[0].clientX);
 slides.addEventListener('touchmove', e => e.preventDefault());
 </script>
+
+
+
+<script type="module" src="doaucapan.js"></script>
+
 </body>
 </html>
