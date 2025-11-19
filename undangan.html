@@ -573,7 +573,116 @@ slides.addEventListener('touchmove', e => e.preventDefault());
 
 
 
-<script type="module" src="doaucapan.js"></script>
+
+
+
+
+<!-- MASUKIN DI ATAS </body> (cukup sekali) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore-compat.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage-compat.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCBNM5NpBwHOwyla5LcBZId7SCUIBgthnw",
+    authDomain: "ertiawed.firebaseapp.com",
+    projectId: "ertiawed",
+    storageBucket: "ertiawed.firebasestorage.app",
+    messagingSenderId: "580476029012",
+    appId: "1:580476029012:web:266389781d60b1bad4c5c1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+  const ucapanRef = collection(db, "ucapan");
+  let isSending = false;
+
+  // === Render ucapan ===
+  function render(data, isLocal = false) {
+    const { nama, doa, fotoURL, waktu } = data;
+    const div = document.createElement("div");
+    div.className = "ucapan-item";
+    if (isLocal) div.style.cssText = "border:2px solid #d4af37;border-radius:15px;";
+
+    const t = waktu?.seconds ? new Date(waktu.seconds*1000).toLocaleString("id-ID", {dateStyle:"medium", timeStyle:"short"}) : waktu || "Baru saja";
+
+    div.innerHTML = `
+      ${fotoURL ? `<img src="${fotoURL}" loading="lazy" style="width:50px;height:50px;border-radius:50%;object-fit:cover;margin-right:12px;float:left;">` : ""}
+      <div style="${fotoURL?"overflow:hidden;":""}">
+        <strong style="color:#d4af37;">${nama}</strong>
+        <small style="color:#ccc;display:block;margin:4px 0;">${t}</small>
+        <p style="margin:6px 0;line-height:1.7;word-break:break-word;">${doa.replace(/\n/g,"<br>")}</p>
+      </div>
+      <div style="clear:both;"></div>
+    `;
+    return div;
+  }
+
+  // === Kirim ucapan (anti-spam tetap utuh) ===
+  async function kirim() {
+    if (localStorage.getItem("sudahKirim")) { alert("Kamu sudah mengirim ucapan. Terima kasih ❤️"); return; }
+    if (isSending) return;
+    isSending = true;
+
+    const btn = document.querySelector(".btn-kirim");
+    btn.disabled = true; btn.innerText = "Mengirim...";
+
+    const nama = document.getElementById("nama").value.trim();
+    const doa = document.getElementById("doa").value.trim();
+    const foto = document.getElementById("foto")?.files[0];
+
+    if (!nama || !doa) { alert("Nama & ucapan wajib diisi ya 🙏"); btn.disabled=false; btn.innerText="Kirim Ucapan"; isSending=false; return; }
+
+    let fotoURL = "";
+    try {
+      if (foto) {
+        const compressed = foto.size > 2*1024*1024 
+          ? await (await import("https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js")).default(foto, {maxSizeMB:1.5, maxWidthOrHeight:800})
+          : foto;
+        const storageRef = ref(storage, `ucapan/${Date.now()}_${compressed.name}`);
+        await uploadBytes(storageRef, compressed);
+        fotoURL = await getDownloadURL(storageRef);
+      }
+
+      await addDoc(ucapanRef, { nama, doa, fotoURL, waktu: serverTimestamp() });
+      localStorage.setItem("sudahKirim", JSON.stringify({nama, doa, fotoURL, waktu:new Date().toLocaleString("id-ID")}));
+
+      document.getElementById("nama").value = "";
+      document.getElementById("doa").value = "";
+      document.getElementById("foto").value = "";
+
+      alert("Terima kasih! Ucapanmu sudah terkirim 🎉");
+      btn.innerText = "Terkirim ✓"; btn.style.opacity = "0.6";
+    } catch(e) {
+      console.error(e);
+      alert("Gagal kirim, coba lagi ya 🙏");
+      btn.disabled = false; btn.innerText = "Kirim Ucapan";
+    }
+    isSending = false;
+  }
+
+  // === Load real-time ===
+  const q = query(ucapanRef, orderBy("waktu","desc"));
+  onSnapshot(q, snap => {
+    const list = document.getElementById("listUcapan");
+    list.innerHTML = snap.empty ? '<p style="text-align:center;color:#aaa;padding:30px 0;font-style:italic;">Belum ada ucapan nih...</p>' : "";
+    snap.forEach(doc => list.appendChild(render(doc.data())));
+  });
+
+  // === DOM Ready ===
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelector(".btn-kirim").addEventListener("click", kirim);
+
+    if (localStorage.getItem("sudahKirim")) {
+      const u = JSON.parse(localStorage.getItem("sudahKirim"));
+      document.querySelector(".btn-kirim").disabled = true;
+      document.querySelector(".btn-kirim").innerText = "Terkirim ✓";
+      document.querySelector(".btn-kirim").style.opacity = "0.6";
+      document.getElementById("listUcapan").prepend(render(u, true));
+    }
+  });
+</script>
 
 </body>
 </html>
