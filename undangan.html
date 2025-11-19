@@ -606,6 +606,26 @@ function stopDrag() {
 
 
 
+
+// Play/Pause video
+const video = document.getElementById('videoStory');
+const controlBtn = document.getElementById('videoControl');
+
+controlBtn.addEventListener('click', () => {
+    if (video.paused) {
+        video.play();
+        controlBtn.textContent = '⏸';
+    } else {
+        video.pause();
+        controlBtn.textContent = '▶️';
+    }
+});
+
+
+
+
+
+
 // Copy rekening dinamis
 function copyRek(norekId) {
     const elem = document.getElementById(norekId); // Ambil nomor rekening
