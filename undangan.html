@@ -202,22 +202,23 @@
             .gallery { max-width: 340px; }
         }
 
-/* SLIDER DARI KANAN KE KIRI — SUPER MULUS */
-#sliderUcapan {
+#listUcapan {
     display: flex;
-    animation: scrollKiri 45s linear infinite;
+    gap: 16px;
+    overflow-x: auto;           /* biar bisa scroll pakai jari */
+    padding: 10px 0;
+    scrollbar-width: none;      /* sembunyiin scrollbar (Firefox) */
 }
-#sliderUcapan:hover, #sliderUcapan:active {
-    animation-play-state: paused; /* pause saat di-hover atau di-tap di HP */
-}
-@keyframes scrollKiri {
-    0%   { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
+#listUcapan::-webkit-scrollbar { display: none; } /* sembunyiin scrollbar (Chrome/Safari) */
 
-/* Biar animasi nggak putus (duplikat konten) */
-.ucapan-clone { display: flex !important; gap:18px; padding-left:18px; }
-
+.ucapan-item {
+    flex-shrink: 0;
+    width: 280px;
+    background: rgba(255,255,255,0.15);
+    padding: 18px;
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+}
 
     </style>
 </head>
