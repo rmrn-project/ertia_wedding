@@ -44,15 +44,20 @@
 
         .couple-photo {
     width: 280px;
-    height: 560px;
-    border-radius: 20%;
+    height: 560px; /* portrait */
+    border-radius: 20px; /* jangan pakai % atau 50% */
     object-fit: cover;
     margin-bottom: 40px;
+    display: block;
     position: relative;
     z-index: 2;
-    
-    /* Border love gold + glow */
+}
+
+.photo-wrapper {
+    position: relative;
+    display: inline-block;
     padding: 12px; /* spasi buat border love */
+    border-radius: 20px;
     background: linear-gradient(45deg, #d4af37, #f4e4bc, #d4af37, #b8973a);
     background-size: 400% 400%;
     animation: gradient 8s ease infinite;
@@ -62,11 +67,7 @@
         0 20px 50px rgba(0,0,0,0.7);
 }
 
-.photo-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
+/* Love floating */
 .photo-wrapper::before,
 .photo-wrapper::after {
     content: "❤";
@@ -78,23 +79,15 @@
 }
 
 /* Love kiri */
-.photo-wrapper::before {
-    left: -20px;
-    top: 30%;
-}
-
+.photo-wrapper::before { left: -20px; top: 30%; }
 /* Love kanan */
-.photo-wrapper::after {
-    right: -20px;
-    top: 60%;
-}
+.photo-wrapper::after { right: -20px; top: 60%; }
 
 @keyframes floatLove {
     0% { transform: translateY(0); opacity: 0.6; }
     50% { transform: translateY(-10px); opacity: 1; }
     100% { transform: translateY(0); opacity: 0.6; }
 }
-
 
 
 
