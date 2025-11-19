@@ -218,6 +218,77 @@ animation: floatLove 2.5s infinite ease-in-out;
 
 
 
+
+
+/* STORYLINE */
+.video-story-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+/* Video styling */
+.video-story {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+/* Overlay teks */
+.video-overlay {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #f4e4bc;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+}
+
+.overlay-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2em;
+    margin: 0;
+}
+
+.overlay-subtext {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1em;
+    margin: 5px 0 0;
+}
+
+/* Tombol play/pause */
+.video-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(212, 175, 55, 0.8);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    transition: background 0.3s;
+}
+
+.video-control:hover {
+    background: rgba(212, 175, 55, 1);
+}
+
+
+
+
+
+
+
+
         /* TOMBOL SALIN KECIL */
         .norek { font-size: 1.8em; font-weight: bold; letter-spacing: 2px; margin: 15px 0; }
         .btn-salin {
@@ -338,6 +409,27 @@ user-select: none; touch-action: none;
             <img src="foto5.jpg" alt="Foto 5">
         </div>
     </div>
+
+
+
+
+<!-- VIDEO PERJALANAN MEMPELAI -->
+<div class="video-story-wrapper fade">
+    <video id="videoStory" class="video-story" autoplay muted loop playsinline>
+        <source src="storyline.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <!-- Overlay teks -->
+    <div class="video-overlay">
+        <p class="overlay-text">Perjalanan Cinta Sandi & Ertia</p>
+        <p class="overlay-subtext">Sejak 2015 hingga hari ini</p>
+    </div>
+    <!-- Tombol play/pause -->
+    <button class="video-control" id="videoControl">⏸</button>
+</div>
+
+
+
 
 
 
