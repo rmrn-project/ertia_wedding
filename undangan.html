@@ -418,7 +418,7 @@ user-select: none; touch-action: none;
               style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;resize:none;"></textarea>
 
     <!-- Tombol kirim -->
-    <button class="btn-kirim" onclick="kirimUcapan()" 
+    <button class="btn-kirim" 
             style="display:inline-block;padding:12px 25px;background:#d4af37;color:#000;border-radius:50px;font-weight:bold;border:none;cursor:pointer;">
         Kirim Ucapan
     </button>
@@ -426,6 +426,13 @@ user-select: none; touch-action: none;
     <!-- List ucapan -->
     <div id="listUcapan" style="margin-top:20px;"></div>
 </div>
+
+
+<script type="module" src="doaucapan.js"></script>
+
+
+
+
 
 <!-- Penutup / ucapan terima kasih -->
 <div class="fade" style="margin-top:60px;text-align:center;">
@@ -554,119 +561,6 @@ function copyRek(norekId) {
     });
 }
 
-
-
-
-
-/* ===========================================
-   KONFIGURASI GOOGLE SHEET
-=========================================== */
-const SCRIPT_URL = "PASTE_URL_WEB_APP_KAMU"; // Ganti dengan URL Apps Script kamu
-let isSending = false; // anti double-click
-
-
-/* ===========================================
-   KIRIM UCAPAN + ANTI SPAM
-=========================================== */
-function kirimUcapan() {
-
-    // ==== ANTI SPAM: Cek sudah pernah kirim ====
-    if (localStorage.getItem("ucapanUser")) {
-        alert("Kamu sudah mengirim 1 ucapan. Terima kasih 🙏");
-        return;
-    }
-
-    // ==== ANTI SPAM: Lock tombol ====
-    if (isSending) return;
-    isSending = true;
-
-    const btn = document.querySelector(".btn-kirim");
-    btn.disabled = true;
-    btn.innerText = "Mengirim...";
-
-    const nama = document.getElementById("nama").value.trim();
-    const doa = document.getElementById("doa").value.trim();
-
-    if (!nama || !doa) {
-        alert("Masukkan nama & doa dulu ya 🙏");
-        isSending = false;
-        btn.disabled = false;
-        btn.innerText = "Kirim Ucapan";
-        return;
-    }
-
-    // ==== 1. Tampilkan langsung di halaman ====
-    const div = document.createElement("div");
-    div.className = "ucapan-item";
-    const waktu = new Date().toLocaleString('id-ID');
-    div.innerHTML = `
-        <strong>${nama}</strong><br>
-        <small>${waktu}</small><br>
-        ${doa}
-    `;
-    document.getElementById("listUcapan").prepend(div);
-
-
-    // ==== 2. Kirim ke Google Sheet ====
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({
-            nama: nama,
-            doa: doa,
-            waktu: waktu,
-            userAgent: navigator.userAgent
-        }),
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(() => {
-        console.log("Terkirim ke Google Sheet.");
-    })
-    .catch(err => {
-        console.log("Gagal kirim ke Google Sheet:", err);
-    });
-
-    // ==== 3. Simpan sebagai bukti + anti spam ====
-    localStorage.setItem("ucapanUser", JSON.stringify({
-        nama: nama,
-        doa: doa,
-        waktu: waktu
-    }));
-
-    // ==== 4. Reset form + lock tombol ====
-    document.getElementById("nama").value = "";
-    document.getElementById("doa").value = "";
-
-    btn.innerText = "Sudah Mengirim";
-    btn.style.opacity = 0.6;
-}
-
-
-/* ===========================================
-   LOAD UCAPAN USER SAAT HALAMAN DIBUKA
-=========================================== */
-window.onload = () => {
-    const data = localStorage.getItem("ucapanUser");
-
-    const btn = document.querySelector(".btn-kirim");
-
-    if (data) {
-        const u = JSON.parse(data);
-
-        const div = document.createElement("div");
-        div.className = "ucapan-item";
-        div.innerHTML = `
-            <strong>${u.nama}</strong><br>
-            <small>${u.waktu}</small><br>
-            ${u.doa}
-        `;
-        document.getElementById("listUcapan").append(div);
-
-        // Lock tombol kalau sebelumnya sudah kirim
-        btn.disabled = true;
-        btn.innerText = "Sudah Mengirim";
-        btn.style.opacity = 0.6;
-    }
-};
 
 
 
