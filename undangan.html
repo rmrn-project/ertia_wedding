@@ -367,7 +367,7 @@
     <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js";
 
   const app = initializeApp({
     apiKey: "AIzaSyCBNM5NpBwHOwyla5LcBZId7SCUIBgthnw",
@@ -384,87 +384,95 @@
   const list = document.getElementById("listUcapan");
   const btn = document.getElementById("kirimUcapan");
 
-  // Render ucapan (sama)
-  const render = (data) => { /* ... kode render yang sama seperti sebelumnya ... */ };
+  // Kompresi gambar (cepet banget)
+  const compressImage = async (file) => {
+    if (!file || file.size < 500*1024) return file;
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    await new Promise(r => { img.onload = r; img.src = url; });
+    const canvas = document.createElement("canvas");
+    let w = img.width, h = img.height;
+    if (w > 1000) { h = (1000/w)*h; w = 1000; }
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, w, h);
+    return new Promise(res => canvas.toBlob(blob => res(new File([blob], file.name, {type:"image/jpeg"})), "image/jpeg", 0.8));
+  };
 
-  Real-time
+  // Render ucapan
+  const render = (data) => {
+    const d = document.createElement("div");
+    d.className = "ucapan-item";
+    const t = data.waktu ? new Date(data.waktu.seconds*1000).toLocaleString("id-ID",{dateStyle:"long",timeStyle:"short"}) : "Baru saja";
+    d.innerHTML = `
+      ${data.fotoURL ? `<img src="${data.fotoURL}" loading="lazy" style="width:50px;height:50px;border-radius:50%;object-fit:cover;float:left;margin-right:12px;">` : ""}
+      <div style="${data.fotoURL?"overflow:hidden;":""}">
+        <strong style="color:#d4af37;">${data.nama}</strong>
+        <small style="color:#bbb;display:block;margin:4px 0;">${t}</small>
+        <p style="margin:6px 0;line-height:1.7;">${data.doa.replace(/\n/g,"<br>")}</p>
+      </div><div style="clear:both;"></div>`;
+    return d;
+  };
+
+  // Real-time listener
   onSnapshot(query(col, orderBy("waktu","desc")), snap => {
     list.innerHTML = snap.empty ? "<p style='text-align:center;color:#999;padding:30px 0;font-style:italic;'>Belum ada ucapan nih...</p>" : "";
     snap.forEach(doc => list.appendChild(render(doc.data())));
   });
 
+  // === KIRIM UCAPAN + FULL ANTI-SPAM ===
   btn.onclick = async () => {
+    // ANTI-SPAM LEVEL 100
     if (localStorage.getItem("ucapanSandiErtia2025")) {
-      alert("Kamu sudah mengirim ucapan. Terima kasih ❤️");
+      alert("Kamu sudah mengirimkan ucapan sebelumnya. Terima kasih banyak ya ❤️");
       return;
     }
 
     const nama = document.getElementById("nama").value.trim();
     const doa = document.getElementById("doa").value.trim();
-    const fotoFile = document.getElementById("foto").files[0];
+    const foto = document.getElementById("foto").files[0];
 
-    if (!nama || !doa) return alert("Nama dan ucapan wajib diisi");
+    if (!nama || !doa) return alert("Nama dan ucapan wajib diisi ya");
 
     btn.disabled = true;
     btn.innerHTML = "Mengirim...";
 
     try {
       let fotoURL = "";
-
-      // KALAU ADA FOTO → upload dulu, tapi langsung lanjut simpan data (nggak nunggu selesai)
-      if (fotoFile) {
-        const storageRef = ref(storage, "ucapan/" + Date.now() + ".jpg");
-        // Upload di background (fire-and-forget)
-        uploadBytes(storageRef, fotoFile).then(snapshot => {
-          snapshot.ref.getDownloadURL().then(url => {
-            fotoURL = url;
-            // Update dokumen yang sudah dibuat dengan URL foto
-            snapshot.ref.getDownloadURL().then(url => {
-              // kita simpan URL-nya nanti di dokumen yang sama
-            });
-          });
-        });
+      if (foto) {
+        const kecil = await compressImage(foto);
+        const storageRef = ref(storage, "ucapan/"+Date.now());
+        await uploadBytes(storageRef, kecil);
+        fotoURL = await getDownloadURL(storageRef);
       }
 
-      // LANGSUNG SIMPAN KE FIRESTORE (nggak nunggu foto selesai upload)
-      const docRef = await addDoc(col, {
-        nama,
-        doa,
-        fotoURL: "",        // sementara kosong
-        waktu: serverTimestamp()
-      });
+      await addDoc(col, { nama, doa, fotoURL, waktu: serverTimestamp() });
 
-      // Kalau ada foto → update dokumen dengan URL setelah upload selesai
-      if (fotoFile) {
-        const storageRef = ref(storage, "ucapan/" + docRef.id + ".jpg");
-        await uploadBytes(storageRef, fotoFile);
-        const url = await storageRef.getDownloadURL();
-        await docRef.update({ fotoURL: url });
-      }
-
-      // SELESAI — semua cepet!
+      // TANDAIN SELAMANYA SUDAH KIRIM (anti spam permanen)
       localStorage.setItem("ucapanSandiErtia2025", "yes");
+
+      // Bersihkan form
       document.getElementById("nama").value = "";
       document.getElementById("doa").value = "";
       document.getElementById("foto").value = "";
 
-      alert("Yeay! Ucapanmu sudah tersimpan ❤️");
+      // KONFIRMASI SUPER JELAS
+      alert("Yeay! Ucapanmu sudah tersimpan dan langsung muncul di bawah ❤️");
       btn.innerHTML = "Terkirim";
       btn.style.background = "#90ee90";
       btn.style.color = "#000";
 
-      // Tampilkan langsung di paling atas
-      list.prepend(render({ nama, doa, fotoURL: fotoURL || "", waktu: {seconds: Date.now()/1000} }));
+      // Langsung tampilkan ucapan dia paling atas (biar yakin 100%)
+      list.prepend(render({ nama, doa, fotoURL, waktu: {seconds: Date.now()/1000} }));
 
     } catch(e) {
-      console.error(e);
-      alert("Gagal kirim. Coba lagi ya");
+      alert("Gagal kirim ucapan. Coba lagi ya (cek koneksi internet)");
       btn.disabled = false;
       btn.innerHTML = "Kirim Ucapan";
     }
   };
 
-  // Cek sudah pernah kirim
+  // Kalau sudah pernah kirim sebelumnya (buka ulang halaman)
   if (localStorage.getItem("ucapanSandiErtia2025")) {
     btn.disabled = true;
     btn.innerHTML = "Terkirim";
