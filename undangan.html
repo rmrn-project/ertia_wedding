@@ -419,7 +419,7 @@ user-select: none; touch-action: none;
 
     <!-- Tombol kirim – CUMA DITAMBAH ID (style TETAP SAMA PERSIS) -->
 
-<button class="btn-kirim" id="kirimUcapan"
+<button type="button" class="btn-kirim" id="kirimUcapan"
         style="display:inline-block;padding:12px 25px;background:#d4af37;color:#000;border-radius:50px;font-weight:bold;border:none;cursor:pointer;">
     Kirim Ucapan
 </button>
@@ -578,6 +578,7 @@ slides.addEventListener('touchmove', e => e.preventDefault());
 
 
 <script type="module">
+  // Firebase 12.6.0 + compat + image compression (PASTI JALAN)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore-compat.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage-compat.js";
@@ -594,114 +595,88 @@ slides.addEventListener('touchmove', e => e.preventDefault());
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const storage = getStorage(app);
-  const ucapanRef = collection(db, "ucapan");
-  let isSending = false;
+  const col = collection(db, "ucapan");
 
-  function render(data, isLocal = false) {
-    const { nama, doa, fotoURL, waktu } = data;
-    const div = document.createElement("div");
-    div.className = "ucapan-item";
-    if (isLocal) div.style.cssText = "border:2px solid #d4af37; border-radius:15px; padding:20px;";
+  // Render ucapan
+  const render = (data, local = false) => {
+    const d = document.createElement("div");
+    d.className = "ucapan-item";
+    if (local) d.style.cssText = "border:2px solid #d4af37;border-radius:15px;margin-bottom:20px;";
+    
+    const t = data.waktu?.seconds 
+      ? new Date(data.waktu.seconds*1000).toLocaleString("id-ID", {dateStyle:"long", timeStyle:"short"})
+      : "Baru saja";
 
-    const t = waktu?.seconds 
-      ? new Date(waktu.seconds * 1000).toLocaleString("id-ID", {weekday:'long', day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit'})
-      : waktu || "Baru saja";
-
-    div.innerHTML = `
-      ${fotoURL ? `<img src="${fotoURL}" loading="lazy" style="width:56px;height:56px;border-radius:50%;object-fit:cover;margin-right:14px;float:left;box-shadow:0 4px 10px rgba(0,0,0,0.3);">` : ""}
-      <div style="${fotoURL ? 'overflow:hidden;' : ''}">
-        <strong style="color:#d4af37;font-size:1.1em;">${nama}</strong>
-        <small style="color:#bbb;display:block;margin:3px 0;font-size:0.9em;">${t}</small>
-        <p style="margin:8px 0;line-height:1.7;word-break:break-word;color:#fff;">${doa.replace(/\n/g,"<br>")}</p>
+    d.innerHTML = `
+      ${data.fotoURL ? `<img src="${data.fotoURL}" loading="lazy" style="width:50px;height:50px;border-radius:50%;object-fit:cover;float:left;margin-right:12px;">` : ""}
+      <div style="${data.fotoURL ? "overflow:hidden;" : ""}">
+        <strong style="color:#d4af37;">${data.nama}</strong>
+        <small style="color:#bbb;display:block;margin:4px 0;">${t}</small>
+        <p style="margin:6px 0;line-height:1.7;">${data.doa.replace(/\n/g,"<br>")}</p>
       </div>
       <div style="clear:both;"></div>
     `;
-    return div;
-  }
+    return d;
+  };
 
-  async function kirimUcapan() {
-    if (localStorage.getItem("sudahKirimSandiErtia")) {
-      alert("Kamu sudah mengirim ucapan. Terima kasih ya ❤️");
-      return;
-    }
-    if (isSending) return;
-    isSending = true;
+  // Kirim ucapan
+  const kirim = async () => {
+    if (localStorage.getItem("ucapanSandiErtia")) return alert("Kamu sudah mengirim ucapan. Terima kasih ❤️");
 
-    const btn = document.querySelector(".btn-kirim");
-    btn.disabled = true;
-    btn.innerText = "Mengirim...";
-
+    const btn = document.getElementById("kirimUcapan");
     const nama = document.getElementById("nama").value.trim();
     const doa = document.getElementById("doa").value.trim();
-    const fotoFile = document.getElementById("foto")?.files[0];
+    const foto = document.getElementById("foto").files[0];
 
-    if (!nama || !doa) {
-      alert("Nama dan ucapan wajib diisi ya");
-      btn.disabled = false;
-      btn.innerText = "Kirim Ucapan";
-      isSending = false;
-      return;
-    }
+    if (!nama || !doa) return alert("Nama dan ucapan harus diisi ya");
 
-    let fotoURL = "";
+    btn.disabled = true;
+    btn.textContent = "Mengirim...";
+
     try {
-      if (fotoFile) {
-        // PAKSA KOMPRESSI PAKAI CDN LANGSUNG (TANPA dynamic import!)
-        const compressModule = await import("https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js");
-        const compressedFile = fotoFile.size > 1.5*1024*1024 
-          ? await compressModule.default(fotoFile, { maxSizeMB: 1, maxWidthOrHeight: 1024, useWebWorker: true })
-          : fotoFile;
-
-        const storageRef = ref(storage, `ucapan/${Date.now()}_${compressedFile.name}`);
-        await uploadBytes(storageRef, compressedFile);
+      let fotoURL = "";
+      if (foto) {
+        const compress = (await import("https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js")).default;
+        const file = foto.size > 2*1024*1024 ? await compress(foto, {maxSizeMB:1, maxWidthOrHeight:1024}) : foto;
+        const storageRef = ref(storage, "ucapan/"+Date.now()+"_"+file.name);
+        await uploadBytes(storageRef, file);
         fotoURL = await getDownloadURL(storageRef);
       }
 
-      await addDoc(ucapanRef, {
-        nama, doa, fotoURL,
-        waktu: serverTimestamp()
-      });
-
-      localStorage.setItem("sudahKirimSandiErtia", JSON.stringify({nama, doa, fotoURL, waktu: new Date().toLocaleString("id-ID")}));
+      await addDoc(col, { nama, doa, fotoURL, waktu: serverTimestamp() });
+      localStorage.setItem("ucapanSandiErtia", JSON.stringify({nama, doa, fotoURL, waktu:new Date().toLocaleString("id-ID")}));
 
       document.getElementById("nama").value = "";
       document.getElementById("doa").value = "";
       document.getElementById("foto").value = "";
-
+      
       alert("Ucapan terkirim! Terima kasih atas doanya ❤️");
-      btn.innerText = "Terkirim ✓";
+      btn.textContent = "Terkirim ✓";
       btn.style.opacity = "0.6";
-    } catch (err) {
-      console.error("Error kirim ucapan:", err);
-      alert("Gagal mengirim ucapan. Coba lagi ya (pastikan internet stabil)");
+    } catch(e) {
+      console.error(e);
+      alert("Gagal kirim ucapan. Pastikan internet stabil ya");
       btn.disabled = false;
-      btn.innerText = "Kirim Ucapan";
+      btn.textContent = "Kirim Ucapan";
     }
-    isSending = false;
-  }
+  };
 
-  // Real-time listener
-  const q = query(ucapanRef, orderBy("waktu", "desc"));
-  onSnapshot(q, (snapshot) => {
+  // Real-time
+  onSnapshot(query(col, orderBy("waktu","desc")), snap => {
     const list = document.getElementById("listUcapan");
-    list.innerHTML = "";
-    if (snapshot.empty) {
-      list.innerHTML = '<p style="text-align:center;color:#999;padding:30px 0;font-style:italic;">Belum ada ucapan nih...</p>';
-    }
-    snapshot.forEach(doc => list.appendChild(render(doc.data())));
+    list.innerHTML = snap.empty ? "<p style='text-align:center;color:#999;padding:30px 0;font-style:italic;'>Belum ada ucapan nih...</p>" : "";
+    snap.forEach(doc => list.appendChild(render(doc.data())));
   });
 
-  // DOM Loaded
+  // DOM Ready
   document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.querySelector(".btn-kirim");
-    btn.addEventListener("click", kirimUcapan);
+    const btn = document.getElementById("kirimUcapan");
+    if (btn) btn.addEventListener("click", kirim);
 
-    // Cek sudah kirim belum
-    const sudah = localStorage.getItem("sudahKirimSandiErtia");
-    if (sudah) {
-      const u = JSON.parse(sudah);
+    if (localStorage.getItem("ucapanSandiErtia")) {
+      const u = JSON.parse(localStorage.getItem("ucapanSandiErtia"));
       btn.disabled = true;
-      btn.innerText = "Terkirim ✓";
+      btn.textContent = "Terkirim ✓";
       btn.style.opacity = "0.6";
       document.getElementById("listUcapan").prepend(render(u, true));
     }
