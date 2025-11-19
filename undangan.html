@@ -201,6 +201,23 @@
             .couple-photo { width: 220px; height: 220px; }
             .gallery { max-width: 340px; }
         }
+
+/* SLIDER UCAPAN HORIZONTAL OTOMATIS */
+#sliderUcapan {
+    white-space: nowrap;
+    animation: scrollUcapan 60s linear infinite;
+}
+#sliderUcapan:hover { animation-play-state: paused; } /* berhenti kalau di-hover */
+
+@keyframes scrollUcapan {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Biar ucapan di-duplikat supaya mulus */
+.ucapan-clone { display:inline-block; padding-left:16px; }
+
+
     </style>
 </head>
 <body>
