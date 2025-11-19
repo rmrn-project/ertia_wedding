@@ -202,20 +202,21 @@
             .gallery { max-width: 340px; }
         }
 
-/* SLIDER UCAPAN HORIZONTAL OTOMATIS */
+/* SLIDER DARI KANAN KE KIRI — SUPER MULUS */
 #sliderUcapan {
-    white-space: nowrap;
-    animation: scrollUcapan 60s linear infinite;
+    display: flex;
+    animation: scrollKiri 45s linear infinite;
 }
-#sliderUcapan:hover { animation-play-state: paused; } /* berhenti kalau di-hover */
-
-@keyframes scrollUcapan {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+#sliderUcapan:hover, #sliderUcapan:active {
+    animation-play-state: paused; /* pause saat di-hover atau di-tap di HP */
+}
+@keyframes scrollKiri {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
-/* Biar ucapan di-duplikat supaya mulus */
-.ucapan-clone { display:inline-block; padding-left:16px; }
+/* Biar animasi nggak putus (duplikat konten) */
+.ucapan-clone { display: flex !important; gap:18px; padding-left:18px; }
 
 
     </style>
