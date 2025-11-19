@@ -120,6 +120,65 @@
             margin-bottom: 20px;
         }
 
+.details-acara {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 215, 0, 0.6);
+    padding: 25px;
+    margin: 40px auto;
+    border-radius: 18px;
+    max-width: 90%;
+    backdrop-filter: blur(6px);
+    position: relative;
+    text-align: center;
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.25);
+}
+
+/* Ornamen pojok */
+.details-acara::before,
+.details-acara::after {
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-image: url('https://i.imgur.com/Xgah8hB.png'); /* ornamen gold halus */
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.85;
+}
+
+.details-acara::before {
+    top: -18px;
+    left: -18px;
+    transform: rotate(0deg);
+}
+
+.details-acara::after {
+    bottom: -18px;
+    right: -18px;
+    transform: rotate(180deg);
+}
+
+/* Judul */
+.details-acara h3 {
+    font-family: "Playfair Display", serif;
+    color: #f8e9a1;
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+
+/* Isi */
+.details-acara p {
+    margin: 6px 0;
+    font-size: 1.05rem;
+    line-height: 1.5rem;
+    color: #fff;
+}
+
+
+
+
         /* SLIDER FOTO 1:1 - GOLD SHADOW PREMIUM */
 .gallery {
     width: 90%;
