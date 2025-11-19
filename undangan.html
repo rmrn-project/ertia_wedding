@@ -394,21 +394,44 @@ user-select: none; touch-action: none;
 
 
 
-    <!-- DOA & UCAPAN -->
-    <div class="details fade">
-        <h3>Doa & Ucapan</h3>
-        <input type="text" id="nama" placeholder="Nama kamu">
-        <textarea id="doa" placeholder="Tulis doa & ucapan terbaik..."></textarea>
-        <button class="btn-kirim" onclick="kirimUcapan()">Kirim Ucapan</button>
-        <div id="listUcapan"></div>
-    </div>
+    <!-- ===========================================
+   DOA & UCAPAN DENGAN FOTO OPSIONAL
+=========================================== -->
 
-    <div class="fade" style="margin-top:60px;">
-        <p>Terima kasih atas doa restu dan kehadirannya</p>
-        <p style="margin:20px 0;">Dengan cinta,</p>
-        <p style="font-size:1.5em;"><strong>Sandi & Ertia</strong></p>
-    </div>
 
+
+<div class="details fade">
+    <h3>Doa & Ucapan</h3>
+
+    <!-- Upload foto opsional -->
+    <label for="foto" style="display:block;margin-bottom:10px;font-weight:bold;">
+        Foto Profil (opsional, max 5MB):
+    </label>
+    <input type="file" id="foto" accept="image/*" style="margin-bottom:15px;display:block;">
+
+    <!-- Nama -->
+    <input type="text" id="nama" placeholder="Nama kamu" 
+           style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;">
+
+    <!-- Doa / ucapan -->
+    <textarea id="doa" placeholder="Tulis doa & ucapan terbaik..." 
+              style="width:100%;padding:10px;margin-bottom:10px;border-radius:8px;border:1px solid #ccc;resize:none;"></textarea>
+
+    <!-- Tombol kirim -->
+    <button class="btn-kirim" onclick="kirimUcapan()" 
+            style="display:inline-block;padding:12px 25px;background:#d4af37;color:#000;border-radius:50px;font-weight:bold;border:none;cursor:pointer;">
+        Kirim Ucapan
+    </button>
+
+    <!-- List ucapan -->
+    <div id="listUcapan" style="margin-top:20px;"></div>
+</div>
+
+<!-- Penutup / ucapan terima kasih -->
+<div class="fade" style="margin-top:60px;text-align:center;">
+    <p>Terima kasih atas doa restu dan kehadirannya</p>
+    <p style="margin:20px 0;">Dengan cinta,</p>
+    <p style="font-size:1.5em;"><strong>Sandi & Ertia</strong></p>
 </div>
 
 
