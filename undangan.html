@@ -94,84 +94,24 @@ animation: floatLove 2.5s infinite ease-in-out;
 
 
 
-        .details {
-            background: rgba(255,255,255,0.12);
-            backdrop-filter: blur(15px);
-            padding: 38px 30px;
-            border-radius: 20px;
-            width: 92%;
-            max-width: 520px;
-            margin: 50px auto;
-            border: 1px solid rgba(255,255,255,0.18);
-        }
-        .details h3 {
-            font-family: 'Playfair Display', serif;
-            color: #d4af37;
-            font-size: 1.9em;
-            margin-bottom: 20px;
-        }
-
-.details-acara {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1.5px solid rgba(255, 215, 0, 0.7);
-    padding: 28px 22px;
-    margin: 40px auto;
-    border-radius: 18px;
-    max-width: 90%;
-    backdrop-filter: blur(7px);
-    position: relative;
+        .details-acara {
     text-align: center;
-    color: white;
-    box-shadow: 
-        0 0 18px rgba(255, 215, 0, 0.25),
-        0 0 40px rgba(0,0,0,0.5);
+    margin: 40px auto;
+    max-width: 500px; /* sesuai rasio gambar */
 }
 
-/* ORNAMENT TOP-LEFT */
-.details-acara::before {
-    content: "";
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    background-image: url('https://i.imgur.com/COhKqWs.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    top: -20px;
-    left: -20px;
-    opacity: 0.95;
+.details-acara img {
+    width: 100%;
+    max-width: 500px; /* portrait 500x750 px */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px; /* opsional, biar sudut sedikit membulat */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* opsional, biar terlihat lebih mewah */
 }
 
-/* ORNAMENT BOTTOM-RIGHT */
-.details-acara::after {
-    content: "";
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    background-image: url('https://i.imgur.com/COhKqWs.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    bottom: -20px;
-    right: -20px;
-    transform: rotate(180deg);
-    opacity: 0.95;
-}
 
-/* TITLE */
-.details-acara h3 {
-    font-family: "Playfair Display", serif;
-    color: #f8e9a1;
-    font-size: 1.7rem;
-    margin-bottom: 12px;
-    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-}
 
-/* TEXT */
-.details-acara p {
-    margin: 6px 0;
-    font-size: 1.07rem;
-    line-height: 1.5rem;
-    color: #ffffff;
-}
 
 
         /* SLIDER FOTO 1:1 - GOLD SHADOW PREMIUM */
