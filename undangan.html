@@ -465,71 +465,57 @@
 
 //FUNGSI DRAG PLAY BUTTON
 
-        const btn = document.getElementById("musicBtn");
+        // === FIX: PLAY/PAUSE TETAP JALAN + NGGAK BISA KELUAR LAYAR ===
+        const btn = document.getElementById("musicBtn");   // pastikan pake "btn" bukan "btnMusic"
         let isDragging = false, offsetX = 0, offsetY = 0;
 
-        // Fungsi batas biar tombol nggak keluar layar
         const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
-        // Mulai drag (mouse)
         btn.addEventListener("mousedown", e => {
             isDragging = true;
-            const rect = btn.getBoundingClientRect();
-            offsetX = e.clientX - rect.left;
-            offsetY = e.clientY - rect.top;
+            const r = btn.getBoundingClientRect();
+            offsetX = e.clientX - r.left;
+            offsetY = e.clientY - r.top;
             btn.style.cursor = "grabbing";
             e.preventDefault();
         });
 
-        // Mulai drag (sentuh di HP)
         btn.addEventListener("touchstart", e => {
             isDragging = true;
-            const rect = btn.getBoundingClientRect();
-            offsetX = e.touches[0].clientX - rect.left;
-            offsetY = e.touches[0].clientY - rect.top;
+            const r = btn.getBoundingClientRect();
+            offsetX = e.touches[0].clientX - r.left;
+            offsetY = e.touches[0].clientY - r.top;
             e.preventDefault();
         }, { passive: false });
 
-        // Gerak mouse
         document.addEventListener("mousemove", e => {
             if (!isDragging) return;
-
-            let newX = e.clientX - offsetX;
-            let newY = e.clientY - offsetY;
-
-            // BATAS BIAR NGGAK KELUAR LAYAR
-            newX = clamp(newX, 10, window.innerWidth - 70);   // 70 = lebar tombol + margin
-            newY = clamp(newY, 10, window.innerHeight - 70);  // 70 = tinggi tombol + margin
-
-            btn.style.left = newX + "px";
-            btn.style.top  = newY + "px";
+            let x = e.clientX - offsetX;
+            let y = e.clientY - offsetY;
+            x = clamp(x, 10, window.innerWidth - 70);
+            y = clamp(y, 10, window.innerHeight - 70);
+            btn.style.left = x + "px";
+            btn.style.top  = y + "px";
         });
 
-        // Gerak sentuh (HP)
         document.addEventListener("touchmove", e => {
             if (!isDragging) return;
+            let x = e.touches[0].clientX - offsetX;
+            let y = e.touches[0].clientY - offsetY;
+            x = clamp(x, 10, window.innerWidth - 70);
+            y = clamp(y, 10, window.innerHeight - 70);
+            btn.style.left = x + "px";
+            btn.style.top  = y + "px";
+            e.preventDefault();
+        }, { passive: false });
 
-            let newX = e.touches[0].clientX - offsetX;
-            let newY = e.touches[0].clientY - offsetY;
-
-            newX = clamp(newX, 10, window.innerWidth - 70);
-            newY = clamp(newY, 10, window.innerHeight - 70);
-
-            btn.style.left = newX + "px";
-            btn.style.top  = newY + "px";
-        });
-
-        // Selesai drag
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-            btn.style.cursor = "grab";
-        });
-        document.addEventListener("touchend", () => {
-            isDragging = false;
-        });
+        document.addEventListener("mouseup", () => { isDragging = false; btn.style.cursor = "grab"; });
+        document.addEventListener("touchend", () => { isDragging = false; });
 
 
 
+
+// FUNGSI COPY REK
 
         function copyRek(id) {
             navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
