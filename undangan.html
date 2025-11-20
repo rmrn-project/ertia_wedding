@@ -14,14 +14,11 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             min-height: 100dvh;
-    background: #3c2f2f;
-    font-family: 'Lora', serif;
-    color: #fff;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
+            background: #3c2f2f;
+            font-family: 'Lora', serif;
+            color: #fff;
+            overflow-x: hidden;
+            padding-bottom: 90px;
         }
         .overlay {
             position: fixed;
@@ -31,13 +28,13 @@
             display: none !important;
         }
         .container {
-            flex: 1;
-    position: relative;
-    z-index: 2;
-    padding: 60px 20px 80px; /* dikurangi karena footer sudah diatur */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+            position: relative;
+            z-index: 2;
+            padding: 60px 20px 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         /* SCROLL FADE IN */
@@ -195,9 +192,10 @@
             margin-top: 18px; text-align: left;
         }
 
-        /* FIX: Tombol musik TIDAK BISA KELUAR LAYAR */
-#musicBtn {
+        #musicBtn {
     position: fixed;
+    bottom: 30px;
+    right: 25px;
     width: 60px;
     height: 60px;
     background: rgba(255,255,255,0.2);
@@ -209,10 +207,10 @@
     z-index: 9999;
     cursor: grab;
     user-select: none;
-    touch-action: pan-x pan-y;
-    left: calc(100vw - 85px) !important;  /* mulai dari pojok kanan bawah */
-    top: calc(100dvh - 90px) !important;   /* 30px dari bawah */
-    transition: none;
+    touch-action: none;
+
+    transform: translateZ(0);
+    will-change: transform, left, top;
 }
 
 
@@ -416,8 +414,8 @@
         <button type="button" class="btn-kirim" id="kirimUcapan" style="display:inline-block;padding:12px 25px;background:#d4af37;color:#000;border-radius:50px;font-weight:bold;border:none;cursor:pointer;">
             Kirim Ucapan
         </button>
-       
-    
+
+
 
 
   </div>
@@ -432,7 +430,7 @@
 
 
 
-    <footer id="rmrnFooter" style="padding:14px 0; text-align:center; font-family:'Playfair Display', serif; font-size:14px; color:#D4AF37; border-top:1px solid rgba(212,175,55,0.4); margin-top: auto; z-index: 999999;">
+    <footer id="rmrnFooter" style="padding:14px 0; text-align:center; font-family:'Playfair Display', serif; font-size:14px; color:#D4AF37; border-top:1px solid rgba(212,175,55,0.4); margin-top:40px; z-index: 999999;">
       © <span id="year"></span> Dibuat oleh — 
       <a href="https://wa.me/6289652201298" target="_blank" rel="noopener noreferrer" style="text-decoration:none; color:#D4AF37; font-weight:600;">rmrn-project</a>
     </footer>
