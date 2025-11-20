@@ -706,52 +706,53 @@ document.addEventListener("touchend", () => isDragging = false);
         background:#D4AF37;
         color:white;
         border:none;
-        font-size:20px;
+        font-size:16px;
         z-index:999999;
-        cursor:pointer;
+        box-shadow:0 3px 8px rgba(0,0,0,0.2);
     "
 >
     ▼
 </button>
 
 <script>
-let autoScrolling = false;
-let scrollInterval = null;
-const btn = document.getElementById("btnAutoScroll");
+let autoScroll = null;
+let userTouching = false;
 
-// Mulai auto-scroll
+// Mulai auto scroll
 function startAutoScroll() {
-    if(autoScrolling) return;
-    autoScrolling = true;
-    scrollInterval = setInterval(() => {
-        window.scrollBy(0, 1.2);
-    }, 16);
+    if (autoScroll) return;
+
+    autoScroll = setInterval(() => {
+        window.scrollBy(0, 1); // kecepatan scroll
+    }, 20);
+
+    document.getElementById("btnAutoScroll").style.display = "none";
 }
 
-// Stop auto-scroll
+// Stop auto scroll
 function stopAutoScroll() {
-    autoScrolling = false;
-    clearInterval(scrollInterval);
+    clearInterval(autoScroll);
+    autoScroll = null;
 }
 
-// Klik tombol toggle
-btn.addEventListener("click", () => {
-    if (autoScrolling) {
-        stopAutoScroll();
-    } else {
-        startAutoScroll();
-    }
-});
-
-// Stop saat user sentuh layar
+// Jika user menyentuh layar → stop auto scroll
 document.addEventListener("touchstart", () => {
-    if (autoScrolling) stopAutoScroll();
+    userTouching = true;
+    stopAutoScroll();
+    document.getElementById("btnAutoScroll").style.display = "block";
 });
 
-// Stop saat user scroll manual
-document.addEventListener("wheel", () => {
-    if (autoScrolling) stopAutoScroll();
+document.addEventListener("touchend", () => {
+    userTouching = false;
 });
+
+// Klik tombol untuk lanjut scroll
+document.getElementById("btnAutoScroll").addEventListener("click", () => {
+    startAutoScroll();
+});
+
+// OPTIONAL: auto scroll mulai otomatis saat buka undangan
+// startAutoScroll();
 </script>
 </body>
 </html>
