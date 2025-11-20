@@ -13,7 +13,7 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            min-height: 100vh;
+            min-height: 100dvh;
             background: #3c2f2f;
             font-family: 'Lora', serif;
             color: #fff;
@@ -199,6 +199,12 @@
             display: flex; align-items: center; justify-content: center;
             z-index: 9999; cursor: grab;
             user-select: none; touch-action: none;
+
+
+
+transform: translateZ(0);
+    will-change: transform, left, top;
+
         }
 
         @media (max-width:480px) {
