@@ -474,32 +474,35 @@
 
 
 
-  // Real-time listener + clone otomatis biar slider mulus & rapi
   onSnapshot(query(col, orderBy("waktu","desc")), snap => {
     const list = document.getElementById("listUcapan");
     const clone = document.getElementById("listUcapanClone");
-
-    // Kosongin dulu
+    
     list.innerHTML = "";
     clone.innerHTML = "";
 
     if (snap.empty) {
-      const kosong = document.createElement("div");
-      kosong.className = "ucapan-item";
-      kosong.style.cssText = "flex:0 0 290px; text-align:center; color:#999; padding:30px 0; font-style:italic;";
-      kosong.textContent = "Belum ada ucapan nih...";
-      list.appendChild(kosong);
-      clone.appendChild(kosong.cloneNode(true));
-      return;
+        const kosong = `<div class="ucapan-item" style="color:#aaa;text-align:center;">Belum ada ucapan nih...</div>`;
+        list.innerHTML = kosong;
+        clone.innerHTML = kosong;
+        return;
     }
 
-    // Render semua ucapan
     snap.forEach(doc => {
-      const item = render(doc.data());
-      list.appendChild(item);
-      clone.appendChild(item.cloneNode(true));  // clone langsung biar selalu sinkron
+        const data = doc.data();
+        const t = data.waktu ? new Date(data.waktu.seconds*1000).toLocaleString("id-ID", {dateStyle:"long", timeStyle:"short"}) : "Baru saja";
+        
+        const item = document.createElement("("div");
+        item.className = "ucapan-item";
+        item.innerHTML = `
+            <strong>${data.nama}</strong>
+            <small>${t}</small>
+            <p>${data.doa.replace(/\n/g, "<br>")}</p>
+        `;
+        list.appendChild(item);
+        clone.appendChild(item.cloneNode(true)); // clone biar mulus
     });
-  });
+});
 
 
 
