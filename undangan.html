@@ -696,7 +696,6 @@ document.addEventListener("touchend", () => isDragging = false);
 </script>
 
 
-
 <button id="btnAutoScroll"
     style="
         position:fixed;
@@ -709,12 +708,10 @@ document.addEventListener("touchend", () => isDragging = false);
         border:none;
         font-size:20px;
         z-index:999999;
-        box-shadow:0 3px 8px rgba(0,0,0,0.2);
-        transition: opacity .3s;
-        opacity:1;
+        cursor:pointer;
     "
 >
-    ▼▼▼
+    ▼
 </button>
 
 <script>
@@ -722,30 +719,22 @@ let autoScrolling = false;
 let scrollInterval = null;
 const btn = document.getElementById("btnAutoScroll");
 
-// ---------- START AUTO SCROLL ----------
+// Mulai auto-scroll
 function startAutoScroll() {
+    if(autoScrolling) return;
     autoScrolling = true;
-
-    // Hilangkan tombol
-    btn.style.opacity = "0";
-    setTimeout(() => btn.style.pointerEvents = "none", 300);
-
     scrollInterval = setInterval(() => {
         window.scrollBy(0, 1.2);
     }, 16);
 }
 
-// ---------- STOP AUTO SCROLL ----------
+// Stop auto-scroll
 function stopAutoScroll() {
     autoScrolling = false;
     clearInterval(scrollInterval);
-
-    // Munculkan tombol lagi
-    btn.style.pointerEvents = "auto";
-    btn.style.opacity = "1";
 }
 
-// ---------- KLIK TOMBOL ----------
+// Klik tombol toggle
 btn.addEventListener("click", () => {
     if (autoScrolling) {
         stopAutoScroll();
@@ -754,12 +743,12 @@ btn.addEventListener("click", () => {
     }
 });
 
-// ---------- STOP OTOMATIS SAAT USER SENTUH ----------
+// Stop saat user sentuh layar
 document.addEventListener("touchstart", () => {
     if (autoScrolling) stopAutoScroll();
 });
 
-// ---------- STOP SAAT USER SCROLL MANUAL ----------
+// Stop saat user scroll manual
 document.addEventListener("wheel", () => {
     if (autoScrolling) stopAutoScroll();
 });
