@@ -465,52 +465,59 @@
 
 //FUNGSI DRAG PLAY BUTTON
 
-        // === FIX: PLAY/PAUSE TETAP JALAN + NGGAK BISA KELUAR LAYAR ===
-        const btn = document.getElementById("musicBtn");   // pastikan pake "btn" bukan "btnMusic"
-        let isDragging = false, offsetX = 0, offsetY = 0;
+        const btn = document.getElementById("musicBtn");
+let isDragging = false, offsetX = 0, offsetY = 0;
 
-        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+function clampPosition(x, y) {
+    const r = btn.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-        btn.addEventListener("mousedown", e => {
-            isDragging = true;
-            const r = btn.getBoundingClientRect();
-            offsetX = e.clientX - r.left;
-            offsetY = e.clientY - r.top;
-            btn.style.cursor = "grabbing";
-            e.preventDefault();
-        });
+    // Batas minimum dan maksimum
+    const minX = 0;
+    const minY = 0;
+    const maxX = vw - r.width;
+    const maxY = vh - r.height;
 
-        btn.addEventListener("touchstart", e => {
-            isDragging = true;
-            const r = btn.getBoundingClientRect();
-            offsetX = e.touches[0].clientX - r.left;
-            offsetY = e.touches[0].clientY - r.top;
-            e.preventDefault();
-        }, { passive: false });
+    // Kembalikan nilai yang sudah dikunci agar tidak keluar
+    return {
+        x: Math.max(minX, Math.min(x, maxX)),
+        y: Math.max(minY, Math.min(y, maxY))
+    };
+}
 
-        document.addEventListener("mousemove", e => {
-            if (!isDragging) return;
-            let x = e.clientX - offsetX;
-            let y = e.clientY - offsetY;
-            x = clamp(x, 10, window.innerWidth - 70);
-            y = clamp(y, 10, window.innerHeight - 70);
-            btn.style.left = x + "px";
-            btn.style.top  = y + "px";
-        });
+btn.addEventListener("mousedown", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.clientX - r.left;
+    offsetY = e.clientY - r.top;
+});
 
-        document.addEventListener("touchmove", e => {
-            if (!isDragging) return;
-            let x = e.touches[0].clientX - offsetX;
-            let y = e.touches[0].clientY - offsetY;
-            x = clamp(x, 10, window.innerWidth - 70);
-            y = clamp(y, 10, window.innerHeight - 70);
-            btn.style.left = x + "px";
-            btn.style.top  = y + "px";
-            e.preventDefault();
-        }, { passive: false });
+btn.addEventListener("touchstart", e => {
+    isDragging = true;
+    const r = btn.getBoundingClientRect();
+    offsetX = e.touches[0].clientX - r.left;
+    offsetY = e.touches[0].clientY - r.top;
+});
 
-        document.addEventListener("mouseup", () => { isDragging = false; btn.style.cursor = "grab"; });
-        document.addEventListener("touchend", () => { isDragging = false; });
+document.addEventListener("mousemove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.clientX - offsetX, e.clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+});
+
+document.addEventListener("touchmove", e => {
+    if (isDragging) {
+        let { x, y } = clampPosition(e.touches[0].clientX - offsetX, e.touches[0].clientY - offsetY);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+});
+
+document.addEventListener("mouseup", () => isDragging = false);
+document.addEventListener("touchend", () => isDragging = false);
 
 
 
