@@ -694,5 +694,70 @@ document.addEventListener("touchend", () => isDragging = false);
     btn.style.color = "#000";
   }
 </script>
+
+
+
+<button id="btnAutoScroll"
+    style="
+        position:fixed;
+        top:20px;
+        right:20px;
+        padding:10px 14px;
+        border-radius:12px;
+        background:#D4AF37;
+        color:white;
+        border:none;
+        font-size:16px;
+        display:none;
+        z-index:999999;
+        box-shadow:0 3px 8px rgba(0,0,0,0.2);
+    "
+>
+    ▼<br>▼<br>▼
+</button>
+
+<script>
+let autoScroll = null;
+let userTouching = false;
+
+// Mulai auto scroll
+function startAutoScroll() {
+    if (autoScroll) return;
+
+    autoScroll = setInterval(() => {
+        window.scrollBy(0, 1); // kecepatan scroll
+    }, 20);
+
+    document.getElementById("btnAutoScroll").style.display = "none";
+}
+
+// Stop auto scroll
+function stopAutoScroll() {
+    clearInterval(autoScroll);
+    autoScroll = null;
+}
+
+// Jika user menyentuh layar → stop auto scroll
+document.addEventListener("touchstart", () => {
+    userTouching = true;
+    stopAutoScroll();
+    document.getElementById("btnAutoScroll").style.display = "block";
+});
+
+document.addEventListener("touchend", () => {
+    userTouching = false;
+});
+
+// Klik tombol untuk lanjut scroll
+document.getElementById("btnAutoScroll").addEventListener("click", () => {
+    startAutoScroll();
+});
+
+// OPTIONAL: auto scroll mulai otomatis saat buka undangan
+// startAutoScroll();
+</script>
+
+
+
 </body>
 </html>
