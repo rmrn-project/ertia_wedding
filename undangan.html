@@ -202,49 +202,59 @@
             .gallery { max-width: 340px; }
         }
 
-/* SLIDER UCAPAN — CANTIK, RAPI, NGGAK KELUAR VIEWPORT */
-.ucapan-slider-container {
-    margin: 30px auto;
-    max-width: 95vw;           /* biar aman di HP kecil */
+.ucapan-wrapper {
+    margin: 35px 0;
     overflow: hidden;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.08);
     padding: 16px 0;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    background: rgba(255,255,255,0.07);
 }
 
-.ucapan-slider {
+.ucapan-marquee {
     display: flex;
-    gap: 18px;
+    gap: 20px;
+    animation: slideKiri 35s linear infinite;
     padding-left: 20px;
-    animation: scrollKiri 50s linear infinite;
 }
 
-.ucapan-slider:hover {
-    animation-play-state: paused;   /* pause saat di-tap/hover */
+.ucapan-marquee:hover {
+    animation-play-state: paused;
 }
 
-@keyframes scrollKiri {
+@keyframes slideKiri {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
 }
 
-/* Tiap kotak ucapan */
 .ucapan-item {
-    flex: 0 0 290px;                /* lebar fix, nggak meleber */
-    background: rgba(255,255,255,0.15);
-    padding: 18px;
-    border-radius: 16px;
+    flex: 0 0 300px;
+    background: rgba(255,255,255,0.14);
+    padding: 20px;
+    border-radius: 18px;
     backdrop-filter: blur(12px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
-.ucapan-item strong { color: #d4af37; font-size: 1.1em; }
-.ucapan-item small  { color: #bbb; display: block; margin: 8px 0 4px; font-size: 0.85em; }
-.ucapan-item p      { margin: 0; line-height: 1.7; font-size: 0.95em; opacity: 0.95; }
+.ucapan-item strong { 
+    color: #d4af37; 
+    font-size: 1.15em; 
+    display: block; 
+    margin-bottom: 6px;
+}
+.ucapan-item small { 
+    color: #ccc; 
+    font-size: 0.85em; 
+    display: block; 
+    margin-bottom: 10px;
+}
+.ucapan-item p { 
+    margin: 0; 
+    line-height: 1.7; 
+    font-size: 0.98em;
+}
 
-/* Clone buat loop mulus */
-#listUcapanClone { display: flex; gap: 18px; }
+
+
 
     </style>
 </head>
@@ -305,11 +315,11 @@
     </div>
 
 
-    <!-- SLIDER UCAPAN — RAPI, NGGAK KELUAR LAYAR -->
-<div class="ucapan-slider-container">
-    <div class="ucapan-slider">
+    <!-- SLIDER UCAPAN HORIZONTAL — SATU-SATU DARI KANAN KE KIRI -->
+<div class="ucapan-wrapper">
+    <div class="ucapan-marquee">
         <div id="listUcapan"></div>
-        <div id="listUcapanClone"></div> <!-- buat loop mulus -->
+        <div id="listUcapanClone"></div>
     </div>
 </div>
 
