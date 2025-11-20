@@ -489,7 +489,7 @@
         document.querySelectorAll('.fade').forEach(el => observer.observe(el));
 
         const audio = document.getElementById('bgm'); audio.volume = 0.3;
-audio.currentTime = 8;   
+audio.currentTime = 1;   
     document.getElementById('musicBtn').onclick = () => {
             if (audio.paused) {
                 audio.play().catch(() => {});
