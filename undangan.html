@@ -708,7 +708,7 @@ document.addEventListener("touchend", () => isDragging = false);
         color:white;
         border:none;
         font-size:16px;
-        display:none;
+        /* display:none;  <-- HAPUS ini */
         z-index:999999;
         box-shadow:0 3px 8px rgba(0,0,0,0.2);
     "
@@ -717,47 +717,41 @@ document.addEventListener("touchend", () => isDragging = false);
 </button>
 
 <script>
-let autoScroll = null;
-let userTouching = false;
+let autoScrolling = false;
+let scrollInterval = null;
 
 // Mulai auto scroll
 function startAutoScroll() {
-    if (autoScroll) return;
-
-    autoScroll = setInterval(() => {
-        window.scrollBy(0, 1); // kecepatan scroll
-    }, 20);
-
-    document.getElementById("btnAutoScroll").style.display = "none";
+    autoScrolling = true;
+    scrollInterval = setInterval(() => {
+        window.scrollBy(0, 1.2);
+    }, 16);
 }
 
 // Stop auto scroll
 function stopAutoScroll() {
-    clearInterval(autoScroll);
-    autoScroll = null;
+    autoScrolling = false;
+    clearInterval(scrollInterval);
 }
 
-// Jika user menyentuh layar → stop auto scroll
-document.addEventListener("touchstart", () => {
-    userTouching = true;
-    stopAutoScroll();
-    document.getElementById("btnAutoScroll").style.display = "block";
-});
-
-document.addEventListener("touchend", () => {
-    userTouching = false;
-});
-
-// Klik tombol untuk lanjut scroll
+// Klik tombol untuk toggle
 document.getElementById("btnAutoScroll").addEventListener("click", () => {
-    startAutoScroll();
+    if (autoScrolling) {
+        stopAutoScroll();
+    } else {
+        startAutoScroll();
+    }
 });
 
-// OPTIONAL: auto scroll mulai otomatis saat buka undangan
-// startAutoScroll();
+// Stop otomatis saat user sentuh layar
+document.addEventListener("touchstart", () => {
+    if (autoScrolling) stopAutoScroll();
+});
+
+// Saat user geser (scroll manual), tetap stop
+document.addEventListener("wheel", () => {
+    if (autoScrolling) stopAutoScroll();
+});
 </script>
-
-
-
 </body>
 </html>
