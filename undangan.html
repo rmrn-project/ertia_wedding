@@ -205,27 +205,29 @@
 
 
 /*UCAPAN*/
-/*UCAPAN*/
+/* Mencegah viewport melebar */
 .ucapan-wrapper {
     display: flex;
-    align-items: center;      /* center marquee otomatis */
     justify-content: center;
-    margin: 35px 0;
-    overflow: hidden;
+    align-items: center;
+    overflow-x: hidden !important;    /* FIX utama */
+    overflow-y: visible;
     border-radius: 20px;
-    background: rgba(255,255,255,0.07);
+    margin: 35px 0;
 }
 
+/* Marquee */
 .ucapan-marquee {
     display: flex;
-    align-items: center;      /* center item otomatis */
+    align-items: center;
     flex-wrap: nowrap;
     gap: 20px;
-    padding: 20px 0;          /* pindahkan padding ke sini */
+    width: 100%;                     /* FIX tambahan */
+    box-sizing: border-box;          /* FIX tambahan */
     animation: slideKiri 35s linear infinite;
-    padding-left: 20px;
 }
 
+/* List ucapan */
 #listUcapan,
 #listUcapanClone {
     display: flex;
@@ -233,24 +235,13 @@
     gap: 20px;
 }
 
-.ucapan-marquee:hover {
-    animation-play-state: paused;
-}
-
-@keyframes slideKiri {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-
+/* Card */
 .ucapan-item {
     flex: 0 0 300px;
     background: rgba(255,255,255,0.14);
     padding: 20px;
     border-radius: 18px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
-
 
 
     </style>
