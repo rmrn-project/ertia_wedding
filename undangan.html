@@ -206,9 +206,12 @@
 
 /*UCAPAN*/
 .ucapan-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 0;              /* ini yang benar */
     margin: 35px 0;
     overflow: hidden;
-    padding: 16px 0;
     border-radius: 20px;
     background: rgba(255,255,255,0.07);
 }
@@ -219,6 +222,7 @@
     gap: 20px;
     animation: slideKiri 35s linear infinite;
     padding-left: 20px;
+    align-items: center;
 }
 
 /* FIX PALING PENTING —> item biar 1 baris */
