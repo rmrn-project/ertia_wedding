@@ -460,11 +460,39 @@
     return d;
   };
 
-  // Real-time listener
+
+
+
+
+  // Real-time listener + clone otomatis biar slider mulus & rapi
   onSnapshot(query(col, orderBy("waktu","desc")), snap => {
-    list.innerHTML = snap.empty ? "<p style='text-align:center;color:#999;padding:30px 0;font-style:italic;'>Belum ada ucapan nih...</p>" : "";
-    snap.forEach(doc => list.appendChild(render(doc.data())));
+    const list = document.getElementById("listUcapan");
+    const clone = document.getElementById("listUcapanClone");
+
+    // Kosongin dulu
+    list.innerHTML = "";
+    clone.innerHTML = "";
+
+    if (snap.empty) {
+      const kosong = document.createElement("div");
+      kosong.className = "ucapan-item";
+      kosong.style.cssText = "flex:0 0 290px; text-align:center; color:#999; padding:30px 0; font-style:italic;";
+      kosong.textContent = "Belum ada ucapan nih...";
+      list.appendChild(kosong);
+      clone.appendChild(kosong.cloneNode(true));
+      return;
+    }
+
+    // Render semua ucapan
+    snap.forEach(doc => {
+      const item = render(doc.data());
+      list.appendChild(item);
+      clone.appendChild(item.cloneNode(true));  // clone langsung biar selalu sinkron
+    });
   });
+
+
+
 
   // KIRIM UCAPAN — SUPER CEPET TANPA FOTO
   btn.onclick = async () => {
