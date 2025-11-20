@@ -202,6 +202,9 @@
             .gallery { max-width: 340px; }
         }
 
+
+
+/*UCAPAN*/
 .ucapan-wrapper {
     margin: 35px 0;
     overflow: hidden;
@@ -212,9 +215,18 @@
 
 .ucapan-marquee {
     display: flex;
+    flex-wrap: nowrap;
     gap: 20px;
     animation: slideKiri 35s linear infinite;
     padding-left: 20px;
+}
+
+/* FIX PALING PENTING —> item biar 1 baris */
+#listUcapan,
+#listUcapanClone {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
 }
 
 .ucapan-marquee:hover {
@@ -233,31 +245,6 @@
     border-radius: 18px;
     backdrop-filter: blur(12px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-
-.ucapan-item strong { 
-    color: #d4af37; 
-    font-size: 1.15em; 
-    display: block; 
-    margin-bottom: 6px;
-}
-.ucapan-item small { 
-    color: #ccc; 
-    font-size: 0.85em; 
-    display: block; 
-    margin-bottom: 10px;
-}
-.ucapan-item p { 
-    margin: 0; 
-    line-height: 1.7; 
-    font-size: 0.98em;
-}
-
-
-#listUcapan,
-#listUcapanClone {
-    display: flex;
-    gap: 20px;
 }
 
 
