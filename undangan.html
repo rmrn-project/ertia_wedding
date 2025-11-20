@@ -204,30 +204,34 @@
 
 
 
-/*UCAPAN*/
-/* Mencegah viewport melebar */
+/* Wrapper utama */
 .ucapan-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden !important;    /* FIX utama */
-    overflow-y: visible;
-    border-radius: 20px;
+    width: 100vw;
+    overflow: hidden !important;
     margin: 35px 0;
 }
 
-/* Marquee */
-.ucapan-marquee {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 20px;
-    width: 100%;                     /* FIX tambahan */
-    box-sizing: border-box;          /* FIX tambahan */
-    animation: slideKiri 35s linear infinite;
+/* Mask — pembatas viewport */
+.ucapan-mask {
+    width: 100%;
+    overflow: hidden;     /* FIX utama */
+    position: relative;
 }
 
-/* List ucapan */
+/* Marquee asli */
+.ucapan-marquee {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: max-content;   /* PENTING: biar panjang sesuai isi */
+    animation: slideKiri 35s linear infinite;
+    white-space: nowrap;
+}
+
+/* List ucapan kiri & clone */
 #listUcapan,
 #listUcapanClone {
     display: flex;
@@ -241,6 +245,12 @@
     background: rgba(255,255,255,0.14);
     padding: 20px;
     border-radius: 18px;
+}
+
+/* Animasi */
+@keyframes slideKiri {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 
@@ -303,11 +313,12 @@
     </div>
 
 
-    <!-- SLIDER UCAPAN HORIZONTAL — SATU-SATU DARI KANAN KE KIRI -->
-<div class="ucapan-wrapper">
-    <div class="ucapan-marquee">
-        <div id="listUcapan"></div>
-        <div id="listUcapanClone"></div>
+    <<div class="ucapan-wrapper">
+    <div class="ucapan-mask">
+        <div class="ucapan-marquee">
+            <div id="listUcapan"></div>
+            <div id="listUcapanClone"></div>
+        </div>
     </div>
 </div>
 
