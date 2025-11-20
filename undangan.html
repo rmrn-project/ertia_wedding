@@ -462,14 +462,74 @@
             }
         };
 
+
+//FUNGSI DRAG PLAY BUTTON
+
         const btn = document.getElementById("musicBtn");
         let isDragging = false, offsetX = 0, offsetY = 0;
-        btn.addEventListener("mousedown", e => { isDragging = true; const r = btn.getBoundingClientRect(); offsetX = e.clientX - r.left; offsetY = e.clientY - r.top; });
-        btn.addEventListener("touchstart", e => { isDragging = true; const r = btn.getBoundingClientRect(); offsetX = e.touches[0].clientX - r.left; offsetY = e.touches[0].clientY - r.top; });
-        document.addEventListener("mousemove", e => { if(isDragging){ btn.style.left = (e.clientX - offsetX) + "px"; btn.style.top = (e.clientY - offsetY) + "px"; }});
-        document.addEventListener("touchmove", e => { if(isDragging){ btn.style.left = (e.touches[0].clientX - offsetX) + "px"; btn.style.top = (e.touches[0].clientY - offsetY) + "px"; }});
-        document.addEventListener("mouseup", () => isDragging = false);
-        document.addEventListener("touchend", () => isDragging = false);
+
+        // Fungsi batas biar tombol nggak keluar layar
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+        // Mulai drag (mouse)
+        btn.addEventListener("mousedown", e => {
+            isDragging = true;
+            const rect = btn.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            btn.style.cursor = "grabbing";
+            e.preventDefault();
+        });
+
+        // Mulai drag (sentuh di HP)
+        btn.addEventListener("touchstart", e => {
+            isDragging = true;
+            const rect = btn.getBoundingClientRect();
+            offsetX = e.touches[0].clientX - rect.left;
+            offsetY = e.touches[0].clientY - rect.top;
+            e.preventDefault();
+        }, { passive: false });
+
+        // Gerak mouse
+        document.addEventListener("mousemove", e => {
+            if (!isDragging) return;
+
+            let newX = e.clientX - offsetX;
+            let newY = e.clientY - offsetY;
+
+            // BATAS BIAR NGGAK KELUAR LAYAR
+            newX = clamp(newX, 10, window.innerWidth - 70);   // 70 = lebar tombol + margin
+            newY = clamp(newY, 10, window.innerHeight - 70);  // 70 = tinggi tombol + margin
+
+            btn.style.left = newX + "px";
+            btn.style.top  = newY + "px";
+        });
+
+        // Gerak sentuh (HP)
+        document.addEventListener("touchmove", e => {
+            if (!isDragging) return;
+
+            let newX = e.touches[0].clientX - offsetX;
+            let newY = e.touches[0].clientY - offsetY;
+
+            newX = clamp(newX, 10, window.innerWidth - 70);
+            newY = clamp(newY, 10, window.innerHeight - 70);
+
+            btn.style.left = newX + "px";
+            btn.style.top  = newY + "px";
+        });
+
+        // Selesai drag
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            btn.style.cursor = "grab";
+        });
+        document.addEventListener("touchend", () => {
+            isDragging = false;
+        });
+
+
+
 
         function copyRek(id) {
             navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
