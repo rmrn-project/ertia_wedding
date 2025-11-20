@@ -202,23 +202,49 @@
             .gallery { max-width: 340px; }
         }
 
-#listUcapan {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;           /* biar bisa scroll pakai jari */
-    padding: 10px 0;
-    scrollbar-width: none;      /* sembunyiin scrollbar (Firefox) */
+/* SLIDER UCAPAN — CANTIK, RAPI, NGGAK KELUAR VIEWPORT */
+.ucapan-slider-container {
+    margin: 30px auto;
+    max-width: 95vw;           /* biar aman di HP kecil */
+    overflow: hidden;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.08);
+    padding: 16px 0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
-#listUcapan::-webkit-scrollbar { display: none; } /* sembunyiin scrollbar (Chrome/Safari) */
 
+.ucapan-slider {
+    display: flex;
+    gap: 18px;
+    padding-left: 20px;
+    animation: scrollKiri 50s linear infinite;
+}
+
+.ucapan-slider:hover {
+    animation-play-state: paused;   /* pause saat di-tap/hover */
+}
+
+@keyframes scrollKiri {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Tiap kotak ucapan */
 .ucapan-item {
-    flex-shrink: 0;
-    width: 280px;
+    flex: 0 0 290px;                /* lebar fix, nggak meleber */
     background: rgba(255,255,255,0.15);
     padding: 18px;
-    border-radius: 14px;
-    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
+
+.ucapan-item strong { color: #d4af37; font-size: 1.1em; }
+.ucapan-item small  { color: #bbb; display: block; margin: 8px 0 4px; font-size: 0.85em; }
+.ucapan-item p      { margin: 0; line-height: 1.7; font-size: 0.95em; opacity: 0.95; }
+
+/* Clone buat loop mulus */
+#listUcapanClone { display: flex; gap: 18px; }
 
     </style>
 </head>
@@ -279,12 +305,13 @@
     </div>
 
 
-    <div style="margin-top:25px; overflow:hidden; border-radius:15px; background:rgba(255,255,255,0.08); padding:12px 0;">
-        <div id="sliderUcapan" style="display:flex; animation:scrollUcapan 40s linear infinite; gap:16px; padding:0 20px;">
-            <div id="listUcapan"></div>
-        </div>
+    <!-- SLIDER UCAPAN — RAPI, NGGAK KELUAR LAYAR -->
+<div class="ucapan-slider-container">
+    <div class="ucapan-slider">
+        <div id="listUcapan"></div>
+        <div id="listUcapanClone"></div> <!-- buat loop mulus -->
     </div>
-
+</div>
 
 
 
