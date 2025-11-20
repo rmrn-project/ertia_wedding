@@ -707,35 +707,46 @@ document.addEventListener("touchend", () => isDragging = false);
         background:#D4AF37;
         color:white;
         border:none;
-        font-size:16px;
-        /* display:none;  <-- HAPUS ini */
+        font-size:20px;
         z-index:999999;
         box-shadow:0 3px 8px rgba(0,0,0,0.2);
+        transition: opacity .3s;
+        opacity:1;
     "
 >
-    ▼
+    ▼▼▼
 </button>
 
 <script>
 let autoScrolling = false;
 let scrollInterval = null;
+const btn = document.getElementById("btnAutoScroll");
 
-// Mulai auto scroll
+// ---------- START AUTO SCROLL ----------
 function startAutoScroll() {
     autoScrolling = true;
+
+    // Hilangkan tombol
+    btn.style.opacity = "0";
+    setTimeout(() => btn.style.pointerEvents = "none", 300);
+
     scrollInterval = setInterval(() => {
         window.scrollBy(0, 1.2);
     }, 16);
 }
 
-// Stop auto scroll
+// ---------- STOP AUTO SCROLL ----------
 function stopAutoScroll() {
     autoScrolling = false;
     clearInterval(scrollInterval);
+
+    // Munculkan tombol lagi
+    btn.style.pointerEvents = "auto";
+    btn.style.opacity = "1";
 }
 
-// Klik tombol untuk toggle
-document.getElementById("btnAutoScroll").addEventListener("click", () => {
+// ---------- KLIK TOMBOL ----------
+btn.addEventListener("click", () => {
     if (autoScrolling) {
         stopAutoScroll();
     } else {
@@ -743,12 +754,12 @@ document.getElementById("btnAutoScroll").addEventListener("click", () => {
     }
 });
 
-// Stop otomatis saat user sentuh layar
+// ---------- STOP OTOMATIS SAAT USER SENTUH ----------
 document.addEventListener("touchstart", () => {
     if (autoScrolling) stopAutoScroll();
 });
 
-// Saat user geser (scroll manual), tetap stop
+// ---------- STOP SAAT USER SCROLL MANUAL ----------
 document.addEventListener("wheel", () => {
     if (autoScrolling) stopAutoScroll();
 });
